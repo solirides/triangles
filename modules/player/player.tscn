@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://c5yf3leqeenvd"]
+
+[ext_resource type="Script" uid="uid://baxkig62f78in" path="res://modules/player/player.gd" id="1_qgxqk"]
+[ext_resource type="Texture2D" uid="uid://e26k6c4wp1kl" path="res://icon.svg" id="2_m7q0d"]
+[ext_resource type="Shader" uid="uid://d1x1crrs6kwc6" path="res://assets/shaders/backround.gdshader" id="3_m7q0d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_55gox"]
+render_priority = 0
+shader = ExtResource("3_m7q0d")
+
+[node name="Player" type="Node2D" unique_id=557670507 node_paths=PackedStringArray("pivot")]
+script = ExtResource("1_qgxqk")
+pivot = NodePath("Pivot")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1525448314]
+visible = false
+texture = ExtResource("2_m7q0d")
+
+[node name="Pivot" type="Node2D" parent="." unique_id=838123745]
+rotation = -1.5707964
+
+[node name="Polygon2D" type="Polygon2D" parent="Pivot" unique_id=1997100830]
+rotation = 1.5707964
+polygon = PackedVector2Array(0, -40, 20, 20, -20, 20)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=480853716]
+layer = -5
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1373473395]
+material = SubResource("ShaderMaterial_55gox")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.11801962, 0.1207309, 0.17316577, 1)
+metadata/_edit_use_anchors_ = true

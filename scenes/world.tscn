@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bd4xujlw0qrl1"]
+
+[ext_resource type="PackedScene" uid="uid://c5yf3leqeenvd" path="res://modules/player/player.tscn" id="1_rwgxs"]
+[ext_resource type="Texture2D" uid="uid://e26k6c4wp1kl" path="res://icon.svg" id="2_4wyf3"]
+[ext_resource type="Script" uid="uid://dcf6smbhg037i" path="res://modules/display/display.gd" id="3_4wyf3"]
+
+[node name="World" type="Node2D" unique_id=882223013]
+
+[node name="Player" parent="." unique_id=557670507 instance=ExtResource("1_rwgxs")]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=511334331]
+position = Vector2(310, -90)
+texture = ExtResource("2_4wyf3")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1487933574]
+
+[node name="Display" type="Node2D" parent="." unique_id=1724143098]
+script = ExtResource("3_4wyf3")
