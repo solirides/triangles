@@ -6,7 +6,8 @@
 
 [node name="World" type="Node2D" unique_id=882223013]
 
-[node name="Player" parent="." unique_id=557670507 instance=ExtResource("1_rwgxs")]
+[node name="Player" parent="." unique_id=557670507 node_paths=PackedStringArray("display") instance=ExtResource("1_rwgxs")]
+display = NodePath("../Display")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=511334331]
 position = Vector2(310, -90)
@@ -14,5 +15,6 @@ texture = ExtResource("2_4wyf3")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1487933574]
 
-[node name="Display" type="Node2D" parent="." unique_id=1724143098]
+[node name="Display" type="Node2D" parent="." unique_id=1724143098 node_paths=PackedStringArray("player")]
 script = ExtResource("3_4wyf3")
+player = NodePath("../Player")
