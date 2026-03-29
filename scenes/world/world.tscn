@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bd4xujlw0qrl1"]
+
+[ext_resource type="PackedScene" uid="uid://c5yf3leqeenvd" path="res://modules/player/player.tscn" id="1_v5dby"]
+[ext_resource type="PackedScene" uid="uid://ddk5iotbkarud" path="res://modules/enemy/turret.tscn" id="2_t5ptc"]
+[ext_resource type="Script" uid="uid://tnd0oty04e6y" path="res://scenes/world/camera.gd" id="3_bq33v"]
+[ext_resource type="Script" uid="uid://dcf6smbhg037i" path="res://modules/display/display.gd" id="4_j2gmx"]
+[ext_resource type="PackedScene" uid="uid://b0fgl3po8gn3" path="res://modules/enemy/enemy.tscn" id="5_1yooq"]
+
+[node name="World" type="Node2D" unique_id=882223013]
+
+[node name="Player" parent="." unique_id=557670507 node_paths=PackedStringArray("display") instance=ExtResource("1_v5dby")]
+display = NodePath("../Display")
+
+[node name="Turret" parent="." unique_id=805245566 instance=ExtResource("2_t5ptc")]
+position = Vector2(310, -90)
+attack_speed = 0.02
+pattern = 8
+
+[node name="Camera" type="Node2D" parent="." unique_id=1792801340 node_paths=PackedStringArray("player")]
+script = ExtResource("3_bq33v")
+player = NodePath("../Player")
+
+[node name="Camera2D" type="Camera2D" parent="Camera" unique_id=718891721]
+
+[node name="Display" type="Node2D" parent="." unique_id=1724143098 node_paths=PackedStringArray("player")]
+script = ExtResource("4_j2gmx")
+player = NodePath("../Player")
+
+[node name="Enemy" parent="." unique_id=471362178 node_paths=PackedStringArray("player") instance=ExtResource("5_1yooq")]
+player = NodePath("../Player")

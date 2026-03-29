@@ -1,12 +1,12 @@
 extends Node2D
 
 @export var accel = 1
-@export var speed = 10
+@export var speed = 7
 @export var drag = 0.1
 @export var pivot:Node = null
 @export var display:Node = null
 
-var projectile = preload("res://modules/projectile/projectile.tscn")
+var projectile = preload("res://modules/projectile/player_projectile.tscn")
 var velocity = Vector2.ZERO
 enum CONSTRUCTION_STATE {
 	NONE,
@@ -27,6 +27,8 @@ enum BUILD_STATE {
 	COMPLETE
 }
 
+# temporary immunity to enemy attacks
+var invincible = false
 
 func _physics_process(delta: float) -> void:
 	var vec = Input.get_vector("move_left","move_right","move_up","move_down")
@@ -38,11 +40,11 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("primary"):
 		var a = projectile.instantiate()
-		get_tree().root.add_child(a)
 		a.position = self.position
 		a.linear_velocity = (get_global_mouse_position()-self.global_position).normalized()
 		a.linear_velocity *= 1000
 		a.look_at(get_global_mouse_position())
+		get_tree().root.add_child(a)
 	
 	if Input.is_action_just_pressed("construct"):
 		match construction_state:
@@ -75,3 +77,18 @@ func _process(delta: float) -> void:
 
 func write_shape(data:Array):
 	display.shapes.append(data)
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	#print("collide")
+	if body.is_in_group("enemy_projectile"):
+		if invincible == true:
+			pass
+		else:
+			print("player hit!")
+			body.queue_free()
+			invincible = true
+			$Invincibility.wait_time = 0.5
+			$Invincibility.start()
+
+func _on_invincibility_timeout() -> void:
+	invincible = false

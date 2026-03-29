@@ -15,6 +15,11 @@ run/main_scene="uid://bd4xujlw0qrl1"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[global_group]
+
+enemy_projectile=""
+player_projectile=""
+
 [input]
 
 move_up={
@@ -53,9 +58,19 @@ construct={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="player"
+2d_physics/layer_2="player_projectile"
+2d_physics/layer_5="enemy"
+2d_physics/layer_6="enemy_projectile"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
+2d/default_linear_damp=0.0
+2d/default_angular_damp=0.0
+common/physics_interpolation=true
 
 [rendering]
 

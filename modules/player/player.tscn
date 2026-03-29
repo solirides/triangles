@@ -8,6 +8,9 @@
 render_priority = 0
 shader = ExtResource("3_m7q0d")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_m7q0d"]
+radius = 20.0
+
 [node name="Player" type="Node2D" unique_id=557670507 node_paths=PackedStringArray("pivot")]
 script = ExtResource("1_qgxqk")
 pivot = NodePath("Pivot")
@@ -19,19 +22,32 @@ texture = ExtResource("2_m7q0d")
 [node name="Pivot" type="Node2D" parent="." unique_id=838123745]
 rotation = -1.5707964
 
-[node name="Polygon2D" type="Polygon2D" parent="Pivot" unique_id=1997100830]
+[node name="PlayerPolygon" type="Polygon2D" parent="Pivot" unique_id=1997100830]
 rotation = 1.5707964
+color = Color(0.7587591, 0, 0.28683406, 1)
 polygon = PackedVector2Array(0, -40, 20, 20, -20, 20)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=480853716]
 layer = -5
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1373473395]
+[node name="Background" type="ColorRect" parent="CanvasLayer" unique_id=1373473395]
 material = SubResource("ShaderMaterial_55gox")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.11801962, 0.1207309, 0.17316577, 1)
 metadata/_edit_use_anchors_ = true
+
+[node name="Area2D" type="Area2D" parent="." unique_id=610400639]
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=905589056]
+shape = SubResource("CircleShape2D_m7q0d")
+
+[node name="Invincibility" type="Timer" parent="." unique_id=2130035659]
+wait_time = 0.3
+one_shot = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Invincibility" to="." method="_on_invincibility_timeout"]

@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://ddk5iotbkarud"]
+
+[ext_resource type="Texture2D" uid="uid://e26k6c4wp1kl" path="res://icon.svg" id="1_ry02j"]
+[ext_resource type="Script" uid="uid://dmtglccstond4" path="res://modules/enemy/turret.gd" id="2_shiqy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_shiqy"]
+size = Vector2(120, 120)
+
+[node name="Turret" type="Node2D" unique_id=183040610]
+script = ExtResource("2_shiqy")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=805245566]
+self_modulate = Color(0, 0, 0, 1)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_ry02j")
+
+[node name="Timer" type="Timer" parent="." unique_id=510440592]
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1948673073]
+scale = Vector2(0.4, 0.4)
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1027678355]
+shape = SubResource("RectangleShape2D_shiqy")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
