@@ -1,6 +1,8 @@
 extends Node2D
 
 @export var accel = 1
+@export var speed = 10
+@export var drag = 0.1
 @export var pivot:Node = null
 @export var display:Node = null
 
@@ -29,10 +31,10 @@ enum BUILD_STATE {
 func _physics_process(delta: float) -> void:
 	var vec = Input.get_vector("move_left","move_right","move_up","move_down")
 	vec = vec.normalized()
-	velocity += vec * accel
-	velocity = lerp(velocity, Vector2.ZERO, 0.1)
-	self.position += velocity
-	#self.position += vec * 10
+	velocity += vec * accel * delta
+	velocity = lerp(velocity, Vector2.ZERO, drag)
+	#self.position += velocity
+	self.position += vec * speed
 	
 	if Input.is_action_just_pressed("primary"):
 		var a = projectile.instantiate()
