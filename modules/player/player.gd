@@ -7,6 +7,8 @@ extends Node2D
 @export var display:Node = null
 
 var projectile = preload("res://modules/projectile/player_projectile.tscn")
+var enemy = preload("res://modules/enemy/turret.tscn")
+
 var velocity = Vector2.ZERO
 enum CONSTRUCTION_STATE {
 	NONE,
@@ -64,7 +66,11 @@ func _physics_process(delta: float) -> void:
 				pass
 			_:
 				pass
-		
+	
+	if Input.is_action_just_pressed("spawn"):
+		var a = enemy.instantiate()
+		a.position = get_global_mouse_position()
+		get_tree().root.add_child(a)
 
 func _process(delta: float) -> void:
 	var pos = get_global_mouse_position()

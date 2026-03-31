@@ -12,19 +12,21 @@ extends Node2D
 
 @export_group("Enemy")
 @export var base_health:int = 20
+@export var despawn_bullets_on_death:bool = false
 
 var health = 0
 var projectile = preload("res://modules/projectile/projectile.tscn")
-var frame_count = 0
-var last_attack = 0
-var last_attack_num = 0
+#var frame_count = 0
+#var last_attack = 0
+#var last_attack_num = 0
+var projectiles = []
 @onready var start_time = Time.get_ticks_msec()
 @onready var timer = $Timer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	timer.wait_time = attack_speed
-	timer.start()
+	#timer.start()
 	health = base_health
 
 '''
@@ -35,15 +37,15 @@ methods for repeated attacks:
 '''
 
 func _physics_process(delta:float) -> void:
-	pass
-	#rotation += 2*PI * delta
-	#frame_count += 1
-	#if frame_count % 4 == 0:
+	#var ticks = Time.get_ticks_msec()
+	#rotation = 2*PI * (ticks - start_time) / 1000.0 * rotation_speed
+	rotation += 2*PI * delta
+	if Engine.get_physics_frames() % 8 == 0:
+		shoot()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var ticks = Time.get_ticks_msec()
-	rotation = 2*PI * (ticks - start_time) / 1000.0 * rotation_speed
+	pass
 	#rotation += 2*PI * delta
 	#if ticks - last_attack > 0.05 * 1000:
 	#var attack_num = floor(ticks / 1000.0 / attack_speed)
@@ -59,6 +61,7 @@ func shoot():
 		a.linear_velocity = Vector2(1,0).rotated(rotation + 2*PI*i/pattern) * projectile_speed
 		a.rotate(rotation)
 		get_tree().root.add_child(a)
+		projectiles.append(a)
 
 func _on_timer_timeout() -> void:
 	shoot()
@@ -72,3 +75,10 @@ func damage(amount:int):
 	health -= amount
 	if health <= 0:
 		queue_free()
+
+# called when this node is deleted
+func _exit_tree():
+	if despawn_bullets_on_death:
+		for node in projectiles:
+			node.queue_free()
+	

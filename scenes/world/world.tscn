@@ -13,8 +13,6 @@ display = NodePath("../Display")
 
 [node name="Turret" parent="." unique_id=805245566 instance=ExtResource("2_t5ptc")]
 position = Vector2(310, -90)
-attack_speed = 0.02
-pattern = 8
 
 [node name="Camera" type="Node2D" parent="." unique_id=1792801340 node_paths=PackedStringArray("player")]
 script = ExtResource("3_bq33v")

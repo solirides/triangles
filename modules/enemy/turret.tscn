@@ -8,6 +8,7 @@ size = Vector2(120, 120)
 
 [node name="Turret" type="Node2D" unique_id=183040610]
 script = ExtResource("2_shiqy")
+projectile_speed = 30
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=805245566]
 self_modulate = Color(0, 0, 0, 1)
@@ -15,6 +16,7 @@ scale = Vector2(0.4, 0.4)
 texture = ExtResource("1_ry02j")
 
 [node name="Timer" type="Timer" parent="." unique_id=510440592]
+process_callback = 0
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1948673073]
 scale = Vector2(0.4, 0.4)
