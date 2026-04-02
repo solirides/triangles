@@ -26,6 +26,7 @@ script = ExtResource("3_bq33v")
 player = NodePath("../Player")
 
 [node name="Camera2D" type="Camera2D" parent="Camera" unique_id=718891721]
+position_smoothing_enabled = true
 
 [node name="Display" type="Node2D" parent="." unique_id=1724143098 node_paths=PackedStringArray("player")]
 script = ExtResource("4_j2gmx")

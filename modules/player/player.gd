@@ -1,6 +1,7 @@
 extends RigidBody2D
 
 @export var accel = 1
+@export var decel = 0.3
 @export var speed = 400
 @export var drag = 0.1
 @export var projectile_speed = 1000
@@ -47,7 +48,15 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	#self.position += velocity
 	#self.position += vec * speed * delta
 	# move at const velocity (no delta needed)
-	linear_velocity = vec * speed
+	print(vec)
+	if vec == Vector2.ZERO:
+		print("not moving")
+		state.linear_velocity = state.linear_velocity.lerp(Vector2.ZERO, decel)
+		print(state.linear_velocity)
+	else:
+		print("moving")
+		state.linear_velocity = vec * speed
+	#integrate_forces()
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("primary"):
@@ -124,7 +133,6 @@ func on_hit():
 
 func _on_invincibility_timeout() -> void:
 	damage_immunity = false
-	
 	
 
 func shoot(direction:Vector2, speed2, damp=0):
