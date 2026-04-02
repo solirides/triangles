@@ -1,13 +1,16 @@
 [gd_scene format=3 uid="uid://bo0aj8tvd44mh"]
 
+[ext_resource type="Script" uid="uid://ggxslckvn7iy" path="res://modules/projectile/player_projectile.gd" id="1_uymg5"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnwvb"]
 size = Vector2(20, 40)
 
-[node name="Projectile" type="RigidBody2D" unique_id=401635129 groups=["player_projectile"]]
+[node name="PlayerProjectile" type="RigidBody2D" unique_id=401635129 groups=["player_projectile"]]
 collision_layer = 2
 collision_mask = 16
 mass = 10.0
 gravity_scale = 0.0
+script = ExtResource("1_uymg5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=249838691]
 rotation = 1.5707964

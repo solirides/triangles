@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://dg2eqv8aun4ii"]
 
+[ext_resource type="Script" uid="uid://fhyu40t53tvj" path="res://modules/hud/hud.gd" id="1_gridp"]
+
 [sub_resource type="LabelSettings" id="LabelSettings_p2nvc"]
 font_size = 40
-font_color = Color(0.41368303, 0.4136831, 0.41368303, 1)
+font_color = Color(0.57156605, 0.42372668, 1, 1)
 
 [node name="HUD" type="Control" unique_id=30667009]
 layout_mode = 3
@@ -11,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_gridp")
 
 [node name="Label" type="Label" parent="." unique_id=196264555]
 layout_mode = 0

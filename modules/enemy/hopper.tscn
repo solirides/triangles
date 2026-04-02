@@ -1,19 +1,24 @@
 [gd_scene format=3 uid="uid://b0fgl3po8gn3"]
 
-[ext_resource type="Script" uid="uid://66luqpahci6l" path="res://modules/enemy/enemy.gd" id="1_4cjfe"]
+[ext_resource type="Script" uid="uid://dxq5sxp6nwkcl" path="res://modules/enemy/hopper.gd" id="1_rbgp1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4cjfe"]
 
-[node name="Enemy" type="RigidBody2D" unique_id=471362178]
+[node name="Hopper" type="RigidBody2D" unique_id=471362178]
+collision_layer = 16
+collision_mask = 2
 gravity_scale = 0.0
-script = ExtResource("1_4cjfe")
+contact_monitor = true
+max_contacts_reported = 2
+script = ExtResource("1_rbgp1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1243165977]
 scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_4cjfe")
-disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=1253832347]
 scale = Vector2(2, 2)
-color = Color(0.26837972, 5.40388e-05, 0.272512, 1)
+color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(10, -10, 10, 10, -10, 10, -10, -10)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

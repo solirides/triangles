@@ -4,6 +4,7 @@ extends RigidBody2D
 @export var speed = 400
 @export var drag = 0.1
 @export var projectile_speed = 1000
+@export var projectile_lifetime = 3
 @export var damage_immunity_time = 0.3
 @export var pivot:Node = null
 @export var display:Node = null
@@ -134,4 +135,5 @@ func shoot(direction:Vector2, speed2, damp=0):
 	#a.linear_velocity *= 1000
 	#a.look_at(get_global_mouse_position())
 	a.rotate(direction.angle())
+	a.despawn_frame = projectile_lifetime * Engine.physics_ticks_per_second + Engine.get_physics_frames()
 	get_tree().root.add_child(a)

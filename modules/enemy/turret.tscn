@@ -6,9 +6,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_shiqy"]
 size = Vector2(120, 120)
 
-[node name="Turret" type="Node2D" unique_id=183040610]
+[node name="Turret" type="RigidBody2D" unique_id=1667019865]
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
 script = ExtResource("2_shiqy")
-attack_speed = 0.267
 projectile_speed = 200
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=805245566]
@@ -27,5 +29,4 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1027678355]
 shape = SubResource("RectangleShape2D_shiqy")
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_collision"]
