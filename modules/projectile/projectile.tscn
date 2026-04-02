@@ -1,11 +1,14 @@
 [gd_scene format=3 uid="uid://cyi0li3bmk6bd"]
 
+[ext_resource type="Script" uid="uid://cjvxp8kvpxuyb" path="res://modules/projectile/enemy_projectile.gd" id="1_jipba"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnwvb"]
 
 [node name="Projectile" type="RigidBody2D" unique_id=401635129 groups=["enemy_projectile"]]
 collision_layer = 32
 mass = 10.0
 gravity_scale = 0.0
+script = ExtResource("1_jipba")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=249838691]
 shape = SubResource("RectangleShape2D_nnwvb")

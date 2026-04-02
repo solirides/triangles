@@ -8,7 +8,8 @@ size = Vector2(120, 120)
 
 [node name="Turret" type="Node2D" unique_id=183040610]
 script = ExtResource("2_shiqy")
-projectile_speed = 30
+attack_speed = 0.267
+projectile_speed = 200
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=805245566]
 self_modulate = Color(0, 0, 0, 1)

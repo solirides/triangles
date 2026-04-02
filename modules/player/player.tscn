@@ -3,17 +3,25 @@
 [ext_resource type="Script" uid="uid://baxkig62f78in" path="res://modules/player/player.gd" id="1_qgxqk"]
 [ext_resource type="Texture2D" uid="uid://e26k6c4wp1kl" path="res://icon.svg" id="2_m7q0d"]
 [ext_resource type="Shader" uid="uid://d1x1crrs6kwc6" path="res://assets/shaders/backround.gdshader" id="3_m7q0d"]
+[ext_resource type="PackedScene" uid="uid://dg2eqv8aun4ii" path="res://modules/hud/HUD.tscn" id="4_55gox"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m7q0d"]
+radius = 20.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_55gox"]
 render_priority = 0
 shader = ExtResource("3_m7q0d")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_m7q0d"]
-radius = 20.0
-
-[node name="Player" type="Node2D" unique_id=557670507 node_paths=PackedStringArray("pivot")]
+[node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot", "immunity_timer")]
+collision_layer = 0
+collision_mask = 256
+gravity_scale = 0.0
 script = ExtResource("1_qgxqk")
 pivot = NodePath("Pivot")
+immunity_timer = NodePath("Immunity")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1441379814]
+shape = SubResource("CircleShape2D_m7q0d")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1525448314]
 visible = false
@@ -39,15 +47,21 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
+[node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=1336209488]
+layer = 10
+
+[node name="Hud" parent="CanvasLayer2" unique_id=30667009 instance=ExtResource("4_55gox")]
+
 [node name="Area2D" type="Area2D" parent="." unique_id=610400639]
 collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=905589056]
 shape = SubResource("CircleShape2D_m7q0d")
 
-[node name="Invincibility" type="Timer" parent="." unique_id=2130035659]
+[node name="Immunity" type="Timer" parent="." unique_id=2130035659]
+process_callback = 0
 wait_time = 0.3
 one_shot = true
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="timeout" from="Invincibility" to="." method="_on_invincibility_timeout"]
+[connection signal="timeout" from="Immunity" to="." method="_on_invincibility_timeout"]

@@ -5,6 +5,10 @@
 [ext_resource type="Script" uid="uid://tnd0oty04e6y" path="res://scenes/world/camera.gd" id="3_bq33v"]
 [ext_resource type="Script" uid="uid://dcf6smbhg037i" path="res://modules/display/display.gd" id="4_j2gmx"]
 [ext_resource type="PackedScene" uid="uid://b0fgl3po8gn3" path="res://modules/enemy/enemy.tscn" id="5_1yooq"]
+[ext_resource type="Script" uid="uid://cc5x7w1j4a7a3" path="res://scenes/world/world_boundry.gd" id="6_t5ptc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v5dby"]
+size = Vector2(1000, 1000)
 
 [node name="World" type="Node2D" unique_id=882223013]
 
@@ -13,6 +17,9 @@ display = NodePath("../Display")
 
 [node name="Turret" parent="." unique_id=805245566 instance=ExtResource("2_t5ptc")]
 position = Vector2(310, -90)
+
+[node name="Turret2" parent="." unique_id=183040610 instance=ExtResource("2_t5ptc")]
+position = Vector2(-219, -437)
 
 [node name="Camera" type="Node2D" parent="." unique_id=1792801340 node_paths=PackedStringArray("player")]
 script = ExtResource("3_bq33v")
@@ -25,4 +32,23 @@ script = ExtResource("4_j2gmx")
 player = NodePath("../Player")
 
 [node name="Enemy" parent="." unique_id=471362178 node_paths=PackedStringArray("player") instance=ExtResource("5_1yooq")]
+position = Vector2(732, 0)
 player = NodePath("../Player")
+
+[node name="Node2D" type="Node2D" parent="." unique_id=2027612259]
+position = Vector2(357, 587)
+script = ExtResource("6_t5ptc")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node2D" unique_id=36353359]
+collision_layer = 256
+collision_mask = 51
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/StaticBody2D" unique_id=52071936]
+shape = SubResource("RectangleShape2D_v5dby")
+
+[node name="Area2D" type="Area2D" parent="Node2D" unique_id=1053890302]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/Area2D" unique_id=506027494]
+shape = SubResource("RectangleShape2D_v5dby")
+
+[connection signal="body_entered" from="Node2D/Area2D" to="Node2D" method="_on_area_2d_body_entered"]
