@@ -10,7 +10,9 @@ extends RigidBody2D
 @export var pivot:Node = null
 @export var display:Node = null
 @export var immunity_timer:Timer = null
+@export var base_health:int = 100
 
+var health = base_health
 var projectile = preload("res://modules/projectile/player_projectile.tscn")
 var enemy = preload("res://modules/enemy/turret.tscn")
 
@@ -48,13 +50,13 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	#self.position += velocity
 	#self.position += vec * speed * delta
 	# move at const velocity (no delta needed)
-	print(vec)
+	#print(vec)
 	if vec == Vector2.ZERO:
-		print("not moving")
+		#print("not moving")
 		state.linear_velocity = state.linear_velocity.lerp(Vector2.ZERO, decel)
-		print(state.linear_velocity)
+		#print(state.linear_velocity)
 	else:
-		print("moving")
+		#print("moving")
 		state.linear_velocity = vec * speed
 	#integrate_forces()
 
@@ -108,15 +110,10 @@ func write_shape(data:Array):
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	#print("collide")
 	if body.is_in_group("enemy_projectile"):
-		if damage_immunity == true:
-			pass
-		else:
-			print("player hit!")
+		if damage(10):
 			body.queue_free()
-			damage_immunity = true
-			#$Immunity.wait_time = 0.5
-			$Immunity.start()
-			on_hit()
+	if body.is_in_group("enemy"):
+		print("enemy collision")
 
 var tween
 func on_hit():
@@ -130,6 +127,19 @@ func on_hit():
 		tween.tween_property(self, "modulate", Color.WHITE, 0.04)
 		t += 0.08
 
+func damage(amount:int) -> bool:
+	if damage_immunity == true:
+		return false
+	else:
+		#print("player hit!")
+		damage_immunity = true
+		$Immunity.start()
+		health -= amount
+		print("player health:" + str(health))
+		on_hit()
+		if health <= 0:
+			pass
+		return true
 
 func _on_invincibility_timeout() -> void:
 	damage_immunity = false

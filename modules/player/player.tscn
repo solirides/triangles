@@ -12,8 +12,7 @@ radius = 20.0
 render_priority = 0
 shader = ExtResource("3_m7q0d")
 
-[node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot", "immunity_timer")]
-collision_layer = 0
+[node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot", "immunity_timer") groups=["player"]]
 collision_mask = 256
 gravity_scale = 0.0
 script = ExtResource("1_qgxqk")
@@ -53,7 +52,7 @@ layer = 10
 [node name="Hud" parent="CanvasLayer2" unique_id=30667009 instance=ExtResource("4_55gox")]
 
 [node name="Area2D" type="Area2D" parent="." unique_id=610400639]
-collision_mask = 32
+collision_mask = 48
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=905589056]
 shape = SubResource("CircleShape2D_m7q0d")

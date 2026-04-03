@@ -8,7 +8,7 @@ extends Enemy
 ### number of projectiles per attack
 @export var pattern = 1
 ### seconds between start of burst attacks
-@export var burst_speed = 3
+@export var burst_speed = 6
 ### seconds per burst attack
 @export var burst_length = 80/60.0
 

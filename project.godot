@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 enemy_projectile=""
 player_projectile=""
+player=""
 
 [input]
 

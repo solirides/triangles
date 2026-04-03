@@ -32,7 +32,7 @@ func _physics_process(delta: float) -> void:
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	pass
+#d
 
-func _on_body_entered(body: Node) -> void:
-	print("hopper")
+func _on_area_2d_body_entered(body: Node2D) -> void:
 	_on_collision(body)

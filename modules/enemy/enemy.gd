@@ -38,8 +38,10 @@ func shoot(direction:Vector2, speed2, damp=0):
 
 func _on_collision(body: Node2D) -> void:
 	if body.is_in_group("player_projectile"):
-		damage(10)
+		self.damage(10)
 		body.queue_free()
+	if body.is_in_group("player"):
+		body.damage(10)
 
 # called when this node is deleted
 func _exit_tree():
