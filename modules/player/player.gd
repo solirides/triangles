@@ -1,5 +1,6 @@
 extends RigidBody2D
 
+@export_group("Player")
 @export var accel = 1
 @export var decel = 0.3
 @export var speed = 400
@@ -7,14 +8,17 @@ extends RigidBody2D
 @export var projectile_speed = 1000
 @export var projectile_lifetime = 3
 @export var damage_immunity_time = 0.3
+@export var base_health:int = 100
+
+@export_group("Nodes")
 @export var pivot:Node = null
 @export var display:Node = null
 @export var immunity_timer:Timer = null
-@export var base_health:int = 100
 
 var health = base_health
 var projectile = preload("res://modules/projectile/player_projectile.tscn")
-var enemy = preload("res://modules/enemy/turret.tscn")
+var turret = preload("res://modules/enemy/turret.tscn")
+var hopper = preload("res://modules/enemy/hopper.tscn")
 
 #var velocity = Vector2.ZERO
 enum CONSTRUCTION_STATE {
@@ -38,9 +42,11 @@ enum BUILD_STATE {
 
 # temporary immunity to enemy attacks
 var damage_immunity = false
+var movement_input = true
 
 func _ready() -> void:
 	immunity_timer.wait_time = damage_immunity_time
+	GameManager.player = self
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var vec = Input.get_vector("move_left","move_right","move_up","move_down")
@@ -91,7 +97,12 @@ func _physics_process(delta: float) -> void:
 				pass
 	
 	if Input.is_action_just_pressed("spawn"):
-		var a = enemy.instantiate()
+		var a = turret.instantiate()
+		a.position = get_global_mouse_position()
+		get_tree().root.add_child(a)
+	if Input.is_action_just_pressed("spawn2"):
+		var a = hopper.instantiate()
+		a.target = GameManager.player
 		a.position = get_global_mouse_position()
 		get_tree().root.add_child(a)
 
@@ -155,3 +166,8 @@ func shoot(direction:Vector2, speed2, damp=0):
 	a.rotate(direction.angle())
 	a.despawn_frame = projectile_lifetime * Engine.physics_ticks_per_second + Engine.get_physics_frames()
 	get_tree().root.add_child(a)
+
+func dash(direction:Vector2, impulse, duration, damp):
+	self.apply_central_impulse(direction * impulse)
+	self.rotate(direction.angle())
+	

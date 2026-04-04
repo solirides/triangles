@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://ddk5iotbkarud" path="res://modules/enemy/turret.tscn" id="2_t5ptc"]
 [ext_resource type="Script" uid="uid://tnd0oty04e6y" path="res://scenes/world/camera.gd" id="3_bq33v"]
 [ext_resource type="Script" uid="uid://dcf6smbhg037i" path="res://modules/display/display.gd" id="4_j2gmx"]
-[ext_resource type="PackedScene" uid="uid://b0fgl3po8gn3" path="res://modules/enemy/hopper.tscn" id="5_1yooq"]
-[ext_resource type="Script" uid="uid://cc5x7w1j4a7a3" path="res://scenes/world/world_boundry.gd" id="6_t5ptc"]
+[ext_resource type="PackedScene" path="res://modules/enemy/hopper.tscn" id="6_bq33v"]
+[ext_resource type="Script" path="res://scenes/world/world_boundry.gd" id="6_t5ptc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v5dby"]
 size = Vector2(1000, 1000)
@@ -32,10 +32,6 @@ position_smoothing_enabled = true
 script = ExtResource("4_j2gmx")
 player = NodePath("../Player")
 
-[node name="Hopper" parent="." unique_id=471362178 node_paths=PackedStringArray("target") instance=ExtResource("5_1yooq")]
-position = Vector2(732, 0)
-target = NodePath("../Player")
-
 [node name="Node2D" type="Node2D" parent="." unique_id=2027612259]
 position = Vector2(357, 587)
 script = ExtResource("6_t5ptc")
@@ -51,5 +47,8 @@ shape = SubResource("RectangleShape2D_v5dby")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/Area2D" unique_id=506027494]
 shape = SubResource("RectangleShape2D_v5dby")
+
+[node name="Hopper" parent="." unique_id=471362178 node_paths=PackedStringArray("target") instance=ExtResource("6_bq33v")]
+target = NodePath("../Player")
 
 [connection signal="body_entered" from="Node2D/Area2D" to="Node2D" method="_on_area_2d_body_entered"]
