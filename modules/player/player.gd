@@ -1,20 +1,28 @@
 extends RigidBody2D
 
-@export_group("Player")
+@export_group("Movement")
 @export var accel = 1
 @export var decel = 0.3
-@export var speed = 400
+@export var base_speed = 400
 @export var drag = 0.1
+@export var aim_speed_multiplier = 0.6
+@export_category("Attack")
+@export var base_health:int = 100
 @export var projectile_speed = 1000
 @export var projectile_lifetime = 3
 @export var damage_immunity_time = 0.3
-@export var base_health:int = 100
+@export var attack_cooldown = 60/120.0
 
 @export_group("Nodes")
 @export var pivot:Node = null
 @export var display:Node = null
 @export var immunity_timer:Timer = null
+@onready var attack_cooldown_timer:Timer = $Attack
+@onready var raycast:RayCast2D = $Pivot/RayCast2D
+@onready var laser_polygon:Polygon2D = $Pivot/Laser
+@export var camera_controller:Node = null
 
+var speed = base_speed
 var health = base_health
 var projectile = preload("res://modules/projectile/player_projectile.tscn")
 var turret = preload("res://modules/enemy/turret.tscn")
@@ -43,10 +51,15 @@ enum BUILD_STATE {
 # temporary immunity to enemy attacks
 var damage_immunity = false
 var movement_input = true
+var aiming = false
 
 func _ready() -> void:
-	immunity_timer.wait_time = damage_immunity_time
 	GameManager.player = self
+	
+	attack_cooldown_timer.wait_time = attack_cooldown
+	immunity_timer.wait_time = damage_immunity_time
+	
+	laser_polygon.scale.y = 0
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var vec = Input.get_vector("move_left","move_right","move_up","move_down")
@@ -66,16 +79,70 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		state.linear_velocity = vec * speed
 	#integrate_forces()
 
+
+@onready var aim_tween = get_tree().create_tween()
+
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed("primary"):
-		var direction = (get_global_mouse_position()-self.global_position).normalized()
-		shoot(direction, projectile_speed)
-		
 	if Input.is_action_just_pressed("secondary"):
-		var direction = (get_global_mouse_position()-self.global_position).normalized()
-		var spread = 0.1
-		for i in range(-2,3):
-			shoot(direction.rotated(i * spread,), projectile_speed*3 * randf_range(0.8,1.0), 7.0)
+		# set aiming = true after delay
+		$Aim.start(0.2)
+		#$Aim.timeout.connect(func(): aiming = true)
+		speed = base_speed * aim_speed_multiplier
+		# animate camera zoom
+		aim_tween.kill()
+		aim_tween = get_tree().create_tween()
+		aim_tween.tween_property(camera_controller.camera, "zoom", Vector2(1.3,1.3), 0.3).set_trans(Tween.TRANS_SINE)
+		#camera.camera.zoom = 
+	if Input.is_action_just_released("secondary"):
+		$Aim.stop()
+		aiming = false
+		speed = base_speed
+		# animate camera zoom
+		#var tween = get_tree().create_tween()
+		aim_tween.kill()
+		aim_tween = get_tree().create_tween()
+		aim_tween.tween_property(camera_controller.camera, "zoom", Vector2(1,1), 0.12).set_trans(Tween.TRANS_SINE)
+		#camera.camera.zoom = Vector2(1,1)
+	
+	if Input.is_action_pressed("special2"):
+		if attack_cooldown_timer.time_left == 0:
+			attack_cooldown_timer.start()
+			var direction = (get_global_mouse_position()-self.global_position).normalized()
+			shoot(direction, projectile_speed)
+		
+	if Input.is_action_pressed("primary"):
+		if attack_cooldown_timer.time_left == 0:
+			attack_cooldown_timer.start()
+			var direction = (get_global_mouse_position()-self.global_position).normalized()
+			var spread = 0.1
+			for i in range(-2,3):
+				shoot(direction.rotated(i * spread,), projectile_speed*3 * randf_range(0.8,1.0), 7.0)
+	
+	if Input.is_action_pressed("special1"):
+		if attack_cooldown_timer.time_left == 0:
+			attack_cooldown_timer.start()
+			raycast.force_raycast_update()
+			var hit = false
+			while raycast.is_colliding():
+				var collider = raycast.get_collider()
+				raycast.add_exception(collider)
+				
+				if collider.is_in_group("enemy_projectile"):
+					collider.queue_free()
+					hit = true
+				elif collider.is_in_group("enemy"):
+					collider.damage(50)
+					hit = true
+				raycast.force_raycast_update()
+			raycast.clear_exceptions()
+			if hit:
+				camera_controller.shake(0.16, 14, 20, 0)
+			
+			var tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			tween.tween_property(laser_polygon, "scale", Vector2(30,1), 0.02)
+			tween.tween_property(laser_polygon, "scale", Vector2(30,1), 0.26)
+			tween.tween_property(laser_polygon, "scale", Vector2(30,0), 0.08)
+			
 	
 	if Input.is_action_just_pressed("construct"):
 		match construction_state:
@@ -142,6 +209,7 @@ func damage(amount:int) -> bool:
 	if damage_immunity == true:
 		return false
 	else:
+		camera_controller.shake(0.24, 16, 20, 1)
 		#print("player hit!")
 		damage_immunity = true
 		$Immunity.start()
@@ -170,4 +238,8 @@ func shoot(direction:Vector2, speed2, damp=0):
 func dash(direction:Vector2, impulse, duration, damp):
 	self.apply_central_impulse(direction * impulse)
 	self.rotate(direction.angle())
+	
+
+func _on_aim_timeout() -> void:
+	aiming = true
 	

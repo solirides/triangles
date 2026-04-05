@@ -20,21 +20,24 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	print("gfdhjgds")
+	#print("gfdhjgds")
 	if target != null:
-		print("target")
+		#print("target")
 		var physics_frame = Engine.get_physics_frames() - start_frame
 		#print((physics_frame + hop_delay) % hop_frame_speed)
 		if physics_frame % hop_frame_speed:
 			stored_target_position = target.global_position
 		elif (physics_frame + hop_delay) % hop_frame_speed:
-			print("hop")
+			#print("hop")
 			var vec = (stored_target_position - self.global_position).normalized()
-			self.apply_central_impulse(vec * hop_impulse)
+			self.apply_central_impulse(vec * hop_impulse * mass)
 			self.rotate(vec.angle())
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	pass
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
+func _on_body_entered(body: Node2D) -> void:
 	_on_collision(body)
+#
+#func _on_area_2d_body_entered(body: Node2D) -> void:
+	#_on_collision(body)

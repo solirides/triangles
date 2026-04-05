@@ -44,3 +44,6 @@ func shoot_pattern(count:int):
 func _on_burst_timeout() -> void:
 	#print("stop burst")
 	burst_attacking = false
+
+func _on_body_entered(body: Node2D) -> void:
+	_on_collision(body)

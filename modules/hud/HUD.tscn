@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://fhyu40t53tvj" path="res://modules/hud/hud.gd" id="1_gridp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_p2nvc"]
-font_size = 40
+font_size = 24
 font_color = Color(0.57156605, 0.42372668, 1, 1)
 
 [node name="HUD" type="Control" unique_id=30667009]

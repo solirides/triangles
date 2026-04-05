@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://s8vfvomppoil"]
+
+[ext_resource type="Script" uid="uid://bm2hqntheh4tx" path="res://modules/enemy/spawning_telegraph.gd" id="1_km8qd"]
+
+[node name="SpawningTelegraph" type="Node2D" unique_id=1556516457]
+script = ExtResource("1_km8qd")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=572840387]
+color = Color(0.98, 0.69188, 0.15680003, 0.49803922)
+polygon = PackedVector2Array(22, 0, 0, 22, -22, 0, 0, -22)

@@ -6,6 +6,7 @@
 
 [node name="Projectile" type="RigidBody2D" unique_id=401635129 groups=["enemy_projectile"]]
 collision_layer = 32
+collision_mask = 4
 mass = 10.0
 gravity_scale = 0.0
 script = ExtResource("1_jipba")
@@ -14,5 +15,5 @@ script = ExtResource("1_jipba")
 shape = SubResource("RectangleShape2D_nnwvb")
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=1496397624]
-color = Color(0, 0, 0, 1)
+color = Color(0.98, 0.69188, 0.15680003, 1)
 polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)

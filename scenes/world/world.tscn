@@ -1,39 +1,39 @@
 [gd_scene format=3 uid="uid://bd4xujlw0qrl1"]
 
+[ext_resource type="Script" uid="uid://bp07b3c0vt2eg" path="res://scenes/world/world.gd" id="1_bq33v"]
 [ext_resource type="PackedScene" uid="uid://c5yf3leqeenvd" path="res://modules/player/player.tscn" id="1_v5dby"]
 [ext_resource type="PackedScene" uid="uid://ddk5iotbkarud" path="res://modules/enemy/turret.tscn" id="2_t5ptc"]
-[ext_resource type="Script" uid="uid://tnd0oty04e6y" path="res://scenes/world/camera.gd" id="3_bq33v"]
+[ext_resource type="PackedScene" uid="uid://w6jjt2mb7cyo" path="res://modules/camera/camera_controller.tscn" id="3_t5ptc"]
 [ext_resource type="Script" uid="uid://dcf6smbhg037i" path="res://modules/display/display.gd" id="4_j2gmx"]
-[ext_resource type="PackedScene" path="res://modules/enemy/hopper.tscn" id="6_bq33v"]
-[ext_resource type="Script" path="res://scenes/world/world_boundry.gd" id="6_t5ptc"]
+[ext_resource type="PackedScene" uid="uid://b0fgl3po8gn3" path="res://modules/enemy/hopper.tscn" id="6_bq33v"]
+[ext_resource type="Script" uid="uid://cc5x7w1j4a7a3" path="res://scenes/world/world_boundry.gd" id="6_t5ptc"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_j2gmx"]
+distance = -600.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1yooq"]
+normal = Vector2(0, 1)
+distance = -600.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_gb53w"]
+normal = Vector2(-1, 0)
+distance = -600.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_5qq27"]
+normal = Vector2(1, 0)
+distance = -600.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v5dby"]
 size = Vector2(1000, 1000)
 
 [node name="World" type="Node2D" unique_id=882223013]
-
-[node name="Player" parent="." unique_id=557670507 node_paths=PackedStringArray("display") instance=ExtResource("1_v5dby")]
-display = NodePath("../Display")
-
-[node name="Turret" parent="." unique_id=805245566 instance=ExtResource("2_t5ptc")]
-position = Vector2(310, -90)
-
-[node name="Turret2" parent="." unique_id=183040610 instance=ExtResource("2_t5ptc")]
-position = Vector2(-219, -437)
-
-[node name="Camera" type="Node2D" parent="." unique_id=1792801340 node_paths=PackedStringArray("player")]
-script = ExtResource("3_bq33v")
-player = NodePath("../Player")
-
-[node name="Camera2D" type="Camera2D" parent="Camera" unique_id=718891721]
-position_smoothing_enabled = true
+script = ExtResource("1_bq33v")
 
 [node name="Display" type="Node2D" parent="." unique_id=1724143098 node_paths=PackedStringArray("player")]
 script = ExtResource("4_j2gmx")
 player = NodePath("../Player")
 
 [node name="Node2D" type="Node2D" parent="." unique_id=2027612259]
-position = Vector2(357, 587)
 script = ExtResource("6_t5ptc")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Node2D" unique_id=36353359]
@@ -41,12 +41,39 @@ collision_layer = 256
 collision_mask = 51
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/StaticBody2D" unique_id=52071936]
-shape = SubResource("RectangleShape2D_v5dby")
+shape = SubResource("WorldBoundaryShape2D_j2gmx")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/StaticBody2D" unique_id=1510635465]
+shape = SubResource("WorldBoundaryShape2D_1yooq")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Node2D/StaticBody2D" unique_id=2130025022]
+shape = SubResource("WorldBoundaryShape2D_gb53w")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Node2D/StaticBody2D" unique_id=768535464]
+shape = SubResource("WorldBoundaryShape2D_5qq27")
+
+[node name="Polygon2D" type="Polygon2D" parent="Node2D/StaticBody2D" unique_id=1402891]
+color = Color(0.24660313, 0.23218432, 0.3516823, 1)
+polygon = PackedVector2Array(-600, -600, 600, -600, 600, 600, -600, 600)
 
 [node name="Area2D" type="Area2D" parent="Node2D" unique_id=1053890302]
+visible = false
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/Area2D" unique_id=506027494]
 shape = SubResource("RectangleShape2D_v5dby")
+
+[node name="CameraController" parent="." unique_id=971771314 node_paths=PackedStringArray("player") instance=ExtResource("3_t5ptc")]
+player = NodePath("../Player")
+
+[node name="Player" parent="." unique_id=557670507 node_paths=PackedStringArray("display", "camera_controller") instance=ExtResource("1_v5dby")]
+display = NodePath("../Display")
+camera_controller = NodePath("../CameraController")
+
+[node name="Turret" parent="." unique_id=805245566 instance=ExtResource("2_t5ptc")]
+position = Vector2(310, -90)
+
+[node name="Turret2" parent="." unique_id=183040610 instance=ExtResource("2_t5ptc")]
+position = Vector2(-219, -437)
 
 [node name="Hopper" parent="." unique_id=471362178 node_paths=PackedStringArray("target") instance=ExtResource("6_bq33v")]
 target = NodePath("../Player")

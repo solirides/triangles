@@ -6,15 +6,24 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_shiqy"]
 size = Vector2(120, 120)
 
-[node name="Turret" type="RigidBody2D" unique_id=1667019865]
+[node name="Turret" type="RigidBody2D" unique_id=1667019865 groups=["enemy"]]
 collision_layer = 16
-collision_mask = 257
+collision_mask = 259
+mass = 100.0
 gravity_scale = 0.0
+lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 5
+linear_damp = 4.0
 script = ExtResource("2_shiqy")
 projectile_speed = 200
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1027678355]
+scale = Vector2(0.4, 0.4)
+shape = SubResource("RectangleShape2D_shiqy")
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=805245566]
-self_modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0.98039216, 0.6901961, 0.15686275, 1)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("1_ry02j")
 
@@ -22,13 +31,11 @@ texture = ExtResource("1_ry02j")
 process_callback = 0
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1948673073]
+[node name="Area2D" type="Area2D" parent="." unique_id=1948673073 groups=["enemy"]]
 scale = Vector2(0.4, 0.4)
-collision_layer = 16
-collision_mask = 2
+collision_layer = 64
+collision_mask = 7
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1027678355]
-shape = SubResource("RectangleShape2D_shiqy")
-
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Burst" to="." method="_on_burst_timeout"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_collision"]

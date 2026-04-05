@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://w6jjt2mb7cyo"]
+
+[ext_resource type="Script" uid="uid://tnd0oty04e6y" path="res://modules/camera/camera_controller.gd" id="1_pf27r"]
+[ext_resource type="Script" uid="uid://cvrpwrdwvkuka" path="res://modules/camera/camera_shake.gd" id="2_ogeh7"]
+
+[node name="CameraController" type="Node2D" unique_id=971771314]
+script = ExtResource("1_pf27r")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=656703197]
+
+[node name="Cursor" type="Node2D" parent="." unique_id=1050111284]
+
+[node name="Polygon2D" type="Polygon2D" parent="Cursor" unique_id=2019490801]
+color = Color(0, 0, 1, 1)
+polygon = PackedVector2Array(10, -2, 10, 2, 20, 2, 20, -2)
+
+[node name="CameraShake" type="Node2D" parent="." unique_id=2068597396 node_paths=PackedStringArray("camera")]
+script = ExtResource("2_ogeh7")
+camera = NodePath("../Camera2D")

@@ -9,11 +9,17 @@
 radius = 20.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_55gox"]
-render_priority = 0
 shader = ExtResource("3_m7q0d")
+shader_parameter/cell_size = 16.0
+shader_parameter/dot_size = 0.25
+shader_parameter/background_color = Color(0.1176, 0.1176, 0.1176, 1)
+shader_parameter/dot_color = Color(0.2156, 0.2156, 0.2156, 1)
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/anti_aliasing_factor = 0.01
+shader_parameter/stochastic_samples = 16
 
 [node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot", "immunity_timer") groups=["player"]]
-collision_mask = 256
+collision_mask = 336
 gravity_scale = 0.0
 script = ExtResource("1_qgxqk")
 pivot = NodePath("Pivot")
@@ -29,10 +35,19 @@ texture = ExtResource("2_m7q0d")
 [node name="Pivot" type="Node2D" parent="." unique_id=838123745]
 rotation = -1.5707964
 
+[node name="Laser" type="Polygon2D" parent="Pivot" unique_id=2016252300]
+scale = Vector2(30, 1)
+polygon = PackedVector2Array(3.496911e-07, -8, 64, -7.999997, 64, 8.000003, -3.496911e-07, 8)
+
 [node name="PlayerPolygon" type="Polygon2D" parent="Pivot" unique_id=1997100830]
 rotation = 1.5707964
 color = Color(0.7587591, 0, 0.28683406, 1)
 polygon = PackedVector2Array(0, -40, 20, 20, -20, 20)
+
+[node name="RayCast2D" type="RayCast2D" parent="Pivot" unique_id=1802720414]
+rotation = 1.5707964
+target_position = Vector2(0, -2000)
+collision_mask = 112
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=480853716]
 layer = -5
@@ -52,6 +67,7 @@ layer = 10
 [node name="Hud" parent="CanvasLayer2" unique_id=30667009 instance=ExtResource("4_55gox")]
 
 [node name="Area2D" type="Area2D" parent="." unique_id=610400639]
+collision_layer = 4
 collision_mask = 48
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=905589056]
@@ -62,5 +78,14 @@ process_callback = 0
 wait_time = 0.3
 one_shot = true
 
+[node name="Aim" type="Timer" parent="." unique_id=519819754]
+wait_time = 0.25
+one_shot = true
+
+[node name="Attack" type="Timer" parent="." unique_id=1209496060]
+wait_time = 0.15
+one_shot = true
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="Immunity" to="." method="_on_invincibility_timeout"]
+[connection signal="timeout" from="Aim" to="." method="_on_aim_timeout"]

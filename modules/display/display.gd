@@ -4,7 +4,7 @@ extends Node2D
 @export var player:Node = null
 
 var shapes = []
-var color = Color(1,0.5,0.5,1)
+@export var color = Color(1,0.5,0.5,1)
 var width = 4
 var draw_shape_progress = false
 var partial_shape = []

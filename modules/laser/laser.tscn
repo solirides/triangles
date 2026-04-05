@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://ds60rouk5bd2w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bai1m"]
+
+[node name="Laser" type="Area2D" unique_id=1296146931]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=38268385]
+shape = SubResource("RectangleShape2D_bai1m")
