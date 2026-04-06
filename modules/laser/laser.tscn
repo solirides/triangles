@@ -1,8 +1,7 @@
 [gd_scene format=3 uid="uid://ds60rouk5bd2w"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bai1m"]
+[node name="Laser" type="Node2D" unique_id=1251087569]
 
-[node name="Laser" type="Area2D" unique_id=1296146931]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=38268385]
-shape = SubResource("RectangleShape2D_bai1m")
+[node name="Laser" type="Polygon2D" parent="." unique_id=1900617538]
+scale = Vector2(30, 1)
+polygon = PackedVector2Array(3.496911e-07, -8, 64, -7.999997, 64, 8.000003, -3.496911e-07, 8)

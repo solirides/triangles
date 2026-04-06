@@ -19,7 +19,7 @@ extends RigidBody2D
 @export var immunity_timer:Timer = null
 @onready var attack_cooldown_timer:Timer = $Attack
 @onready var raycast:RayCast2D = $Pivot/RayCast2D
-@onready var laser_polygon:Polygon2D = $Pivot/Laser
+#@onready var laser_polygon:Polygon2D = $Pivot/Laser
 @export var camera_controller:Node = null
 
 var speed = base_speed
@@ -27,6 +27,7 @@ var health = base_health
 var projectile = preload("res://modules/projectile/player_projectile.tscn")
 var turret = preload("res://modules/enemy/turret.tscn")
 var hopper = preload("res://modules/enemy/hopper.tscn")
+var laser_polygon = preload("res://modules/laser/laser.tscn")
 
 #var velocity = Vector2.ZERO
 enum CONSTRUCTION_STATE {
@@ -59,7 +60,7 @@ func _ready() -> void:
 	attack_cooldown_timer.wait_time = attack_cooldown
 	immunity_timer.wait_time = damage_immunity_time
 	
-	laser_polygon.scale.y = 0
+	#laser_polygon.scale.y = 0
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var vec = Input.get_vector("move_left","move_right","move_up","move_down")
@@ -138,11 +139,19 @@ func _physics_process(delta: float) -> void:
 			if hit:
 				camera_controller.shake(0.16, 14, 20, 0)
 			
-			var tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-			tween.tween_property(laser_polygon, "scale", Vector2(30,1), 0.02)
-			tween.tween_property(laser_polygon, "scale", Vector2(30,1), 0.26)
-			tween.tween_property(laser_polygon, "scale", Vector2(30,0), 0.08)
+			var a = laser_polygon.instantiate()
+			a.scale.y = 0
+			a.global_position = pivot.global_position
+			a.global_rotation = pivot.global_rotation
+			get_tree().root.add_child(a)
 			
+			var tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			tween.tween_property(a, "scale", Vector2(1,1), 0.03)
+			tween.tween_property(a, "scale", Vector2(1,1), 0.26)
+			tween.tween_property(a, "modulate", Color(1,1,1,0), 0.03)
+			tween.tween_property(a, "modulate", Color(1,1,1,1), 0.03)
+			tween.tween_property(a, "scale", Vector2(1,0), 0.04)
+			tween.tween_callback(a.queue_free)
 	
 	if Input.is_action_just_pressed("construct"):
 		match construction_state:

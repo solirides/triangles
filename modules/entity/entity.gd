@@ -12,6 +12,6 @@ extends RigidBody2D
 
 func damage(amount:int):
 	health -= amount
-	print(health)
+	#print(health)
 	if health <= 0:
 		queue_free()

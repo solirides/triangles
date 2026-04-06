@@ -15,9 +15,18 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gridp")
 
-[node name="Label" type="Label" parent="." unique_id=196264555]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1806011036]
 layout_mode = 0
 offset_right = 40.0
-offset_bottom = 23.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=196264555]
+layout_mode = 2
 text = "testing 123"
 label_settings = SubResource("LabelSettings_p2nvc")
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer" unique_id=1714440785]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+allow_greater = true
+allow_lesser = true

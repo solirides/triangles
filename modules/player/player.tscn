@@ -21,6 +21,7 @@ shader_parameter/stochastic_samples = 16
 [node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot", "immunity_timer") groups=["player"]]
 collision_mask = 336
 gravity_scale = 0.0
+lock_rotation = true
 script = ExtResource("1_qgxqk")
 pivot = NodePath("Pivot")
 immunity_timer = NodePath("Immunity")
@@ -36,10 +37,12 @@ texture = ExtResource("2_m7q0d")
 rotation = -1.5707964
 
 [node name="Laser" type="Polygon2D" parent="Pivot" unique_id=2016252300]
+visible = false
 scale = Vector2(30, 1)
 polygon = PackedVector2Array(3.496911e-07, -8, 64, -7.999997, 64, 8.000003, -3.496911e-07, 8)
 
 [node name="PlayerPolygon" type="Polygon2D" parent="Pivot" unique_id=1997100830]
+z_index = 9
 rotation = 1.5707964
 color = Color(0.7587591, 0, 0.28683406, 1)
 polygon = PackedVector2Array(0, -40, 20, 20, -20, 20)
