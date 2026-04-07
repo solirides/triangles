@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 GameManager="*uid://df0pfj50u4jkj"
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [global_group]
 
 enemy_projectile=""
