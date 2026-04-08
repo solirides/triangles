@@ -32,7 +32,7 @@ func shoot(direction:Vector2, speed2, damp=0):
 	a.linear_damp = damp
 	a.rotate(direction.angle())
 	a.despawn_frame = projectile_lifetime * Engine.physics_ticks_per_second + Engine.get_physics_frames()
-	get_tree().root.add_child(a)
+	get_tree().get_current_scene().add_child(a)
 	#projectiles.append(a)
 	#projectile_times.append([Engine.get_physics_frames() + int(projectile_lifetime * 60), a])
 	
@@ -41,7 +41,7 @@ func _on_collision(body: Node2D) -> void:
 	if body.is_in_group("player_projectile"):
 		self.damage(10)
 		var p = projectile_particle.instantiate()
-		get_tree().root.add_child(p)
+		get_tree().get_current_scene().add_child(p)
 		p.global_position = self.global_position
 		p.emitting = true
 		

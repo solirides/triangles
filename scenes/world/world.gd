@@ -10,6 +10,8 @@ var spawning_telegraph = preload("res://modules/enemy/spawning_telegraph.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	GameManager.set_in_world(true)
+	
 	# top tier programming practices right here
 	# I will be surprised if this doesn't break at some point
 	var distance = [level_size.y, level_size.x, level_size.y, level_size.x]

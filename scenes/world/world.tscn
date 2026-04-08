@@ -40,39 +40,39 @@ size = Vector2(1000, 1000)
 [node name="World" type="Node2D" unique_id=882223013]
 script = ExtResource("1_bq33v")
 level_size = Vector2(1000, 600)
-enemy_waves = Array[Resource]([SubResource("Resource_5qq27")])
+enemy_waves = Array[ExtResource("2_1yooq")]([SubResource("Resource_5qq27")])
 
 [node name="Display" type="Node2D" parent="." unique_id=1724143098 node_paths=PackedStringArray("player")]
 script = ExtResource("4_j2gmx")
 player = NodePath("../Player")
 
-[node name="Node2D" type="Node2D" parent="." unique_id=2027612259]
+[node name="WorldBoundary" type="Node2D" parent="." unique_id=2027612259]
 script = ExtResource("6_t5ptc")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Node2D" unique_id=36353359]
+[node name="StaticBody2D" type="StaticBody2D" parent="WorldBoundary" unique_id=36353359]
 collision_layer = 256
 collision_mask = 51
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/StaticBody2D" unique_id=52071936]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldBoundary/StaticBody2D" unique_id=52071936]
 shape = SubResource("WorldBoundaryShape2D_j2gmx")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/StaticBody2D" unique_id=1510635465]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldBoundary/StaticBody2D" unique_id=1510635465]
 shape = SubResource("WorldBoundaryShape2D_1yooq")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Node2D/StaticBody2D" unique_id=2130025022]
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="WorldBoundary/StaticBody2D" unique_id=2130025022]
 shape = SubResource("WorldBoundaryShape2D_gb53w")
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="Node2D/StaticBody2D" unique_id=768535464]
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="WorldBoundary/StaticBody2D" unique_id=768535464]
 shape = SubResource("WorldBoundaryShape2D_5qq27")
 
-[node name="Polygon2D" type="Polygon2D" parent="Node2D/StaticBody2D" unique_id=1402891]
+[node name="Polygon2D" type="Polygon2D" parent="WorldBoundary/StaticBody2D" unique_id=1402891]
 color = Color(0.24660313, 0.23218432, 0.3516823, 1)
 polygon = PackedVector2Array(-600, -600, 600, -600, 600, 600, -600, 600)
 
-[node name="Area2D" type="Area2D" parent="Node2D" unique_id=1053890302]
+[node name="Area2D" type="Area2D" parent="WorldBoundary" unique_id=1053890302]
 visible = false
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/Area2D" unique_id=506027494]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldBoundary/Area2D" unique_id=506027494]
 shape = SubResource("RectangleShape2D_v5dby")
 
 [node name="CameraController" parent="." unique_id=971771314 node_paths=PackedStringArray("player") instance=ExtResource("3_t5ptc")]
@@ -91,4 +91,4 @@ position = Vector2(-219, -437)
 [node name="Hopper" parent="." unique_id=471362178 node_paths=PackedStringArray("target") instance=ExtResource("6_bq33v")]
 target = NodePath("../Player")
 
-[connection signal="body_entered" from="Node2D/Area2D" to="Node2D" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="WorldBoundary/Area2D" to="WorldBoundary" method="_on_area_2d_body_entered"]

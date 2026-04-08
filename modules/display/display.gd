@@ -28,7 +28,7 @@ func _draw() -> void:
 			_:
 				pass
 				
-	draw_circle(Vector2(100,100), 40, Color(0.615, 0.979, 1.206, 1.0), false, 4)
+	draw_circle(Vector2(0,0), 24, Color(0.615, 0.979, 1.206, 1.0), false, 4)
 
 func _process(delta: float) -> void:
 	queue_redraw()

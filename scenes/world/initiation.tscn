@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://wxs1nks7t7qh"]
+
+[ext_resource type="Script" uid="uid://ch2kyj4uxtu7u" path="res://scenes/world/initiation.gd" id="1_ehnpr"]
+[ext_resource type="PackedScene" uid="uid://c5yf3leqeenvd" path="res://modules/player/player.tscn" id="2_mchtr"]
+[ext_resource type="Script" uid="uid://dcf6smbhg037i" path="res://modules/display/display.gd" id="3_du3mn"]
+[ext_resource type="PackedScene" uid="uid://w6jjt2mb7cyo" path="res://modules/camera/camera_controller.tscn" id="4_0bmpa"]
+[ext_resource type="Texture2D" uid="uid://bdyr6bkl6pq07" path="res://assets/textures/hallway_gradient.tres" id="5_0bmpa"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_du3mn"]
+friction = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_du3mn"]
+font_size = 28
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iv5ap"]
+size = Vector2(256, 256)
+
+[node name="Initiation" type="Node2D" unique_id=1801787322]
+script = ExtResource("1_ehnpr")
+level_size = null
+
+[node name="Player" parent="." unique_id=275705057 node_paths=PackedStringArray("display", "camera_controller") instance=ExtResource("2_mchtr")]
+position = Vector2(-896, 0)
+display = NodePath("../Display")
+camera_controller = NodePath("../CameraController")
+
+[node name="Display" type="Node2D" parent="." unique_id=1284772788]
+script = ExtResource("3_du3mn")
+
+[node name="CameraController" parent="." unique_id=971771314 node_paths=PackedStringArray("player") instance=ExtResource("4_0bmpa")]
+player = NodePath("../Player")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=328134016]
+collision_layer = 256
+collision_mask = 51
+physics_material_override = SubResource("PhysicsMaterial_du3mn")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=2128994626]
+build_mode = 1
+polygon = PackedVector2Array(-1024, -128, -512, -128, -512, -512, 512, -512, 512, -128, 1024, -128, 1024, 128, 512, 128, 512, 512, -512, 512, -512, 128, -1024, 128)
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D" unique_id=1730563560]
+color = Color(0.05882353, 0.06666667, 0.12156863, 1)
+polygon = PackedVector2Array(-1024, -128, -512, -128, -512, -512, 512, -512, 512, -128, 1024, -128, 1024, 128, 512, 128, 512, 512, -512, 512, -512, 128, -1024, 128)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=1393400286]
+position = Vector2(-768, 0)
+texture = ExtResource("5_0bmpa")
+
+[node name="Sprite2D2" type="Sprite2D" parent="StaticBody2D" unique_id=151974677]
+position = Vector2(768, 0)
+rotation = 3.1415927
+texture = ExtResource("5_0bmpa")
+
+[node name="Label" type="Label" parent="." unique_id=610067173]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -512.0
+offset_right = -431.0
+offset_bottom = 39.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "WASD"
+label_settings = SubResource("LabelSettings_du3mn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=1158058990]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_right = 302.0
+offset_bottom = 39.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Choose a weapon"
+label_settings = SubResource("LabelSettings_du3mn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Area2D" type="Area2D" parent="." unique_id=426777523]
+position = Vector2(896, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1438255447]
+shape = SubResource("RectangleShape2D_iv5ap")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

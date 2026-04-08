@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bmh8odx8qqd6k"]
+
+[sub_resource type="Gradient" id="Gradient_jx0ao"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ctslu"]
+gradient = SubResource("Gradient_jx0ao")
+width = 20
+height = 16
+
+[node name="Room" type="Node2D" unique_id=2028445461]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1485200275]
+texture = SubResource("GradientTexture2D_ctslu")

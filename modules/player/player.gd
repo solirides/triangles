@@ -27,7 +27,7 @@ var health = base_health
 var projectile = preload("res://modules/projectile/player_projectile.tscn")
 var turret = preload("res://modules/enemy/turret.tscn")
 var hopper = preload("res://modules/enemy/hopper.tscn")
-var laser_polygon = preload("res://modules/laser/laser.tscn")
+var laser_polygon = preload("res://modules/projectile/laser.tscn")
 
 #var velocity = Vector2.ZERO
 enum CONSTRUCTION_STATE {
@@ -143,7 +143,7 @@ func _physics_process(delta: float) -> void:
 			a.scale.y = 0
 			a.global_position = pivot.global_position
 			a.global_rotation = pivot.global_rotation
-			get_tree().root.add_child(a)
+			get_tree().get_current_scene().add_child(a)
 			
 			var tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 			tween.tween_property(a, "scale", Vector2(1,1), 0.03)
@@ -175,12 +175,12 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("spawn"):
 		var a = turret.instantiate()
 		a.position = get_global_mouse_position()
-		get_tree().root.add_child(a)
+		get_tree().get_current_scene().add_child(a)
 	if Input.is_action_just_pressed("spawn2"):
 		var a = hopper.instantiate()
 		a.target = GameManager.player
 		a.position = get_global_mouse_position()
-		get_tree().root.add_child(a)
+		get_tree().get_current_scene().add_child(a)
 
 func _process(delta: float) -> void:
 	var pos = get_global_mouse_position()
@@ -242,7 +242,7 @@ func shoot(direction:Vector2, speed2, damp=0):
 	#a.look_at(get_global_mouse_position())
 	a.rotate(direction.angle())
 	a.despawn_frame = projectile_lifetime * Engine.physics_ticks_per_second + Engine.get_physics_frames()
-	get_tree().root.add_child(a)
+	get_tree().get_current_scene().add_child(a)
 
 func dash(direction:Vector2, impulse, duration, damp):
 	self.apply_central_impulse(direction * impulse)
