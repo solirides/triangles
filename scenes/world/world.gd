@@ -1,9 +1,12 @@
 extends Node2D
 
 @export var level_size:Vector2 = Vector2(500, 300)
+@export var enemy_waves:Array[EnemyWave] = []
+
 @onready var world_boundary = $Node2D/StaticBody2D
 
 var spawning_telegraph = preload("res://modules/enemy/spawning_telegraph.tscn")
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

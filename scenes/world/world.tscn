@@ -2,11 +2,22 @@
 
 [ext_resource type="Script" uid="uid://bp07b3c0vt2eg" path="res://scenes/world/world.gd" id="1_bq33v"]
 [ext_resource type="PackedScene" uid="uid://c5yf3leqeenvd" path="res://modules/player/player.tscn" id="1_v5dby"]
+[ext_resource type="Script" uid="uid://digvmwomjxmvw" path="res://modules/game_manager/enemy_wave.gd" id="2_1yooq"]
 [ext_resource type="PackedScene" uid="uid://ddk5iotbkarud" path="res://modules/enemy/turret.tscn" id="2_t5ptc"]
+[ext_resource type="Script" uid="uid://c4ittu41lutv" path="res://modules/game_manager/enemy_sequence.gd" id="3_gb53w"]
 [ext_resource type="PackedScene" uid="uid://w6jjt2mb7cyo" path="res://modules/camera/camera_controller.tscn" id="3_t5ptc"]
 [ext_resource type="Script" uid="uid://dcf6smbhg037i" path="res://modules/display/display.gd" id="4_j2gmx"]
 [ext_resource type="PackedScene" uid="uid://b0fgl3po8gn3" path="res://modules/enemy/hopper.tscn" id="6_bq33v"]
 [ext_resource type="Script" uid="uid://cc5x7w1j4a7a3" path="res://scenes/world/world_boundry.gd" id="6_t5ptc"]
+
+[sub_resource type="Resource" id="Resource_1yooq"]
+script = ExtResource("3_gb53w")
+metadata/_custom_type_script = "uid://c4ittu41lutv"
+
+[sub_resource type="Resource" id="Resource_5qq27"]
+script = ExtResource("2_1yooq")
+sequences = Array[ExtResource("3_gb53w")]([SubResource("Resource_1yooq")])
+metadata/_custom_type_script = "uid://digvmwomjxmvw"
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_j2gmx"]
 distance = -600.0
@@ -29,6 +40,7 @@ size = Vector2(1000, 1000)
 [node name="World" type="Node2D" unique_id=882223013]
 script = ExtResource("1_bq33v")
 level_size = Vector2(1000, 600)
+enemy_waves = Array[Resource]([SubResource("Resource_5qq27")])
 
 [node name="Display" type="Node2D" parent="." unique_id=1724143098 node_paths=PackedStringArray("player")]
 script = ExtResource("4_j2gmx")
