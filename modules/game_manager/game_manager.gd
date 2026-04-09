@@ -4,6 +4,8 @@ extends Node
 var player:Node = null
 var in_world = false
 var game_stage:GAME_STAGE = GAME_STAGE.NONE
+var autostart = true
+#var enemy_nodes:Array[Node] = []
 
 enum GAME_STAGE {
 	NONE,
@@ -13,11 +15,15 @@ enum GAME_STAGE {
 	IDK
 }
 
+signal enemy_death()
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	get_tree().set_auto_accept_quit(false)
 	get_window().grab_focus()
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
+	if autostart:
+		advance_game_stage(GAME_STAGE.COMBAT)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -64,3 +70,6 @@ func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		print("window quit requested")
 		quit_game()
+
+func _on_enemy_death():
+	enemy_death.emit()

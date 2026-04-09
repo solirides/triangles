@@ -8,15 +8,16 @@ extends RigidBody2D
 @export var aim_speed_multiplier = 0.6
 @export_category("Attack")
 @export var base_health:int = 100
-@export var projectile_speed = 1000
-@export var projectile_lifetime = 3
-@export var damage_immunity_time = 0.3
-@export var attack_cooldown = 60/120.0
+@export var base_attack_damage:int = 100
+@export var projectile_speed:float = 1000
+@export var projectile_lifetime:float = 3
+@export var damage_immunity_time:float = 0.3
+@export var base_attack_speed:float = 60/120.0
 
 @export_group("Nodes")
 @export var pivot:Node = null
 @export var display:Node = null
-@export var immunity_timer:Timer = null
+@onready var immunity_timer:Timer = $Immunity
 @onready var attack_cooldown_timer:Timer = $Attack
 @onready var raycast:RayCast2D = $Pivot/RayCast2D
 #@onready var laser_polygon:Polygon2D = $Pivot/Laser
@@ -26,6 +27,9 @@ extends RigidBody2D
 
 var speed = base_speed
 var health = base_health
+var attack_speed = base_attack_speed
+var attack_damage = base_attack_damage
+
 var projectile = preload("res://modules/projectile/player_projectile.tscn")
 var turret = preload("res://modules/enemy/turret.tscn")
 var hopper = preload("res://modules/enemy/hopper.tscn")
@@ -59,7 +63,7 @@ var aiming = false
 func _ready() -> void:
 	GameManager.player = self
 	
-	attack_cooldown_timer.wait_time = attack_cooldown
+	attack_cooldown_timer.wait_time = attack_speed
 	immunity_timer.wait_time = damage_immunity_time
 	
 	#laser_polygon.scale.y = 0
@@ -244,6 +248,7 @@ func shoot(direction:Vector2, speed2, damp=0):
 	#a.look_at(get_global_mouse_position())
 	a.rotate(direction.angle())
 	a.despawn_frame = projectile_lifetime * Engine.physics_ticks_per_second + Engine.get_physics_frames()
+	a.attack_damage = attack_damage
 	get_tree().get_current_scene().add_child(a)
 
 func dash(direction:Vector2, impulse, duration, damp):

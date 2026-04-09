@@ -1,7 +1,8 @@
 extends Node2D
 
-var queued_enemy = "turret"
+var queued_enemy:Enemy.ENEMY_TYPE = Enemy.ENEMY_TYPE.TURRET
 var tween:Tween = null
+var target:Node
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -22,8 +23,11 @@ func start_spawning_sequence():
 	tween.tween_callback(spawn_enemy)
 
 func spawn_enemy():
-	var scene = load("res://modules/enemy/" + queued_enemy + ".tscn")
+	var scene = load(Enemy.ENEMY_SCENES[queued_enemy])
 	var a = scene.instantiate()
 	a.global_position = self.global_position
-	get_tree().root.add_child(a)
+	a.target = self.target
+	get_tree().get_current_scene().add_child(a)
+	#GameManager.enemy_nodes.append(a)
+	a.death.connect(GameManager._on_enemy_death)
 	self.queue_free()

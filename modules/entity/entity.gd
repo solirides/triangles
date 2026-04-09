@@ -7,6 +7,10 @@ extends RigidBody2D
 @onready var health = base_health
 @onready var start_time = Time.get_ticks_msec()
 
+var dead = false
+
+signal death()
+
 # Called when the node enters the scene tree for the first time.
 #func _ready() -> void:
 
@@ -14,4 +18,11 @@ func damage(amount:int):
 	health -= amount
 	#print(health)
 	if health <= 0:
-		queue_free()
+		if dead == false:
+			#GameManager.enemy_nodes.erase(self)
+			death.emit()
+			#print("dead")
+			# ensure that if multiple projectiles hit simultaneously, this function is only triggered once
+			dead = true
+			queue_free()
+		

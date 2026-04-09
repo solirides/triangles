@@ -13,9 +13,14 @@ stat = "health"
 modifier = 40.0
 metadata/_custom_type_script = "uid://wxd2cdgoukr3"
 
+[sub_resource type="Resource" id="Resource_hd5yx"]
+script = ExtResource("3_5rkg0")
+stat = "attack_speed"
+metadata/_custom_type_script = "uid://wxd2cdgoukr3"
+
 [sub_resource type="Resource" id="Resource_dhhsu"]
 script = ExtResource("2_hd5yx")
-modifiers = Array[ExtResource("3_5rkg0")]([SubResource("Resource_ej5i3")])
+modifiers = Array[ExtResource("3_5rkg0")]([SubResource("Resource_ej5i3"), SubResource("Resource_hd5yx")])
 description = "this is a test 123"
 metadata/_custom_type_script = "uid://d2uitxcfpu7d"
 
@@ -32,13 +37,12 @@ shader_parameter/offset = Vector2(0, 0)
 shader_parameter/anti_aliasing_factor = 0.01
 shader_parameter/stochastic_samples = 16
 
-[node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot", "immunity_timer") groups=["player"]]
+[node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot") groups=["player"]]
 collision_mask = 336
 gravity_scale = 0.0
 lock_rotation = true
 script = ExtResource("1_qgxqk")
 pivot = NodePath("Pivot")
-immunity_timer = NodePath("Immunity")
 modifier_cards = Array[ExtResource("2_hd5yx")]([SubResource("Resource_dhhsu")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1441379814]
@@ -57,7 +61,7 @@ scale = Vector2(30, 1)
 polygon = PackedVector2Array(3.496911e-07, -8, 64, -7.999997, 64, 8.000003, -3.496911e-07, 8)
 
 [node name="PlayerPolygon" type="Polygon2D" parent="Pivot" unique_id=1997100830]
-z_index = 9
+z_index = 10
 rotation = 1.5707964
 color = Color(0.40392157, 0.16078432, 0.5254902, 1)
 polygon = PackedVector2Array(0, -40, 20, 20, -20, 20)
@@ -90,7 +94,7 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=1336209488]
-layer = 10
+layer = 80
 
 [node name="Hud" parent="CanvasLayer2" unique_id=30667009 instance=ExtResource("4_55gox")]
 

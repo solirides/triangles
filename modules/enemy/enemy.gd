@@ -17,6 +17,24 @@ var projectile_times = []
 
 @onready var start_frame = Engine.get_physics_frames()
 
+enum ENEMY_TYPE {
+	NONE,
+	HOPPER,
+	TURRET
+}
+
+var enemy_type = ENEMY_TYPE.NONE
+
+const ENEMY_SCENES = {
+	ENEMY_TYPE.NONE: "",
+	ENEMY_TYPE.HOPPER: "res://modules/enemy/hopper.tscn",
+	ENEMY_TYPE.TURRET: "res://modules/enemy/turret.tscn"
+	
+}
+
+func _init() -> void:
+	pass
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
@@ -39,7 +57,7 @@ func shoot(direction:Vector2, speed2, damp=0):
 
 func _on_collision(body: Node2D) -> void:
 	if body.is_in_group("player_projectile"):
-		self.damage(10)
+		self.damage(body.attack_damage)
 		var p = projectile_particle.instantiate()
 		get_tree().get_current_scene().add_child(p)
 		p.global_position = self.global_position

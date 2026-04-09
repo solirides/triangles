@@ -1,4 +1,4 @@
-class_name Turret
+#class_name Turret
 extends Enemy
 
 
@@ -15,6 +15,9 @@ extends Enemy
 
 @onready var burst_timer = $Burst
 var burst_attacking = false
+
+func _init():
+	enemy_type = ENEMY_TYPE.TURRET
 
 func _physics_process(delta:float) -> void:
 	var physics_frame = Engine.get_physics_frames() - start_frame
