@@ -22,6 +22,8 @@ extends RigidBody2D
 #@onready var laser_polygon:Polygon2D = $Pivot/Laser
 @export var camera_controller:Node = null
 
+@export var modifier_cards:Array[ModifierCard] = []
+
 var speed = base_speed
 var health = base_health
 var projectile = preload("res://modules/projectile/player_projectile.tscn")

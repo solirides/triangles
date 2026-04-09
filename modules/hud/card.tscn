@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://x0u5c8rftqfr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4otbn"]
+font_size = 12
+
+[node name="Card" type="Panel" unique_id=2014112755]
+custom_minimum_size = Vector2(70, 100)
+
+[node name="Label" type="Label" parent="." unique_id=1195754027]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "text"
+label_settings = SubResource("LabelSettings_4otbn")
+horizontal_alignment = 1
+autowrap_mode = 2

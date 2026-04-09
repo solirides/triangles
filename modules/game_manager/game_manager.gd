@@ -50,7 +50,8 @@ func advance_game_stage(stage:GAME_STAGE):
 		GAME_STAGE.INITIATION:
 			get_tree().change_scene_to_file("res://scenes/world/initiation.tscn")
 		GAME_STAGE.ROOM_MAP:
-			get_tree().change_scene_to_file("res://scenes/room_map/room_map.tscn")
+			get_tree().change_scene_to_file("res://scenes/world/world.tscn")
+			#get_tree().change_scene_to_file("res://scenes/room_map/room_map.tscn")
 		GAME_STAGE.COMBAT:
 			get_tree().change_scene_to_file("res://scenes/world/world.tscn")
 		_:

@@ -1,5 +1,6 @@
 extends Control
 
+@export var card_container:Node = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -15,3 +16,6 @@ func _process(delta: float) -> void:
 	progress_bar.value = GameManager.player.health
 	progress_bar.max_value = GameManager.player.base_health
 	
+
+func update_cards():
+	pass

@@ -1,9 +1,23 @@
 [gd_scene format=3 uid="uid://c5yf3leqeenvd"]
 
 [ext_resource type="Script" uid="uid://baxkig62f78in" path="res://modules/player/player.gd" id="1_qgxqk"]
+[ext_resource type="Script" uid="uid://d2uitxcfpu7d" path="res://modules/card/modifier_card.gd" id="2_hd5yx"]
 [ext_resource type="Texture2D" uid="uid://e26k6c4wp1kl" path="res://icon.svg" id="2_m7q0d"]
+[ext_resource type="Script" uid="uid://wxd2cdgoukr3" path="res://modules/card/stat_modifier.gd" id="3_5rkg0"]
 [ext_resource type="Shader" uid="uid://d1x1crrs6kwc6" path="res://assets/shaders/backround.gdshader" id="3_m7q0d"]
 [ext_resource type="PackedScene" uid="uid://dg2eqv8aun4ii" path="res://modules/hud/HUD.tscn" id="4_55gox"]
+
+[sub_resource type="Resource" id="Resource_ej5i3"]
+script = ExtResource("3_5rkg0")
+stat = "health"
+modifier = 40.0
+metadata/_custom_type_script = "uid://wxd2cdgoukr3"
+
+[sub_resource type="Resource" id="Resource_dhhsu"]
+script = ExtResource("2_hd5yx")
+modifiers = Array[ExtResource("3_5rkg0")]([SubResource("Resource_ej5i3")])
+description = "this is a test 123"
+metadata/_custom_type_script = "uid://d2uitxcfpu7d"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m7q0d"]
 radius = 20.0
@@ -25,6 +39,7 @@ lock_rotation = true
 script = ExtResource("1_qgxqk")
 pivot = NodePath("Pivot")
 immunity_timer = NodePath("Immunity")
+modifier_cards = Array[ExtResource("2_hd5yx")]([SubResource("Resource_dhhsu")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1441379814]
 shape = SubResource("CircleShape2D_m7q0d")

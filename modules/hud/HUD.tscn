@@ -30,3 +30,23 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 allow_greater = true
 allow_lesser = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=506661141]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="Card" type="Panel" parent="HBoxContainer" unique_id=48284009]
+custom_minimum_size = Vector2(70, 100)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Card" unique_id=1853815778]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "stuff"
