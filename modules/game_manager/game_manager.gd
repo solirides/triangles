@@ -5,6 +5,7 @@ var player:Node = null
 var in_world = false
 var game_stage:GAME_STAGE = GAME_STAGE.NONE
 var autostart = true
+var display_node
 #var enemy_nodes:Array[Node] = []
 
 enum GAME_STAGE {

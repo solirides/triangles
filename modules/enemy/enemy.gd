@@ -17,18 +17,29 @@ var projectile_times = []
 
 @onready var start_frame = Engine.get_physics_frames()
 
-enum ENEMY_TYPE {
+enum EnemyType {
 	NONE,
 	HOPPER,
 	TURRET
 }
 
-var enemy_type = ENEMY_TYPE.NONE
+var enemy_type = EnemyType.NONE
+
+var enemy_state = EnemyState.NONE
+
+enum EnemyState {
+	NONE,
+	MOVE,
+	RANDOM_MOVE,
+	TRACK,
+	ATTACK,
+	RETREAT
+}
 
 const ENEMY_SCENES = {
-	ENEMY_TYPE.NONE: "",
-	ENEMY_TYPE.HOPPER: "res://modules/enemy/hopper.tscn",
-	ENEMY_TYPE.TURRET: "res://modules/enemy/turret.tscn"
+	EnemyType.NONE: "",
+	EnemyType.HOPPER: "res://modules/enemy/hopper.tscn",
+	EnemyType.TURRET: "res://modules/enemy/turret.tscn"
 	
 }
 

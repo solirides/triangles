@@ -1,6 +1,7 @@
 extends Node2D
 
-var queued_enemy:Enemy.ENEMY_TYPE = Enemy.ENEMY_TYPE.TURRET
+@export var instant = false
+var queued_enemy:Enemy.EnemyType = Enemy.EnemyType.TURRET
 var tween:Tween = null
 var target:Node
 
@@ -14,12 +15,13 @@ func _process(delta: float) -> void:
 
 func start_spawning_sequence():
 	tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	for i in range(3):
-		tween.tween_property(self, "modulate", Color(1,1,1,0), 0.4)
-		tween.tween_property(self, "modulate", Color(1,1,1,0.5), 0.4)
-	for i in range(3):
-		tween.tween_property(self, "modulate", Color(1,1,1,0), 0.1)
-		tween.tween_property(self, "modulate", Color(1,1,1,0.5), 0.1)
+	if instant == false:
+		for i in range(3):
+			tween.tween_property(self, "modulate", Color(1,1,1,0), 0.4)
+			tween.tween_property(self, "modulate", Color(1,1,1,0.5), 0.4)
+		for i in range(3):
+			tween.tween_property(self, "modulate", Color(1,1,1,0), 0.1)
+			tween.tween_property(self, "modulate", Color(1,1,1,0.5), 0.1)
 	tween.tween_callback(spawn_enemy)
 
 func spawn_enemy():

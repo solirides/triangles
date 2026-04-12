@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://wxd2cdgoukr3" path="res://modules/card/stat_modifier.gd" id="3_5rkg0"]
 [ext_resource type="Shader" uid="uid://d1x1crrs6kwc6" path="res://assets/shaders/backround.gdshader" id="3_m7q0d"]
 [ext_resource type="PackedScene" uid="uid://dg2eqv8aun4ii" path="res://modules/hud/HUD.tscn" id="4_55gox"]
+[ext_resource type="Script" uid="uid://b1ochpl4h3vwd" path="res://modules/player/constructor.gd" id="7_5rkg0"]
 
 [sub_resource type="Resource" id="Resource_ej5i3"]
 script = ExtResource("3_5rkg0")
@@ -27,6 +28,9 @@ metadata/_custom_type_script = "uid://d2uitxcfpu7d"
 [sub_resource type="CircleShape2D" id="CircleShape2D_m7q0d"]
 radius = 20.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_5rkg0"]
+radius = 12.0
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_55gox"]
 shader = ExtResource("3_m7q0d")
 shader_parameter/cell_size = 16.0
@@ -37,12 +41,13 @@ shader_parameter/offset = Vector2(0, 0)
 shader_parameter/anti_aliasing_factor = 0.01
 shader_parameter/stochastic_samples = 16
 
-[node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot") groups=["player"]]
+[node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot", "hud") groups=["player"]]
 collision_mask = 336
 gravity_scale = 0.0
 lock_rotation = true
 script = ExtResource("1_qgxqk")
 pivot = NodePath("Pivot")
+hud = NodePath("CanvasLayer2/Hud")
 modifier_cards = Array[ExtResource("2_hd5yx")]([SubResource("Resource_dhhsu")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1441379814]
@@ -68,6 +73,12 @@ polygon = PackedVector2Array(0, -40, 20, 20, -20, 20)
 
 [node name="RayCast2D" type="RayCast2D" parent="Pivot" unique_id=1802720414]
 rotation = 1.5707964
+target_position = Vector2(0, -2000)
+collision_mask = 112
+
+[node name="ShapeCast2D" type="ShapeCast2D" parent="Pivot" unique_id=1108973000]
+rotation = 1.5707964
+shape = SubResource("CircleShape2D_5rkg0")
 target_position = Vector2(0, -2000)
 collision_mask = 112
 
@@ -117,6 +128,9 @@ one_shot = true
 [node name="Attack" type="Timer" parent="." unique_id=1209496060]
 wait_time = 0.15
 one_shot = true
+
+[node name="Constructor" type="Node2D" parent="." unique_id=1297639670]
+script = ExtResource("7_5rkg0")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="Immunity" to="." method="_on_invincibility_timeout"]

@@ -85,7 +85,7 @@ func _on_enemy_death():
 func try_next_wave():
 	#print(get_tree().get_nodes_in_group("enemy").size())
 	if wave_i >= enemy_waves.size() - 1:
-		print("level complete")
+		#print("level complete")
 		world_boundary.change_level_collisions("end")
 	elif get_tree().get_nodes_in_group("enemy").size() == 0 and wave_fully_deployed == true:
 		wave_i += 1

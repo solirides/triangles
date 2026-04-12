@@ -10,7 +10,7 @@ enum ModifierType {
 	MULTIPLY
 }
 
-func _init(p_stat, p_modifier, p_modifier_type) -> void:
+func _init(p_stat = "", p_modifier = 0, p_modifier_type = ModifierType.ADD) -> void:
 	stat = p_stat
 	modifier = p_modifier
 	modifier_type = p_modifier_type

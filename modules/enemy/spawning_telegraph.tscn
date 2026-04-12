@@ -4,6 +4,7 @@
 
 [node name="SpawningTelegraph" type="Node2D" unique_id=1556516457]
 script = ExtResource("1_km8qd")
+instant = true
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=572840387]
 color = Color(0.98, 0.69188, 0.15680003, 0.49803922)

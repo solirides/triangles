@@ -61,6 +61,7 @@ level_size = Vector2(768, 768)
 enemy_waves = Array[ExtResource("2_1yooq")]([SubResource("Resource_5qq27"), SubResource("Resource_bq33v")])
 
 [node name="Display" type="Node2D" parent="." unique_id=1724143098 node_paths=PackedStringArray("player")]
+z_index = 5
 script = ExtResource("4_j2gmx")
 player = NodePath("../Player")
 

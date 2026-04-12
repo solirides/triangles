@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://dg2eqv8aun4ii"]
 
 [ext_resource type="Script" uid="uid://fhyu40t53tvj" path="res://modules/hud/hud.gd" id="1_gridp"]
+[ext_resource type="PackedScene" uid="uid://x0u5c8rftqfr" path="res://modules/hud/card.tscn" id="2_is2uq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_p2nvc"]
 font_size = 24
 font_color = Color(0.57156605, 0.42372668, 1, 1)
 
-[node name="HUD" type="Control" unique_id=30667009]
+[node name="HUD" type="Control" unique_id=30667009 node_paths=PackedStringArray("card_container")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,11 +15,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gridp")
+card_container = NodePath("CardHand")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1806011036]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = -1
+offset_left = 24.0
+offset_top = 24.0
 
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=196264555]
 layout_mode = 2
@@ -31,22 +34,17 @@ layout_mode = 2
 allow_greater = true
 allow_lesser = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=506661141]
+[node name="CardHand" type="HBoxContainer" parent="." unique_id=506661141]
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = -1
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -128.0
+offset_bottom = -28.0
 grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
 
-[node name="Card" type="Panel" parent="HBoxContainer" unique_id=48284009]
-custom_minimum_size = Vector2(70, 100)
+[node name="Card" parent="CardHand" unique_id=2014112755 instance=ExtResource("2_is2uq")]
 layout_mode = 2
-
-[node name="Label" type="Label" parent="HBoxContainer/Card" unique_id=1853815778]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "stuff"

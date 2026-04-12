@@ -9,6 +9,9 @@ var width = 4
 var draw_shape_progress = false
 var partial_shape = []
 
+func init():
+	GameManager.display_node = self
+
 func _ready() -> void:
 	queue_redraw()
 
