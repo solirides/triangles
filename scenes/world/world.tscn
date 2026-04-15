@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://dcf6smbhg037i" path="res://modules/display/display.gd" id="4_j2gmx"]
 [ext_resource type="Texture2D" uid="uid://bdyr6bkl6pq07" path="res://assets/textures/hallway_gradient.tres" id="6_j2gmx"]
 [ext_resource type="Script" uid="uid://cc5x7w1j4a7a3" path="res://scenes/world/world_boundry.gd" id="6_t5ptc"]
+[ext_resource type="Script" uid="uid://dh4rtf3xfxdcg" path="res://scenes/world/visual_boundary.gd" id="7_1yooq"]
 
 [sub_resource type="Resource" id="Resource_1yooq"]
 script = ExtResource("3_gb53w")
@@ -20,14 +21,21 @@ metadata/_custom_type_script = "uid://c4ittu41lutv"
 [sub_resource type="Resource" id="Resource_j2gmx"]
 script = ExtResource("3_gb53w")
 enemy_type = 1
-count = 10
+count = 5
+duration = 3.0
+pattern = 1
+metadata/_custom_type_script = "uid://c4ittu41lutv"
+
+[sub_resource type="Resource" id="Resource_dlabj"]
+script = ExtResource("3_gb53w")
+enemy_type = 3
 duration = 3.0
 pattern = 1
 metadata/_custom_type_script = "uid://c4ittu41lutv"
 
 [sub_resource type="Resource" id="Resource_5qq27"]
 script = ExtResource("2_1yooq")
-sequences = Array[ExtResource("3_gb53w")]([SubResource("Resource_1yooq"), SubResource("Resource_j2gmx")])
+sequences = Array[ExtResource("3_gb53w")]([SubResource("Resource_1yooq"), SubResource("Resource_j2gmx"), SubResource("Resource_dlabj")])
 metadata/_custom_type_script = "uid://digvmwomjxmvw"
 
 [sub_resource type="Resource" id="Resource_gb53w"]
@@ -54,6 +62,10 @@ size = Vector2(256, 512)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1yooq"]
 size = Vector2(256, 256)
+
+[sub_resource type="Environment" id="Environment_1yooq"]
+glow_enabled = true
+glow_bloom = 1.0
 
 [node name="World" type="Node2D" unique_id=882223013]
 script = ExtResource("1_bq33v")
@@ -132,6 +144,9 @@ shape = SubResource("RectangleShape2D_1yooq")
 position = Vector2(-128, -384)
 shape = SubResource("RectangleShape2D_1yooq")
 
+[node name="VisualBoundary" type="Node2D" parent="." unique_id=94620768]
+script = ExtResource("7_1yooq")
+
 [node name="CameraController" parent="." unique_id=971771314 node_paths=PackedStringArray("player") instance=ExtResource("3_t5ptc")]
 player = NodePath("../Player")
 
@@ -140,5 +155,9 @@ position = Vector2(-896, 0)
 display = NodePath("../Display")
 camera_controller = NodePath("../CameraController")
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=923867227]
+environment = SubResource("Environment_1yooq")
+
+[connection signal="boundary_changed" from="WorldBoundary" to="VisualBoundary" method="_on_world_boundary_boundary_changed"]
 [connection signal="body_entered" from="WorldBoundary/StaticBody2D/Exit" to="WorldBoundary" method="_on_exit_body_entered"]
 [connection signal="body_entered" from="WorldBoundary/StaticBody2D/Entrance" to="WorldBoundary" method="_on_entrance_body_entered"]

@@ -4,9 +4,10 @@
 [ext_resource type="Script" uid="uid://d2uitxcfpu7d" path="res://modules/card/modifier_card.gd" id="2_hd5yx"]
 [ext_resource type="Texture2D" uid="uid://e26k6c4wp1kl" path="res://icon.svg" id="2_m7q0d"]
 [ext_resource type="Script" uid="uid://wxd2cdgoukr3" path="res://modules/card/stat_modifier.gd" id="3_5rkg0"]
-[ext_resource type="Shader" uid="uid://d1x1crrs6kwc6" path="res://assets/shaders/backround.gdshader" id="3_m7q0d"]
+[ext_resource type="Shader" uid="uid://d1x1crrs6kwc6" path="res://assets/shaders/background.gdshader" id="3_m7q0d"]
 [ext_resource type="PackedScene" uid="uid://dg2eqv8aun4ii" path="res://modules/hud/HUD.tscn" id="4_55gox"]
 [ext_resource type="Script" uid="uid://b1ochpl4h3vwd" path="res://modules/player/constructor.gd" id="7_5rkg0"]
+[ext_resource type="PackedScene" uid="uid://bqqwkp4v0ui02" path="res://modules/menu/pause_menu.tscn" id="7_ej5i3"]
 
 [sub_resource type="Resource" id="Resource_ej5i3"]
 script = ExtResource("3_5rkg0")
@@ -31,6 +32,9 @@ radius = 20.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_5rkg0"]
 radius = 12.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ej5i3"]
+radius = 100.0
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_55gox"]
 shader = ExtResource("3_m7q0d")
 shader_parameter/cell_size = 16.0
@@ -41,13 +45,14 @@ shader_parameter/offset = Vector2(0, 0)
 shader_parameter/anti_aliasing_factor = 0.01
 shader_parameter/stochastic_samples = 16
 
-[node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot", "hud") groups=["player"]]
+[node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot", "hud", "menu") groups=["player"]]
 collision_mask = 336
 gravity_scale = 0.0
 lock_rotation = true
 script = ExtResource("1_qgxqk")
 pivot = NodePath("Pivot")
-hud = NodePath("CanvasLayer2/Hud")
+hud = NodePath("HudCanvas/Hud")
+menu = NodePath("HudCanvas/Menu")
 modifier_cards = Array[ExtResource("2_hd5yx")]([SubResource("Resource_dhhsu")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1441379814]
@@ -60,11 +65,6 @@ texture = ExtResource("2_m7q0d")
 [node name="Pivot" type="Node2D" parent="." unique_id=838123745]
 rotation = -1.5707964
 
-[node name="Laser" type="Polygon2D" parent="Pivot" unique_id=2016252300]
-visible = false
-scale = Vector2(30, 1)
-polygon = PackedVector2Array(3.496911e-07, -8, 64, -7.999997, 64, 8.000003, -3.496911e-07, 8)
-
 [node name="PlayerPolygon" type="Polygon2D" parent="Pivot" unique_id=1997100830]
 z_index = 10
 rotation = 1.5707964
@@ -73,6 +73,7 @@ polygon = PackedVector2Array(0, -40, 20, 20, -20, 20)
 
 [node name="RayCast2D" type="RayCast2D" parent="Pivot" unique_id=1802720414]
 rotation = 1.5707964
+enabled = false
 target_position = Vector2(0, -2000)
 collision_mask = 112
 
@@ -82,10 +83,15 @@ shape = SubResource("CircleShape2D_5rkg0")
 target_position = Vector2(0, -2000)
 collision_mask = 112
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=480853716]
+[node name="Area2D" type="Area2D" parent="Pivot" unique_id=1023967298]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/Area2D" unique_id=1993871666]
+shape = SubResource("CircleShape2D_ej5i3")
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=480853716]
 layer = -5
 
-[node name="Background" type="ColorRect" parent="CanvasLayer" unique_id=1373473395]
+[node name="Background" type="ColorRect" parent="Background" unique_id=1373473395]
 visible = false
 material = SubResource("ShaderMaterial_55gox")
 anchors_preset = 15
@@ -95,7 +101,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="Background2" type="ColorRect" parent="CanvasLayer" unique_id=1615889065]
+[node name="Background2" type="ColorRect" parent="Background" unique_id=1615889065]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -104,10 +110,12 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=1336209488]
+[node name="HudCanvas" type="CanvasLayer" parent="." unique_id=1336209488]
 layer = 80
 
-[node name="Hud" parent="CanvasLayer2" unique_id=30667009 instance=ExtResource("4_55gox")]
+[node name="Hud" parent="HudCanvas" unique_id=30667009 instance=ExtResource("4_55gox")]
+
+[node name="Menu" parent="HudCanvas" unique_id=1620312716 instance=ExtResource("7_ej5i3")]
 
 [node name="Area2D" type="Area2D" parent="." unique_id=610400639]
 collision_layer = 4

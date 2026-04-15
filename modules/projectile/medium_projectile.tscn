@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dm4d4v6p312su"]
+
+[ext_resource type="Script" uid="uid://cjvxp8kvpxuyb" path="res://modules/projectile/enemy_projectile.gd" id="1_msers"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_msers"]
+radius = 32.0
+
+[node name="Projectile" type="RigidBody2D" unique_id=401635129 groups=["enemy_projectile"]]
+collision_layer = 32
+collision_mask = 4
+mass = 10.0
+gravity_scale = 0.0
+script = ExtResource("1_msers")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=249838691]
+shape = SubResource("CircleShape2D_msers")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1496397624]
+color = Color(0.98, 0.69188, 0.15680003, 1)
+polygon = PackedVector2Array(0, -32, 23, -23, 32, 0, 23, 23, 0, 32, -23, 23, -32, 0, -23, -23)

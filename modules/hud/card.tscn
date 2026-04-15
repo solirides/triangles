@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ctr1g38vgnabs" path="res://modules/hud/card.gd" id="1_cyaum"]
 [ext_resource type="Script" uid="uid://wxd2cdgoukr3" path="res://modules/card/stat_modifier.gd" id="2_38k38"]
 [ext_resource type="Script" uid="uid://d2uitxcfpu7d" path="res://modules/card/modifier_card.gd" id="3_hn3l3"]
+[ext_resource type="FontFile" uid="uid://dwwob7llks7te" path="res://assets/fonts/congruencev1.fnt" id="4_38k38"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4otbn"]
 
@@ -25,19 +26,21 @@ metadata/_custom_type_script = "uid://wxd2cdgoukr3"
 [sub_resource type="Resource" id="Resource_lqntv"]
 script = ExtResource("3_hn3l3")
 modifiers = Array[ExtResource("2_38k38")]([SubResource("Resource_74hof"), SubResource("Resource_7w3v6")])
-description = "this is a card"
+description = "This is a card."
 metadata/_custom_type_script = "uid://d2uitxcfpu7d"
 
 [sub_resource type="LabelSettings" id="LabelSettings_4otbn"]
-font_size = 12
+font = ExtResource("4_38k38")
+font_size = 24
 
 [node name="Card" type="Panel" unique_id=2014112755]
-custom_minimum_size = Vector2(70, 100)
+custom_minimum_size = Vector2(120, 160)
 theme = SubResource("Theme_60vxa")
 script = ExtResource("1_cyaum")
 modifier_card = SubResource("Resource_lqntv")
 
 [node name="Label" type="Label" parent="." unique_id=1195754027]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

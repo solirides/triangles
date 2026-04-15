@@ -25,6 +25,7 @@ extends RigidBody2D
 #@onready var laser_polygon:Polygon2D = $Pivot/Laser
 @export var camera_controller:Node = null
 @export var hud:Node = null
+@export var menu:Node = null
 
 @export var modifier_cards:Array[ModifierCard] = []
 
@@ -207,8 +208,14 @@ func damage(amount:int) -> bool:
 		print("player health:" + str(health))
 		on_hit()
 		if health <= 0:
-			pass
+			game_over()
 		return true
+
+func game_over():
+	GameManager.game_over()
+	menu.game_over()
+	
+	
 
 func _on_invincibility_timeout() -> void:
 	damage_immunity = false

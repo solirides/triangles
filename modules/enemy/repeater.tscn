@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://b5rw06c2hvcd8"]
+
+[ext_resource type="Script" uid="uid://chd6s0doddlb7" path="res://modules/enemy/repeater.gd" id="1_tqsjj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4cjfe"]
+
+[node name="Repeater" type="RigidBody2D" unique_id=471362178 groups=["enemy"]]
+collision_layer = 16
+collision_mask = 259
+mass = 75.0
+gravity_scale = 0.0
+lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 5
+script = ExtResource("1_tqsjj")
+tracking_time = null
+hop_time = null
+attack_time = null
+attack_duration = null
+attack_frequency = null
+attack_spread = null
+separation_weight = null
+hop_impulse = null
+movement_speed = null
+projectile_speed = null
+projectile_lifetime = null
+despawn_bullets_on_death = null
+base_health = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1482862311]
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_4cjfe")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1253832347]
+scale = Vector2(2, 2)
+color = Color(0.98039216, 0.6901961, 0.15686275, 1)
+polygon = PackedVector2Array(10, -10, 10, 10, -10, 10, -10, -10)
+
+[node name="Polygon2D2" type="Polygon2D" parent="." unique_id=912615443]
+rotation = 0.7853982
+scale = Vector2(2, 2)
+color = Color(0.98039216, 0.6901961, 0.15686275, 1)
+polygon = PackedVector2Array(10, -10, 10, 10, -10, 10, -10, -10)
+
+[node name="StateTimer" type="Timer" parent="." unique_id=599990247]
+process_callback = 0
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="StateTimer" to="." method="_on_state_timer_timeout"]

@@ -20,7 +20,8 @@ var projectile_times = []
 enum EnemyType {
 	NONE,
 	HOPPER,
-	TURRET
+	TURRET,
+	REPEATER
 }
 
 var enemy_type = EnemyType.NONE
@@ -39,8 +40,27 @@ enum EnemyState {
 const ENEMY_SCENES = {
 	EnemyType.NONE: "",
 	EnemyType.HOPPER: "res://modules/enemy/hopper.tscn",
-	EnemyType.TURRET: "res://modules/enemy/turret.tscn"
+	EnemyType.TURRET: "res://modules/enemy/turret.tscn",
+	EnemyType.REPEATER: "res://modules/enemy/repeater.tscn"
 	
+}
+
+@export var state_pre_delays:Dictionary = {
+	EnemyState.NONE: 0.0,
+	EnemyState.MOVE: 0.0,
+	EnemyState.RANDOM_MOVE: 0.0,
+	EnemyState.TRACK: 0.0,
+	EnemyState.ATTACK: 0.0,
+	EnemyState.RETREAT: 0.0
+}
+
+@export var state_post_delays:Dictionary = {
+	EnemyState.NONE: 0.3,
+	EnemyState.MOVE: 0.3,
+	EnemyState.RANDOM_MOVE: 0.3,
+	EnemyState.TRACK: 0.3,
+	EnemyState.ATTACK: 0.3,
+	EnemyState.RETREAT: 0.3
 }
 
 func _init() -> void:

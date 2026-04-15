@@ -11,18 +11,18 @@ config_version=5
 [application]
 
 config/name="triangles"
+config/version="0.1.0"
 run/main_scene="uid://b6s5nvx8oven6"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-GameManager="*uid://df0pfj50u4jkj"
+GameManager="*uid://gqblwfev53ok"
 
 [display]
 
 window/stretch/mode="canvas_items"
-window/stretch/scale_mode="integer"
 
 [global_group]
 

@@ -1,15 +1,16 @@
 extends Node
 
+@export var autostart = false
 
 var player:Node = null
 var in_world = false
 var game_stage:GAME_STAGE = GAME_STAGE.NONE
-var autostart = true
 var display_node
 #var enemy_nodes:Array[Node] = []
 
 enum GAME_STAGE {
 	NONE,
+	MENU,
 	INITIATION,
 	ROOM_MAP,
 	COMBAT,
@@ -20,6 +21,7 @@ signal enemy_death()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	process_mode = ProcessMode.PROCESS_MODE_ALWAYS
 	get_tree().set_auto_accept_quit(false)
 	get_window().grab_focus()
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
@@ -31,6 +33,7 @@ func _process(delta: float) -> void:
 	pass
 
 func start_game():
+	#print("START")
 	advance_game_stage(GAME_STAGE.INITIATION)
 
 func _input(event: InputEvent) -> void:
@@ -50,10 +53,13 @@ func set_in_world(state:bool):
 	
 
 func advance_game_stage(stage:GAME_STAGE):
+	get_tree().paused = false
 	game_stage = stage
 	match game_stage:
 		GAME_STAGE.NONE:
 			get_tree().change_scene_to_file("res://scenes/world/initiation.tscn")
+		GAME_STAGE.MENU:
+			get_tree().change_scene_to_file("res://modules/menu/main_menu.tscn")
 		GAME_STAGE.INITIATION:
 			get_tree().change_scene_to_file("res://scenes/world/initiation.tscn")
 		GAME_STAGE.ROOM_MAP:
@@ -74,3 +80,12 @@ func _notification(what):
 
 func _on_enemy_death():
 	enemy_death.emit()
+
+func restart():
+	advance_game_stage(GAME_STAGE.INITIATION)
+
+func main_menu():
+	advance_game_stage(GAME_STAGE.MENU)
+
+func game_over():
+	get_tree().paused = true

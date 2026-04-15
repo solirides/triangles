@@ -7,6 +7,8 @@ extends Node2D
 
 @onready var world = $".."
 
+signal boundary_changed(shapes:Array)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	change_level_collisions("start")
@@ -28,15 +30,21 @@ func change_level_collisions(state:String):
 			polygons[0].visible = true
 			collision_shapes[0].set_deferred("disabled", false)
 			entrance_gradient.visible = true
+			boundary_changed.emit([collision_shapes[0]])
 		"combat":
 			polygons[1].visible = true
 			collision_shapes[1].set_deferred("disabled", false)
+			boundary_changed.emit([collision_shapes[1]])
 		"end":
 			polygons[2].visible = true
 			collision_shapes[2].set_deferred("disabled", false)
 			exit_gradient.visible = true
+			boundary_changed.emit([collision_shapes[2]])
 		_:
 			pass
+	
+	#call_deferred("boundary_changed.emit")
+	#boundary_changed.emit()
 
 #func _on_area_2d_body_entered(body: Node2D) -> void:
 	#if body.is_in_group("enemy_projectile"):
