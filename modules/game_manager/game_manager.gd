@@ -20,6 +20,7 @@ enum GAME_STAGE {
 }
 
 signal enemy_death()
+signal player_node_ready()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

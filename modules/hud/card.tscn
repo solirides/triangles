@@ -1,43 +1,47 @@
 [gd_scene format=3 uid="uid://x0u5c8rftqfr"]
 
+[ext_resource type="Theme" uid="uid://c63a8itehl75n" path="res://assets/themes/card.tres" id="1_74hof"]
 [ext_resource type="Script" uid="uid://ctr1g38vgnabs" path="res://modules/hud/card.gd" id="1_cyaum"]
 [ext_resource type="Script" uid="uid://wxd2cdgoukr3" path="res://modules/card/stat_modifier.gd" id="2_38k38"]
 [ext_resource type="Script" uid="uid://d2uitxcfpu7d" path="res://modules/card/modifier_card.gd" id="3_hn3l3"]
-[ext_resource type="FontFile" uid="uid://dwwob7llks7te" path="res://assets/fonts/congruencev1.fnt" id="4_38k38"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4otbn"]
-
-[sub_resource type="Theme" id="Theme_60vxa"]
-Panel/styles/panel = SubResource("StyleBoxFlat_4otbn")
+[ext_resource type="Texture2D" uid="uid://bkbqo2ypekc4v" path="res://assets/textures/icons/shot_count.png" id="6_7w3v6"]
 
 [sub_resource type="Resource" id="Resource_74hof"]
 script = ExtResource("2_38k38")
 stat = "health"
-modifier = -40.0
+modifier_value = 55.0
 metadata/_custom_type_script = "uid://wxd2cdgoukr3"
 
 [sub_resource type="Resource" id="Resource_7w3v6"]
 script = ExtResource("2_38k38")
 stat = "attack_speed"
-modifier = 200.0
+modifier_value = 50.0
 modifier_type = 1
 metadata/_custom_type_script = "uid://wxd2cdgoukr3"
 
 [sub_resource type="Resource" id="Resource_lqntv"]
 script = ExtResource("3_hn3l3")
 modifiers = Array[ExtResource("2_38k38")]([SubResource("Resource_74hof"), SubResource("Resource_7w3v6")])
-description = "This is a card."
+description = "+25% attack speed
+-50% max health
+this is fake"
 metadata/_custom_type_script = "uid://d2uitxcfpu7d"
 
-[sub_resource type="LabelSettings" id="LabelSettings_4otbn"]
-font = ExtResource("4_38k38")
-font_size = 24
+[sub_resource type="SystemFont" id="SystemFont_hn3l3"]
+subpixel_positioning = 0
 
-[node name="Card" type="Panel" unique_id=2014112755]
+[sub_resource type="LabelSettings" id="LabelSettings_4otbn"]
+font = SubResource("SystemFont_hn3l3")
+font_size = 12
+
+[node name="Card" type="Panel" unique_id=2014112755 node_paths=PackedStringArray("icon")]
 custom_minimum_size = Vector2(120, 160)
-theme = SubResource("Theme_60vxa")
+offset_right = 120.0
+offset_bottom = 160.0
+theme = ExtResource("1_74hof")
 script = ExtResource("1_cyaum")
 modifier_card = SubResource("Resource_lqntv")
+icon = NodePath("Icon")
 
 [node name="Label" type="Label" parent="." unique_id=1195754027]
 texture_filter = 1
@@ -45,9 +49,19 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 48.0
+offset_bottom = 48.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "text"
+text = "+25% attack speed
+-50% max health"
 label_settings = SubResource("LabelSettings_4otbn")
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[node name="Icon" type="TextureRect" parent="." unique_id=1860972614]
+texture_filter = 1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("6_7w3v6")

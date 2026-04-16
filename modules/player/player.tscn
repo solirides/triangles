@@ -12,13 +12,10 @@
 
 [sub_resource type="Resource" id="Resource_ej5i3"]
 script = ExtResource("3_5rkg0")
-stat = "health"
-modifier = 40.0
 metadata/_custom_type_script = "uid://wxd2cdgoukr3"
 
 [sub_resource type="Resource" id="Resource_hd5yx"]
 script = ExtResource("3_5rkg0")
-stat = "attack_speed"
 metadata/_custom_type_script = "uid://wxd2cdgoukr3"
 
 [sub_resource type="Resource" id="Resource_dhhsu"]
@@ -121,6 +118,7 @@ layer = 80
 [node name="Menu" parent="HudCanvas" unique_id=1620312716 instance=ExtResource("7_ej5i3")]
 
 [node name="Cursor" type="Node2D" parent="HudCanvas" unique_id=2072210503]
+process_mode = 3
 script = ExtResource("8_dhhsu")
 
 [node name="Polygon2D" type="Polygon2D" parent="HudCanvas/Cursor" unique_id=1234192016]

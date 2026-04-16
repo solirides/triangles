@@ -7,7 +7,7 @@ extends RigidBody2D
 @export var decel = 0.3
 @export var base_speed = 320
 @export var drag = 0.1
-@export var aim_speed_multiplier = 0.6
+#@export var aim_speed_multiplier = 0.6
 @export_category("Attack")
 @export var base_health:int = 100
 @export var base_attack_damage:int = 10
@@ -29,10 +29,17 @@ extends RigidBody2D
 
 @export var modifier_cards:Array[ModifierCard] = []
 
-var speed = base_speed
-var health = base_health
-var attack_speed = base_attack_speed
-var attack_damage = base_attack_damage
+#var speed = base_speed
+#var health = base_health
+#var attack_speed = base_attack_speed
+#var attack_damage = base_attack_damage
+
+var stats = {
+	"speed": Stat.new("speed", "", base_speed, 10),
+	"health": Stat.new("health", "", base_health, 1),
+	"attack_speed": Stat.new("attack_speed", "", base_attack_speed, 0.1),
+	"attack_damage": Stat.new("attack_damage", "", base_attack_damage)
+}
 
 var projectile = preload("res://modules/projectile/player_projectile.tscn")
 var turret = preload("res://modules/enemy/turret.tscn")
@@ -49,11 +56,14 @@ var aiming = false
 func _ready() -> void:
 	GameManager.player = self
 	
-	attack_cooldown_timer.wait_time = 1 / attack_speed
+	attack_cooldown_timer.wait_time = 1 / get_stat("attack_speed")
 	immunity_timer.wait_time = damage_immunity_time
 	
 	recalculate_stats()
+	
 	#laser_polygon.scale.y = 0
+	GameManager.player_node_ready.emit()
+	
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	#var vec = Input.get_vector("move_left","move_right","move_up","move_down")
@@ -73,9 +83,9 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		#print("moving")
 		if const_movement_velocity:
 			# move at const velocity (no delta needed)
-			state.linear_velocity = vec * speed
+			state.linear_velocity = vec * get_stat("speed")
 		else:
-			state.apply_central_force(vec * mass * speed)
+			state.apply_central_force(vec * mass * get_stat("speed"))
 			#state.apply_central_force(mass * (vec * speed / movement_damping - linear_velocity * movement_damping))
 			#state.linear_velocity = state.linear_velocity.lerp(Vector2.ZERO, movement_damping)
 			# a = F/m = (f-d)/m = (f-(v*u))/m
@@ -92,7 +102,7 @@ func _physics_process(delta: float) -> void:
 		# set aiming = true after delay
 		$Aim.start(0.2)
 		#$Aim.timeout.connect(func(): aiming = true)
-		speed = base_speed * aim_speed_multiplier
+		#speed = base_speed * aim_speed_multiplier
 		# animate camera zoom
 		aim_tween.kill()
 		aim_tween = get_tree().create_tween()
@@ -101,7 +111,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_released("special1"):
 		$Aim.stop()
 		aiming = false
-		speed = base_speed
+		#speed = base_speed
 		# animate camera zoom
 		#var tween = get_tree().create_tween()
 		aim_tween.kill()
@@ -111,13 +121,13 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_pressed("special2"):
 		if attack_cooldown_timer.time_left == 0:
-			attack_cooldown_timer.start(1 / attack_speed)
+			attack_cooldown_timer.start(1 / get_stat("attack_speed"))
 			var direction = (get_global_mouse_position()-self.global_position).normalized()
 			shoot(direction, projectile_speed)
 		
 	if Input.is_action_pressed("primary"):
 		if attack_cooldown_timer.time_left == 0:
-			attack_cooldown_timer.start(1 / attack_speed)
+			attack_cooldown_timer.start(1 / get_stat("attack_speed"))
 			var direction = (get_global_mouse_position()-self.global_position).normalized()
 			var spread = 0.1
 			for i in range(-2,3):
@@ -126,7 +136,7 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_pressed("secondary"):
 		if attack_cooldown_timer.time_left == 0:
-			attack_cooldown_timer.start(1 / attack_speed)
+			attack_cooldown_timer.start(1 / get_stat("attack_speed"))
 			raycast.force_shapecast_update()
 			var hit = false
 			while raycast.is_colliding():
@@ -206,10 +216,10 @@ func damage(amount:int) -> bool:
 		#print("player hit!")
 		damage_immunity = true
 		$Immunity.start()
-		health -= amount
-		print("player health:" + str(health))
+		set_stat("health", get_stat("health")-amount)
+		print("player health:" + str(get_stat("health")))
 		on_hit()
-		if health <= 0:
+		if get_stat("health") <= 0:
 			game_over()
 		return true
 
@@ -232,7 +242,7 @@ func shoot(direction:Vector2, speed2, damp=0, inherited_velocity=Vector2.ZERO):
 	#a.look_at(get_global_mouse_position())
 	a.rotate(direction.angle())
 	a.despawn_frame = projectile_lifetime * Engine.physics_ticks_per_second + Engine.get_physics_frames()
-	a.attack_damage = attack_damage
+	a.attack_damage = get_stat("attack_damage")
 	get_tree().get_current_scene().add_child(a)
 
 func dash(direction:Vector2, impulse, duration, damp):
@@ -248,29 +258,46 @@ func recalculate_stats():
 	var cards = hud.card_container.get_children()
 	var addends = {}
 	var multipliers = {}
-	var stats = ["health", "attack_speed", "attack_damage", "speed"]
-	for stat in stats:
+	#var stats = ["health", "attack_speed", "attack_damage", "speed"]
+	for stat in self.stats.keys():
 		addends[stat] = 0
 		multipliers[stat] = 0
 	
-	for card in cards:
+	for card_node in cards:
+		#print(card_node)
+		#print(card_node.modifier_card.modifiers)
 		#card.modifier_card
-		for stat in card.modifier_card.modifiers:
-			if get(stat.stat) == null:
+		for modifier in card_node.modifier_card.modifiers:
+			print(modifier)
+			if modifier.stat not in self.stats.keys():
 				continue
-			match stat.modifier_type:
+			match modifier.modifier_type:
 				StatModifier.ModifierType.ADD:
-					addends[stat.stat] += stat.modifier
+					addends[modifier.stat] += modifier.modifier_value
 				StatModifier.ModifierType.MULTIPLY:
-					multipliers[stat.stat] += stat.modifier
+					multipliers[modifier.stat] += modifier.modifier_value
 					#set(stat.stat, get(stat.stat)
 			#print(stat.stat)
 			#print(get(stat.stat))
 	
-	for stat in stats:
-		set(stat, get(stat) + addends[stat])
-		set(stat, get(stat) * (1.0 + multipliers[stat]/100.0))
-		print(stat)
-		print(get(stat))
+	for stat_name in self.stats.keys():
+		var stat = self.stats[stat_name]
+		stat.modified_value = stat.base_value
+		stat.modified_value += addends[stat_name]
+		stat.modified_value *= (1.0 + multipliers[stat_name]/100.0)
+		stat.modified_value = clampf(stat.modified_value, stat.min_value, stat.max_value)
+		stat.value = stat.modified_value
+		#set(stat_name, get(stat_name) + addends[stat_name])
+		#set(stat_name, get(stat_name) * (1.0 + multipliers[stat_name]/100.0))
+		print_rich("[color=blue][b]" + stat_name)
+		print("base stat_name:" + str(stat.base_value))
+		print("modified stat_name: " + str(stat.modified_value))
+		print("actual value: " + str(stat.value))
 	
+
+func get_stat(stat:String):
+	return self.stats[stat].value
+
+func set_stat(stat:String, value:float):
+	self.stats[stat].value = value
 	

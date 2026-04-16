@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dg2eqv8aun4ii"]
 
 [ext_resource type="Script" uid="uid://fhyu40t53tvj" path="res://modules/hud/hud.gd" id="1_gridp"]
+[ext_resource type="Script" uid="uid://dn55x2g7mlpyk" path="res://modules/hud/card_hand.gd" id="2_eqwjg"]
 [ext_resource type="PackedScene" uid="uid://x0u5c8rftqfr" path="res://modules/hud/card.tscn" id="2_is2uq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_p2nvc"]
@@ -45,6 +46,7 @@ offset_bottom = -28.0
 grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
+script = ExtResource("2_eqwjg")
 
 [node name="Card" parent="CardHand" unique_id=2014112755 instance=ExtResource("2_is2uq")]
 layout_mode = 2

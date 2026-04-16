@@ -6,14 +6,14 @@ extends Entity
 @export var movement_speed = 320
 #### projectile speed
 @export var projectile_speed = 480
-### projectile lifetime in seconds
+### max projectile lifetime in seconds
 @export var projectile_lifetime = 10
 @export var despawn_bullets_on_death:bool = false
 
 var projectile = preload("res://modules/projectile/projectile.tscn")
 var projectile_particle = preload("res://modules/projectile/projectile_particle.tscn")
 var projectiles = []
-var projectile_times = []
+#var projectile_times = []
 
 @onready var start_frame = Engine.get_physics_frames()
 
@@ -106,14 +106,3 @@ func _exit_tree():
 		for node in projectiles:
 			node.queue_free()
 	
-
-func despawn_bullets():
-	var physics_frame = Engine.get_physics_frames() - start_frame
-	# delete projectiles if over max lifetime
-	for i in projectile_times.size():
-		if projectile_times[i][0] <= physics_frame:
-			if projectile_times[i][1] != null:
-				projectile_times[i][1].queue_free()
-			projectile_times.remove_at(i)
-		else:
-			break
