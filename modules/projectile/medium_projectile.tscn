@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dm4d4v6p312su"]
 
 [ext_resource type="Script" uid="uid://cjvxp8kvpxuyb" path="res://modules/projectile/enemy_projectile.gd" id="1_msers"]
+[ext_resource type="Texture2D" uid="uid://tjfg7o3fra3g" path="res://assets/textures/bullet_2.png" id="2_xt8sj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_msers"]
 radius = 32.0
@@ -16,5 +17,11 @@ script = ExtResource("1_msers")
 shape = SubResource("CircleShape2D_msers")
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=1496397624]
+visible = false
 color = Color(0.98, 0.69188, 0.15680003, 1)
 polygon = PackedVector2Array(0, -32, 23, -23, 32, 0, 23, 23, 0, 32, -23, 23, -32, 0, -23, -23)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=393551169]
+texture_filter = 1
+scale = Vector2(4, 4)
+texture = ExtResource("2_xt8sj")

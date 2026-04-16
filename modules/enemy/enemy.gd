@@ -3,11 +3,11 @@ extends Entity
 
 @export_group("Enemy")
 @export var target:Node = null
-@export var movement_speed = 300
+@export var movement_speed = 320
 #### projectile speed
-@export var projectile_speed = 300
+@export var projectile_speed = 480
 ### projectile lifetime in seconds
-@export var projectile_lifetime = 5
+@export var projectile_lifetime = 10
 @export var despawn_bullets_on_death:bool = false
 
 var projectile = preload("res://modules/projectile/projectile.tscn")
@@ -80,7 +80,8 @@ func shoot(direction:Vector2, speed2, damp=0):
 	a.linear_velocity = direction.normalized() * speed2
 	a.linear_damp = damp
 	a.rotate(direction.angle())
-	a.despawn_frame = projectile_lifetime * Engine.physics_ticks_per_second + Engine.get_physics_frames()
+	#a.despawn_frame = projectile_lifetime * Engine.physics_ticks_per_second + Engine.get_physics_frames()
+	a.despawn_frame = EnemyProjectile.calculate_despawn_frame(projectile_lifetime, speed2, GameManager.approximate_bounds.size, damp)
 	get_tree().get_current_scene().add_child(a)
 	#projectiles.append(a)
 	#projectile_times.append([Engine.get_physics_frames() + int(projectile_lifetime * 60), a])

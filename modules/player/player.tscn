@@ -2,12 +2,13 @@
 
 [ext_resource type="Script" uid="uid://baxkig62f78in" path="res://modules/player/player.gd" id="1_qgxqk"]
 [ext_resource type="Script" uid="uid://d2uitxcfpu7d" path="res://modules/card/modifier_card.gd" id="2_hd5yx"]
-[ext_resource type="Texture2D" uid="uid://e26k6c4wp1kl" path="res://icon.svg" id="2_m7q0d"]
 [ext_resource type="Script" uid="uid://wxd2cdgoukr3" path="res://modules/card/stat_modifier.gd" id="3_5rkg0"]
 [ext_resource type="Shader" uid="uid://d1x1crrs6kwc6" path="res://assets/shaders/background.gdshader" id="3_m7q0d"]
 [ext_resource type="PackedScene" uid="uid://dg2eqv8aun4ii" path="res://modules/hud/HUD.tscn" id="4_55gox"]
+[ext_resource type="Script" uid="uid://dehefxybmfutj" path="res://modules/player/shotgun.gd" id="4_ej5i3"]
 [ext_resource type="Script" uid="uid://b1ochpl4h3vwd" path="res://modules/player/constructor.gd" id="7_5rkg0"]
 [ext_resource type="PackedScene" uid="uid://bqqwkp4v0ui02" path="res://modules/menu/pause_menu.tscn" id="7_ej5i3"]
+[ext_resource type="Script" uid="uid://d37h2bxlg3xmu" path="res://modules/hud/cursor.gd" id="8_dhhsu"]
 
 [sub_resource type="Resource" id="Resource_ej5i3"]
 script = ExtResource("3_5rkg0")
@@ -58,9 +59,10 @@ modifier_cards = Array[ExtResource("2_hd5yx")]([SubResource("Resource_dhhsu")])
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1441379814]
 shape = SubResource("CircleShape2D_m7q0d")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1525448314]
-visible = false
-texture = ExtResource("2_m7q0d")
+[node name="Weapons" type="Node2D" parent="." unique_id=1744264634]
+
+[node name="Shotgun" type="Node2D" parent="Weapons" unique_id=1501115287]
+script = ExtResource("4_ej5i3")
 
 [node name="Pivot" type="Node2D" parent="." unique_id=838123745]
 rotation = -1.5707964
@@ -68,8 +70,9 @@ rotation = -1.5707964
 [node name="PlayerPolygon" type="Polygon2D" parent="Pivot" unique_id=1997100830]
 z_index = 10
 rotation = 1.5707964
-color = Color(0.40392157, 0.16078432, 0.5254902, 1)
-polygon = PackedVector2Array(0, -40, 20, 20, -20, 20)
+scale = Vector2(1.5, 1.5)
+color = Color(0.72156864, 0.047058824, 0.03529412, 1)
+polygon = PackedVector2Array(0, -12, 12, 12, -12, 12)
 
 [node name="RayCast2D" type="RayCast2D" parent="Pivot" unique_id=1802720414]
 rotation = 1.5707964
@@ -116,6 +119,12 @@ layer = 80
 [node name="Hud" parent="HudCanvas" unique_id=30667009 instance=ExtResource("4_55gox")]
 
 [node name="Menu" parent="HudCanvas" unique_id=1620312716 instance=ExtResource("7_ej5i3")]
+
+[node name="Cursor" type="Node2D" parent="HudCanvas" unique_id=2072210503]
+script = ExtResource("8_dhhsu")
+
+[node name="Polygon2D" type="Polygon2D" parent="HudCanvas/Cursor" unique_id=1234192016]
+polygon = PackedVector2Array(8, -1, 8, 1, 16, 1, 16, -1)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=610400639]
 collision_layer = 4

@@ -20,6 +20,7 @@ func damage(amount:int):
 	if health <= 0:
 		if dead == false:
 			#GameManager.enemy_nodes.erase(self)
+			GameManager.global_audio.play("enemy_hit")
 			death.emit()
 			#print("dead")
 			# ensure that if multiple projectiles hit simultaneously, this function is only triggered once

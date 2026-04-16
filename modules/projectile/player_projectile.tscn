@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://bo0aj8tvd44mh"]
 
 [ext_resource type="Script" uid="uid://ggxslckvn7iy" path="res://modules/projectile/player_projectile.gd" id="1_uymg5"]
+[ext_resource type="Texture2D" uid="uid://clufrtvg7nq3w" path="res://assets/textures/player_bullet_1.png" id="2_rd0yh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnwvb"]
-size = Vector2(20, 40)
+size = Vector2(10, 16)
 
 [node name="PlayerProjectile" type="RigidBody2D" unique_id=401635129 groups=["player_projectile"]]
 collision_layer = 2
@@ -17,6 +18,13 @@ rotation = 1.5707964
 shape = SubResource("RectangleShape2D_nnwvb")
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=1496397624]
+visible = false
 rotation = 1.5707964
 color = Color(0.75686276, 0, 0.28627452, 1)
 polygon = PackedVector2Array(-10, -20, 10, -20, 10, 20, -10, 20)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1141226800]
+texture_filter = 1
+rotation = -1.5707964
+scale = Vector2(2, 2)
+texture = ExtResource("2_rd0yh")

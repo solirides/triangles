@@ -1,5 +1,6 @@
 extends Node2D
 
+### max x and y distance from center for spawnable area
 @export var level_size:Vector2 = Vector2(500, 300)
 @export var enemy_waves:Array[EnemyWave] = []
 

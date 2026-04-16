@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://ddk5iotbkarud"]
 
-[ext_resource type="Texture2D" uid="uid://e26k6c4wp1kl" path="res://icon.svg" id="1_ry02j"]
 [ext_resource type="Script" uid="uid://dmtglccstond4" path="res://modules/enemy/turret.gd" id="2_shiqy"]
+[ext_resource type="Texture2D" uid="uid://bc6v00gkems6i" path="res://assets/textures/enemy_1.png" id="2_wo5t4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_shiqy"]
-size = Vector2(120, 120)
+size = Vector2(79.99999, 79.99999)
 
 [node name="Turret" type="RigidBody2D" unique_id=1667019865 groups=["enemy"]]
 collision_layer = 16
@@ -19,23 +19,19 @@ script = ExtResource("2_shiqy")
 projectile_speed = 200
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1027678355]
+position = Vector2(-4.7683716e-07, -4.7683716e-07)
 scale = Vector2(0.4, 0.4)
 shape = SubResource("RectangleShape2D_shiqy")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=805245566]
 self_modulate = Color(0.98039216, 0.6901961, 0.15686275, 1)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("1_ry02j")
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("2_wo5t4")
 
 [node name="Burst" type="Timer" parent="." unique_id=510440592]
 process_callback = 0
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1948673073 groups=["enemy"]]
-scale = Vector2(0.4, 0.4)
-collision_layer = 64
-collision_mask = 7
-
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Burst" to="." method="_on_burst_timeout"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_collision"]

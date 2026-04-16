@@ -22,6 +22,8 @@ GameManager="*uid://gqblwfev53ok"
 
 [display]
 
+window/size/viewport_width=1000
+window/size/viewport_height=620
 window/stretch/mode="canvas_items"
 
 [global_group]

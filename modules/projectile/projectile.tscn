@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://cyi0li3bmk6bd"]
 
 [ext_resource type="Script" uid="uid://cjvxp8kvpxuyb" path="res://modules/projectile/enemy_projectile.gd" id="1_jipba"]
+[ext_resource type="Texture2D" uid="uid://0yvr5drdes54" path="res://assets/textures/bullet_1.png" id="2_6b5er"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnwvb"]
+size = Vector2(18, 12)
 
 [node name="Projectile" type="RigidBody2D" unique_id=401635129 groups=["enemy_projectile"]]
 collision_layer = 32
@@ -12,8 +14,17 @@ gravity_scale = 0.0
 script = ExtResource("1_jipba")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=249838691]
+position = Vector2(-1, 0)
 shape = SubResource("RectangleShape2D_nnwvb")
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=1496397624]
+visible = false
 color = Color(0.98, 0.69188, 0.15680003, 1)
 polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1399934625]
+texture_filter = 1
+position = Vector2(-1, 0)
+rotation = -1.5707964
+scale = Vector2(2, 2)
+texture = ExtResource("2_6b5er")

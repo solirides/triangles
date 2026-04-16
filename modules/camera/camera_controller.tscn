@@ -8,11 +8,6 @@ script = ExtResource("1_pf27r")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=656703197]
 
-[node name="Cursor" type="Node2D" parent="." unique_id=1050111284]
-
-[node name="Polygon2D" type="Polygon2D" parent="Cursor" unique_id=2019490801]
-polygon = PackedVector2Array(10, -2, 10, 2, 20, 2, 20, -2)
-
 [node name="CameraShake" type="Node2D" parent="." unique_id=2068597396 node_paths=PackedStringArray("camera")]
 script = ExtResource("2_ogeh7")
 camera = NodePath("../Camera2D")

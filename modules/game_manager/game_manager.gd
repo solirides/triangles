@@ -1,11 +1,13 @@
 extends Node
 
 @export var autostart = false
+@onready var global_audio = $GlobalAudio
 
 var player:Node = null
 var in_world = false
 var game_stage:GAME_STAGE = GAME_STAGE.NONE
 var display_node
+var approximate_bounds = Rect2(-768.0,-768.0,2*768.0,2*768.0)
 #var enemy_nodes:Array[Node] = []
 
 enum GAME_STAGE {

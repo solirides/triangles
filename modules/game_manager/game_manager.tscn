@@ -1,6 +1,17 @@
 [gd_scene format=3 uid="uid://gqblwfev53ok"]
 
 [ext_resource type="Script" uid="uid://df0pfj50u4jkj" path="res://modules/game_manager/game_manager.gd" id="1_uegwh"]
+[ext_resource type="Script" uid="uid://mmyin0r0xwm" path="res://modules/game_manager/global_audio.gd" id="2_3khbs"]
+
+[sub_resource type="AudioStreamWAV" id="AudioStreamWAV_ohav7"]
 
 [node name="GameManager" type="Node" unique_id=467560154]
 script = ExtResource("1_uegwh")
+autostart = true
+
+[node name="GlobalAudio" type="Node" parent="." unique_id=2100046156]
+script = ExtResource("2_3khbs")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="GlobalAudio" unique_id=38398866]
+stream = SubResource("AudioStreamWAV_ohav7")
+max_polyphony = 10

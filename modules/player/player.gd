@@ -5,15 +5,15 @@ extends RigidBody2D
 @export var accel = 1
 @export var movement_damping = 0.1
 @export var decel = 0.3
-@export var base_speed = 400
+@export var base_speed = 320
 @export var drag = 0.1
 @export var aim_speed_multiplier = 0.6
 @export_category("Attack")
 @export var base_health:int = 100
-@export var base_attack_damage:int = 100
+@export var base_attack_damage:int = 10
 @export var projectile_speed:float = 1000
 @export var projectile_lifetime:float = 3
-@export var damage_immunity_time:float = 0.3
+@export var damage_immunity_time:float = 0.8
 @export var base_attack_speed:float = 2
 
 @export_group("Nodes")
@@ -121,7 +121,8 @@ func _physics_process(delta: float) -> void:
 			var direction = (get_global_mouse_position()-self.global_position).normalized()
 			var spread = 0.1
 			for i in range(-2,3):
-				shoot(direction.rotated(i * spread,), projectile_speed*3 * randf_range(0.8,1.0), 7.0)
+				shoot(direction.rotated(i * spread,), projectile_speed*2 * randf_range(0.8,1.0), 7.0, self.linear_velocity)
+			GameManager.global_audio.play("shoot")
 	
 	if Input.is_action_pressed("secondary"):
 		if attack_cooldown_timer.time_left == 0:
@@ -200,6 +201,7 @@ func damage(amount:int) -> bool:
 	if damage_immunity == true:
 		return false
 	else:
+		GameManager.global_audio.play("player_hit")
 		camera_controller.shake(0.24, 16, 20, 1)
 		#print("player hit!")
 		damage_immunity = true
@@ -221,10 +223,10 @@ func _on_invincibility_timeout() -> void:
 	damage_immunity = false
 	
 
-func shoot(direction:Vector2, speed2, damp=0):
+func shoot(direction:Vector2, speed2, damp=0, inherited_velocity=Vector2.ZERO):
 	var a = projectile.instantiate()
 	a.position = self.position
-	a.linear_velocity = direction * speed2
+	a.linear_velocity = direction * speed2 + inherited_velocity
 	a.linear_damp = damp
 	#a.linear_velocity *= 1000
 	#a.look_at(get_global_mouse_position())

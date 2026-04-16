@@ -13,19 +13,7 @@ lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 5
 script = ExtResource("1_tqsjj")
-tracking_time = null
-hop_time = null
-attack_time = null
-attack_duration = null
-attack_frequency = null
-attack_spread = null
-separation_weight = null
-hop_impulse = null
-movement_speed = null
-projectile_speed = null
-projectile_lifetime = null
-despawn_bullets_on_death = null
-base_health = null
+separation_weight = 0.45
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1482862311]
 scale = Vector2(2, 2)
