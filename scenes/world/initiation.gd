@@ -19,6 +19,23 @@ func _ready() -> void:
 		
 	#world_boundary.get_children()[0].polygon = PackedVector2Array([Vector2(level_size.x, level_size.y), Vector2(-level_size.x, level_size.y), Vector2(-level_size.x, -level_size.y), Vector2(level_size.x, -level_size.y)])
 	
+	initiate_card_hand()
+	
+	GameManager.ready_state["world"] = true
+	
+	
+
+func initiate_card_hand():
+	print("generate cards")
+	GameManager.card_hands.clear()
+	var h = CardHand.new()
+	for i in range(3):
+		var c = ModifierCard.generate_card(1)
+		h.modifier_cards.append(c)
+	GameManager.card_hands.append(h)
+	
+	GameManager.card_hand_updated.emit()
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

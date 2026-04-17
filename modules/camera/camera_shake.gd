@@ -7,12 +7,15 @@ var amplitude = 0
 var level = 0
 
 @export var camera:Node = null
-@onready var duration_timer = Timer.new()
+var duration_timer:Timer
 #@onready var frequency_timer = Timer.new()
 
-var tween = self.create_tween()
+var tween:Tween
 
 func _ready():
+	#tween = create_tween()
+	
+	duration_timer = Timer.new()
 	self.add_child(duration_timer)
 	duration_timer.one_shot = true
 	duration_timer.timeout.connect(_on_Duration_timeout)

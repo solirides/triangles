@@ -11,9 +11,11 @@ extends RigidBody2D
 @export_category("Attack")
 @export var base_health:int = 100
 @export var base_attack_damage:int = 10
-@export var projectile_speed:float = 1000
+@export var base_shot_count:int = 3
+@export var base_projectile_speed:float = 1000
+@export var base_projectile_spread:float = 0.1
 @export var projectile_lifetime:float = 3
-@export var damage_immunity_time:float = 0.8
+@export var base_damage_immunity_time:float = 0.8
 @export var base_attack_speed:float = 2
 
 @export_group("Nodes")
@@ -26,6 +28,7 @@ extends RigidBody2D
 @export var camera_controller:Node = null
 @export var hud:Node = null
 @export var menu:Node = null
+@export var compass:Node = null
 
 @export var modifier_cards:Array[ModifierCard] = []
 
@@ -38,7 +41,11 @@ var stats = {
 	"speed": Stat.new("speed", "", base_speed, 10),
 	"health": Stat.new("health", "", base_health, 1),
 	"attack_speed": Stat.new("attack_speed", "", base_attack_speed, 0.1),
-	"attack_damage": Stat.new("attack_damage", "", base_attack_damage)
+	"attack_damage": Stat.new("attack_damage", "", base_attack_damage),
+	"shot_count": Stat.new("shot_count", "", base_shot_count),
+	"projectile_speed": Stat.new("projectile_speed", "", base_projectile_speed),
+	"projectile_spread": Stat.new("projectile_spread", "", base_projectile_spread),
+	"damage_immunity_time": Stat.new("damage_immunity_time", "", base_damage_immunity_time)
 }
 
 var projectile = preload("res://modules/projectile/player_projectile.tscn")
@@ -50,20 +57,25 @@ var laser_polygon = preload("res://modules/projectile/laser.tscn")
 var damage_immunity = false
 var movement_input = true
 var aiming = false
+var active_card_hand_i = 0
 
 @onready var constructor = $Constructor
 
 func _ready() -> void:
 	GameManager.player = self
-	
-	attack_cooldown_timer.wait_time = 1 / get_stat("attack_speed")
-	immunity_timer.wait_time = damage_immunity_time
-	
-	recalculate_stats()
+	GameManager.all_initial_nodes_ready.connect(_on_all_initial_nodes_ready)
 	
 	#laser_polygon.scale.y = 0
 	GameManager.player_node_ready.emit()
 	
+	GameManager.ready_state["player"] = true
+	
+	get_tree().create_timer(1).timeout.connect(func(): view_status(true))
+	get_tree().create_timer(3).timeout.connect(func(): view_status(false))
+	
+
+func _on_all_initial_nodes_ready():
+	recalculate_stats()
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	#var vec = Input.get_vector("move_left","move_right","move_up","move_down")
@@ -94,18 +106,25 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 			
 	#integrate_forces()
 
-
-@onready var aim_tween = get_tree().create_tween()
+var aim_tween:Tween
 
 func _physics_process(delta: float) -> void:
+	
+	if Input.is_action_just_pressed("status"):
+		view_status(true)
+	elif Input.is_action_just_released("status"):
+		view_status(false)
+	
+	
 	if Input.is_action_just_pressed("special1"):
 		# set aiming = true after delay
 		$Aim.start(0.2)
 		#$Aim.timeout.connect(func(): aiming = true)
 		#speed = base_speed * aim_speed_multiplier
 		# animate camera zoom
-		aim_tween.kill()
-		aim_tween = get_tree().create_tween()
+		if aim_tween:
+			aim_tween.kill()
+		aim_tween = create_tween()
 		aim_tween.tween_property(camera_controller.camera, "zoom", Vector2(1.3,1.3), 0.3).set_trans(Tween.TRANS_SINE)
 		#camera.camera.zoom = 
 	if Input.is_action_just_released("special1"):
@@ -114,8 +133,9 @@ func _physics_process(delta: float) -> void:
 		#speed = base_speed
 		# animate camera zoom
 		#var tween = get_tree().create_tween()
-		aim_tween.kill()
-		aim_tween = get_tree().create_tween()
+		if aim_tween:
+			aim_tween.kill()
+		aim_tween = create_tween()
 		aim_tween.tween_property(camera_controller.camera, "zoom", Vector2(1,1), 0.12).set_trans(Tween.TRANS_SINE)
 		#camera.camera.zoom = Vector2(1,1)
 	
@@ -123,15 +143,15 @@ func _physics_process(delta: float) -> void:
 		if attack_cooldown_timer.time_left == 0:
 			attack_cooldown_timer.start(1 / get_stat("attack_speed"))
 			var direction = (get_global_mouse_position()-self.global_position).normalized()
-			shoot(direction, projectile_speed)
+			shoot(direction, get_stat("projectile_speed"))
 		
 	if Input.is_action_pressed("primary"):
 		if attack_cooldown_timer.time_left == 0:
 			attack_cooldown_timer.start(1 / get_stat("attack_speed"))
 			var direction = (get_global_mouse_position()-self.global_position).normalized()
-			var spread = 0.1
+			#var spread = 0.1
 			for i in range(-2,3):
-				shoot(direction.rotated(i * spread,), projectile_speed*2 * randf_range(0.8,1.0), 7.0, self.linear_velocity)
+				shoot(direction.rotated(i * get_stat("projectile_spread"),), get_stat("projectile_speed") * randf_range(0.8,1.0), 7.0, self.linear_velocity)
 			GameManager.global_audio.play("shoot")
 	
 	if Input.is_action_pressed("secondary"):
@@ -199,10 +219,9 @@ var tween
 func on_hit():
 	if tween != null:
 		tween.kill()
-	tween = create_tween()
-	tween.set_trans(Tween.TRANS_SINE)
+	tween = create_tween().set_trans(Tween.TRANS_SINE)
 	var t = 0
-	while t < damage_immunity_time:
+	while t < get_stat("damage_immunity_time"):
 		tween.tween_property(self, "modulate", Color(1,1,1,0), 0.04)
 		tween.tween_property(self, "modulate", Color.WHITE, 0.04)
 		t += 0.08
@@ -215,7 +234,7 @@ func damage(amount:int) -> bool:
 		camera_controller.shake(0.24, 16, 20, 1)
 		#print("player hit!")
 		damage_immunity = true
-		$Immunity.start()
+		immunity_timer.start(get_stat("damage_immunity_time"))
 		set_stat("health", get_stat("health")-amount)
 		print("player health:" + str(get_stat("health")))
 		on_hit()
@@ -227,6 +246,27 @@ func game_over():
 	GameManager.game_over()
 	menu.game_over()
 	
+
+
+func view_status(state:bool):
+	#slow_time_scale(state)
+	hud.show_card_hand(state)
+	hud.animate_background_tint(state)
+
+var time_scale_tween:Tween
+func slow_time_scale(state:bool):
+	if time_scale_tween:
+		time_scale_tween.kill()
+	time_scale_tween = Tween.new()
+	time_scale_tween.set_pause_mode(Tween.TweenPauseMode.TWEEN_PAUSE_PROCESS)
+	time_scale_tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	var factor = 0.3
+	if state:
+		#view_status_tween.tween_property(Engine, "physics_ticks_per_second", factor, 0.3)
+		time_scale_tween.tween_property(Engine, "time_scale", factor, 0.3)
+	else:
+		#view_status_tween.tween_property(Engine, "physics_ticks_per_second", 1.0, 0.15)
+		time_scale_tween.tween_property(Engine, "time_scale", 1.0, 0.15)
 	
 
 func _on_invincibility_timeout() -> void:
@@ -255,6 +295,9 @@ func _on_aim_timeout() -> void:
 	
 
 func recalculate_stats():
+	if GameManager.card_hands.size() <= active_card_hand_i:
+		return
+	
 	var cards = hud.card_container.get_children()
 	var addends = {}
 	var multipliers = {}
@@ -263,12 +306,9 @@ func recalculate_stats():
 		addends[stat] = 0
 		multipliers[stat] = 0
 	
-	for card_node in cards:
-		#print(card_node)
-		#print(card_node.modifier_card.modifiers)
-		#card.modifier_card
-		for modifier in card_node.modifier_card.modifiers:
-			print(modifier)
+	for card in GameManager.card_hands[active_card_hand_i].modifier_cards:
+		for modifier in card.modifiers:
+			#print(modifier)
 			if modifier.stat not in self.stats.keys():
 				continue
 			match modifier.modifier_type:
@@ -294,9 +334,11 @@ func recalculate_stats():
 		print("modified stat_name: " + str(stat.modified_value))
 		print("actual value: " + str(stat.value))
 	
+	attack_cooldown_timer.wait_time = 1 / get_stat("attack_speed")
+	immunity_timer.wait_time = get_stat("damage_immunity_time")
 
-func get_stat(stat:String):
-	return self.stats[stat].value
+func get_stat(stat:String, property:String="value"):
+	return self.stats[stat].get(property)
 
 func set_stat(stat:String, value:float):
 	self.stats[stat].value = value

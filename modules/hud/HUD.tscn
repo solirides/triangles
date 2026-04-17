@@ -1,12 +1,65 @@
 [gd_scene format=3 uid="uid://dg2eqv8aun4ii"]
 
 [ext_resource type="Script" uid="uid://fhyu40t53tvj" path="res://modules/hud/hud.gd" id="1_gridp"]
+[ext_resource type="Theme" uid="uid://f47mp0qpnlj7" path="res://assets/themes/menu.tres" id="2_0qcm8"]
 [ext_resource type="Script" uid="uid://dn55x2g7mlpyk" path="res://modules/hud/card_hand.gd" id="2_eqwjg"]
 [ext_resource type="PackedScene" uid="uid://x0u5c8rftqfr" path="res://modules/hud/card.tscn" id="2_is2uq"]
+[ext_resource type="Shader" uid="uid://caqtoaqfmpmb6" path="res://assets/shaders/POSTPROCESSING.gdshader" id="4_5hnv0"]
+
+[sub_resource type="SystemFont" id="SystemFont_eqwjg"]
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_p2nvc"]
-font_size = 24
-font_color = Color(0.57156605, 0.42372668, 1, 1)
+font = SubResource("SystemFont_eqwjg")
+font_size = 18
+
+[sub_resource type="SystemFont" id="SystemFont_0qcm8"]
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_uyf1l"]
+font = SubResource("SystemFont_0qcm8")
+
+[sub_resource type="Gradient" id="Gradient_0qcm8"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uyf1l"]
+gradient = SubResource("Gradient_0qcm8")
+
+[sub_resource type="Gradient" id="Gradient_o3eoj"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7wl71"]
+gradient = SubResource("Gradient_o3eoj")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mmhck"]
+shader = ExtResource("4_5hnv0")
+shader_parameter/FlareMult = SubResource("GradientTexture2D_uyf1l")
+shader_parameter/FlareMult2 = SubResource("GradientTexture2D_7wl71")
+shader_parameter/Blur = 2.5
+shader_parameter/FlareThreshold = 0.39
+shader_parameter/Thresholdsmoothness = 0.2
+shader_parameter/Flares = 3
+shader_parameter/FlareSpacing = 0.0
+shader_parameter/FlareDistance = 0.5
+shader_parameter/LensThickness = 1.0
+shader_parameter/Intensity = 2.46
+shader_parameter/Saturation_ = 5.0
+shader_parameter/visibility = 1.0
+shader_parameter/MinFlareIntensity = 0.0
+shader_parameter/MaxFlareIntensity = 1.0
+shader_parameter/RainbowIntensity = 1.0
+
+[sub_resource type="SystemFont" id="SystemFont_uyf1l"]
+font_names = PackedStringArray("Open Sans")
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_o3eoj"]
+font = SubResource("SystemFont_uyf1l")
+font_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_7wl71"]
+font = SubResource("SystemFont_uyf1l")
+font_size = 18
 
 [node name="HUD" type="Control" unique_id=30667009 node_paths=PackedStringArray("card_container")]
 layout_mode = 3
@@ -17,6 +70,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gridp")
 card_container = NodePath("CardHand")
+
+[node name="Tint" type="ColorRect" parent="." unique_id=1721272411]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5254902)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1806011036]
 layout_mode = 1
@@ -29,11 +91,22 @@ layout_mode = 2
 text = "testing 123"
 label_settings = SubResource("LabelSettings_p2nvc")
 
-[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer" unique_id=1714440785]
-custom_minimum_size = Vector2(0, 20)
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=663749575]
 layout_mode = 2
+
+[node name="HealthBar" type="ProgressBar" parent="VBoxContainer/HBoxContainer" unique_id=1714440785]
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+theme = ExtResource("2_0qcm8")
 allow_greater = true
 allow_lesser = true
+show_percentage = false
+
+[node name="Health" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1276634798]
+layout_mode = 2
+text = "123/123"
+label_settings = SubResource("LabelSettings_uyf1l")
+horizontal_alignment = 2
 
 [node name="CardHand" type="HBoxContainer" parent="." unique_id=506661141]
 layout_mode = 1
@@ -45,8 +118,39 @@ offset_top = -128.0
 offset_bottom = -28.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_constants/separation = 8
 alignment = 1
 script = ExtResource("2_eqwjg")
 
 [node name="Card" parent="CardHand" unique_id=2014112755 instance=ExtResource("2_is2uq")]
 layout_mode = 2
+
+[node name="POSTPROCESSING" type="ColorRect" parent="." unique_id=1118567314]
+visible = false
+material = SubResource("ShaderMaterial_mmhck")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="." unique_id=1593993948]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_top = 24.0
+offset_bottom = 34.0
+grow_horizontal = 2
+
+[node name="Level" type="Label" parent="VBoxContainer2" unique_id=1243795164]
+layout_mode = 2
+text = "Level: 123"
+label_settings = SubResource("LabelSettings_o3eoj")
+horizontal_alignment = 1
+
+[node name="Enemies" type="Label" parent="VBoxContainer2" unique_id=1278430422]
+layout_mode = 2
+text = "Enemies remaining: 42"
+label_settings = SubResource("LabelSettings_7wl71")
+horizontal_alignment = 1

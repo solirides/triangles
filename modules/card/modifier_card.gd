@@ -1,21 +1,27 @@
 class_name ModifierCard
-extends Resource
+extends GameCard
 
 @export var modifiers:Array[StatModifier]
-@export_multiline var description:String
 
-func _init(p_modifiers:Array[StatModifier] = [], p_description:String = "") -> void:
+
+func _init(p_modifiers:Array[StatModifier] = []) -> void:
 	modifiers = p_modifiers
-	description = p_description
 
 static func generate_card(level:int):
 	var card = ModifierCard.new()
 	
+	var stats = GameManager.player.stats
 	var modifer_count = 2
+	var stat_list = stats.keys()
+	
 	for i in modifer_count:
-		var stats = GameManager.player.stats
-		var modifier = StatModifier.new(stats.keys()[randi_range(0, stats.size() - 1)])
-		modifier.modifier_value = round(randf_range(0,100))
+		#var modifier = StatModifier.new(stats.keys()[randi_range(0, stats.size() - 1)])
+		var modifier = StatModifier.new(stat_list.pop_at(randi_range(0, stat_list.size() - 1)))
+		var value = 3 + MathStuff.random_logarithmic(level + 1, 1.17, 0.64, 3.2)
+		var value2 = -4 + MathStuff.random_logarithmic(level + 2, 1.24, 0.60, 3.1)
+		#print(value)
+		#print(MathStuff.random_logarithmic(level, 1.4, 0.24, 3.5))
+		modifier.modifier_value = round(value2 * (i%2) + value * ((i+1)%2)) * (-1)**i
 		modifier.modifier_type = StatModifier.ModifierType.MULTIPLY
 		card.modifiers.append(modifier)
 	

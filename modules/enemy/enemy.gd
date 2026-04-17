@@ -83,6 +83,7 @@ func shoot(direction:Vector2, speed2, damp=0):
 	#a.despawn_frame = projectile_lifetime * Engine.physics_ticks_per_second + Engine.get_physics_frames()
 	a.despawn_frame = EnemyProjectile.calculate_despawn_frame(projectile_lifetime, speed2, GameManager.approximate_bounds.size, damp)
 	get_tree().get_current_scene().add_child(a)
+	GameManager.global_audio.play("enemy_shoot")
 	#projectiles.append(a)
 	#projectile_times.append([Engine.get_physics_frames() + int(projectile_lifetime * 60), a])
 	

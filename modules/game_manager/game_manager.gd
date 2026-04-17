@@ -8,7 +8,18 @@ var in_world = false
 var game_stage:GAME_STAGE = GAME_STAGE.NONE
 var display_node
 var approximate_bounds = Rect2(-768.0,-768.0,2*768.0,2*768.0)
+var player_level = 1
+#var compass_target_position:Vector2
 #var enemy_nodes:Array[Node] = []
+
+var card_hands:Array[CardHand] = []
+
+var ready_state_bool = false
+
+var ready_state = {
+	"player": false,
+	"world": false
+}
 
 enum GAME_STAGE {
 	NONE,
@@ -21,6 +32,9 @@ enum GAME_STAGE {
 
 signal enemy_death()
 signal player_node_ready()
+signal update_compass(display:bool, target:Vector2)
+signal all_initial_nodes_ready()
+signal card_hand_updated()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -34,6 +48,18 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+func _physics_process(delta: float) -> void:
+	if ready_state_bool == false:
+		var ready = true
+		for k in ready_state.keys():
+			if ready_state[k] != true:
+				ready = false
+				break
+		if ready:
+			print("all initial nodes ready")
+			all_initial_nodes_ready.emit()
+			ready_state_bool = true
 
 func start_game():
 	#print("START")
@@ -72,6 +98,9 @@ func advance_game_stage(stage:GAME_STAGE):
 			get_tree().change_scene_to_file("res://scenes/world/world.tscn")
 		_:
 			print("???")
+	for k in ready_state.keys():
+		ready_state[k] = false
+	ready_state_bool = false
 
 func quit_game():
 	get_tree().quit()

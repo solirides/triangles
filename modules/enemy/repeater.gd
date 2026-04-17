@@ -5,7 +5,7 @@ extends Enemy
 @export var attack_duration:float = 0.4
 @export var attack_frequency:float = 16
 @export var attack_spread:float = 0
-@export var attack_range:float = 400
+@export var attack_range:float = 700
 @export var random_walk_time:float = 3
 @export var random_walk_period:float = 0.3
 @export var view_range:float = 100
@@ -22,6 +22,7 @@ var walking = false
 
 func _init():
 	enemy_type = EnemyType.REPEATER
+	state_post_delays[Enemy.EnemyState.TRACK] = 0
 	#print(movement_speed)
 
 # Called when the node enters the scene tree for the first time.

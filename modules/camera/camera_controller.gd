@@ -3,7 +3,7 @@ extends Node2D
 
 @export var player:Node = null
 @onready var camera = $Camera2D
-@onready var cursor = $Cursor
+#@onready var cursor = $Cursor
 @export var follow_aim = 0.5
 @export var lerp_speed = 50
 @export var offset:Vector2 = Vector2(0,0)

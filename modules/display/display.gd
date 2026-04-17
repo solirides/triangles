@@ -27,7 +27,7 @@ func _draw() -> void:
 	if len(partial_shape) >= 1 and draw_shape_progress == true:
 		match partial_shape[0]:
 			"segment":
-				draw_line(partial_shape[1], player.global_position, color, width)
+				draw_line(partial_shape[1], GameManager.player.global_position, color, width)
 			_:
 				pass
 				

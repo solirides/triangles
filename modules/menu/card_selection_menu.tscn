@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cwvrih3oy1efp"]
+
+[ext_resource type="Script" uid="uid://6j77rsauvymh" path="res://modules/menu/card_selection_menu.gd" id="1_f3bwq"]
+[ext_resource type="PackedScene" uid="uid://x0u5c8rftqfr" path="res://modules/hud/card.tscn" id="2_n7txg"]
+
+[node name="CardSelectionMenu" type="Control" unique_id=1810370965]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f3bwq")
+
+[node name="CardHand" type="HBoxContainer" parent="." unique_id=52656011]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Card" parent="CardHand" unique_id=2014112755 instance=ExtResource("2_n7txg")]
+layout_mode = 2

@@ -2,6 +2,7 @@ extends Node
 
 var sounds = {
 	"shoot":preload("res://assets/sounds/shoot_2.wav"),
+	"enemy_shoot":preload("res://assets/sounds/shoot_1.wav"),
 	"enemy_hit":preload("res://assets/sounds/hit_1.wav"),
 	"player_hit":preload("res://assets/sounds/hit_3.wav")
 }

@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://b1ochpl4h3vwd" path="res://modules/player/constructor.gd" id="7_5rkg0"]
 [ext_resource type="PackedScene" uid="uid://bqqwkp4v0ui02" path="res://modules/menu/pause_menu.tscn" id="7_ej5i3"]
 [ext_resource type="Script" uid="uid://d37h2bxlg3xmu" path="res://modules/hud/cursor.gd" id="8_dhhsu"]
+[ext_resource type="Script" uid="uid://tqiid4kq104e" path="res://modules/player/compass.gd" id="9_0rblh"]
 
 [sub_resource type="Resource" id="Resource_ej5i3"]
 script = ExtResource("3_5rkg0")
@@ -43,7 +44,7 @@ shader_parameter/offset = Vector2(0, 0)
 shader_parameter/anti_aliasing_factor = 0.01
 shader_parameter/stochastic_samples = 16
 
-[node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot", "hud", "menu") groups=["player"]]
+[node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot", "hud", "menu", "compass") groups=["player"]]
 collision_mask = 336
 gravity_scale = 0.0
 lock_rotation = true
@@ -51,6 +52,7 @@ script = ExtResource("1_qgxqk")
 pivot = NodePath("Pivot")
 hud = NodePath("HudCanvas/Hud")
 menu = NodePath("HudCanvas/Menu")
+compass = NodePath("Compass")
 modifier_cards = Array[ExtResource("2_hd5yx")]([SubResource("Resource_dhhsu")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1441379814]
@@ -143,6 +145,17 @@ one_shot = true
 [node name="Attack" type="Timer" parent="." unique_id=1209496060]
 wait_time = 0.15
 one_shot = true
+
+[node name="Compass" type="Node2D" parent="." unique_id=1590969496]
+script = ExtResource("9_0rblh")
+
+[node name="CompassPolygon" type="Polygon2D" parent="Compass" unique_id=1417167483]
+z_index = 10
+position = Vector2(56, 0)
+rotation = 1.5707964
+scale = Vector2(1.5, 1.5)
+color = Color(1, 1, 1, 0.6313726)
+polygon = PackedVector2Array(0, -12, 6, 12, 0, 8, -6, 12)
 
 [node name="Constructor" type="Node2D" parent="." unique_id=1297639670]
 script = ExtResource("7_5rkg0")

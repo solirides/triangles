@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://digvmwomjxmvw" path="res://modules/game_manager/enemy_wave.gd" id="2_1yooq"]
 [ext_resource type="Script" uid="uid://c4ittu41lutv" path="res://modules/game_manager/enemy_sequence.gd" id="3_gb53w"]
 [ext_resource type="PackedScene" uid="uid://w6jjt2mb7cyo" path="res://modules/camera/camera_controller.tscn" id="3_t5ptc"]
+[ext_resource type="Script" uid="uid://dg3t3oacal0ko" path="res://modules/game_manager/combat_level.gd" id="4_5qq27"]
 [ext_resource type="Script" uid="uid://dcf6smbhg037i" path="res://modules/display/display.gd" id="4_j2gmx"]
 [ext_resource type="Texture2D" uid="uid://bdyr6bkl6pq07" path="res://assets/textures/hallway_gradient.tres" id="6_j2gmx"]
 [ext_resource type="Script" uid="uid://cc5x7w1j4a7a3" path="res://scenes/world/world_boundry.gd" id="6_t5ptc"]
@@ -43,7 +44,7 @@ metadata/_custom_type_script = "uid://digvmwomjxmvw"
 [sub_resource type="Resource" id="Resource_gb53w"]
 script = ExtResource("3_gb53w")
 enemy_type = 1
-count = 5
+count = 10
 duration = 5.0
 pattern = 1
 metadata/_custom_type_script = "uid://c4ittu41lutv"
@@ -52,6 +53,34 @@ metadata/_custom_type_script = "uid://c4ittu41lutv"
 script = ExtResource("2_1yooq")
 sequences = Array[ExtResource("3_gb53w")]([SubResource("Resource_gb53w")])
 metadata/_custom_type_script = "uid://digvmwomjxmvw"
+
+[sub_resource type="Resource" id="Resource_srmg5"]
+script = ExtResource("2_1yooq")
+sequences = Array[ExtResource("3_gb53w")]([SubResource("Resource_1yooq"), SubResource("Resource_j2gmx"), SubResource("Resource_dlabj")])
+metadata/_custom_type_script = "uid://digvmwomjxmvw"
+
+[sub_resource type="Resource" id="Resource_umvgx"]
+script = ExtResource("2_1yooq")
+sequences = Array[ExtResource("3_gb53w")]([SubResource("Resource_gb53w")])
+metadata/_custom_type_script = "uid://digvmwomjxmvw"
+
+[sub_resource type="Resource" id="Resource_mxkvs"]
+script = ExtResource("3_gb53w")
+enemy_type = 3
+count = 8
+duration = 1.0
+pattern = 1
+metadata/_custom_type_script = "uid://c4ittu41lutv"
+
+[sub_resource type="Resource" id="Resource_m114p"]
+script = ExtResource("2_1yooq")
+sequences = Array[ExtResource("3_gb53w")]([SubResource("Resource_mxkvs")])
+metadata/_custom_type_script = "uid://digvmwomjxmvw"
+
+[sub_resource type="Resource" id="Resource_71ii3"]
+script = ExtResource("4_5qq27")
+enemy_waves = Array[ExtResource("2_1yooq")]([SubResource("Resource_srmg5"), SubResource("Resource_umvgx"), SubResource("Resource_m114p")])
+metadata/_custom_type_script = "uid://dg3t3oacal0ko"
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_j2gmx"]
 friction = 0.0
@@ -85,6 +114,7 @@ glow_bloom = 1.0
 script = ExtResource("1_bq33v")
 level_size = Vector2(768, 768)
 enemy_waves = Array[ExtResource("2_1yooq")]([SubResource("Resource_5qq27"), SubResource("Resource_bq33v")])
+combat_level = SubResource("Resource_71ii3")
 
 [node name="Display" type="Node2D" parent="." unique_id=1724143098 node_paths=PackedStringArray("player")]
 z_index = 5
@@ -158,6 +188,12 @@ shape = SubResource("RectangleShape2D_1yooq")
 position = Vector2(-128, -384)
 shape = SubResource("RectangleShape2D_1yooq")
 
+[node name="Start" type="Marker2D" parent="WorldBoundary/StaticBody2D" unique_id=651066487]
+position = Vector2(-320, 0)
+
+[node name="End" type="Marker2D" parent="WorldBoundary/StaticBody2D" unique_id=347507097]
+position = Vector2(1280, 0)
+
 [node name="VisualBoundary" type="Node2D" parent="." unique_id=94620768]
 z_index = 15
 material = SubResource("ShaderMaterial_5qq27")
@@ -167,7 +203,7 @@ script = ExtResource("7_1yooq")
 player = NodePath("../Player")
 
 [node name="Player" parent="." unique_id=557670507 node_paths=PackedStringArray("display", "camera_controller") instance=ExtResource("1_v5dby")]
-position = Vector2(-896, 0)
+position = Vector2(-1152, 0)
 display = NodePath("../Display")
 camera_controller = NodePath("../CameraController")
 

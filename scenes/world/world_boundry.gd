@@ -7,17 +7,36 @@ extends Node2D
 
 @onready var world = $".."
 
+var collision_state = ""
+
 signal boundary_changed(shapes:Array)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	change_level_collisions("start")
+	GameManager.all_initial_nodes_ready.connect(_on_all_initial_nodes_ready)
+
+func _on_all_initial_nodes_ready():
+	print("worldboundary all nodes ready signal")
+	update_compass()
+
+func update_compass():
+	match collision_state:
+		"start":
+			GameManager.update_compass.emit(true, $StaticBody2D/Start.global_position)
+		"combat":
+			GameManager.update_compass.emit(false, Vector2.ZERO)
+		"end":
+			GameManager.update_compass.emit(true, $StaticBody2D/End.global_position)
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 func change_level_collisions(state:String):
+	collision_state = state
+	
 	for i in polygons:
 		i.visible = false
 	for i in collision_shapes:
@@ -43,6 +62,8 @@ func change_level_collisions(state:String):
 		_:
 			pass
 	
+	update_compass()
+	
 	#call_deferred("boundary_changed.emit")
 	#boundary_changed.emit()
 
@@ -52,9 +73,11 @@ func change_level_collisions(state:String):
 
 func _on_exit_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
+		GameManager.player_level += 1
 		GameManager.advance_game_stage(GameManager.GAME_STAGE.ROOM_MAP)
 
 func _on_entrance_body_entered(body: Node2D) -> void:
+	print("player entered start trigger")
 	if body.is_in_group("player"):
 		change_level_collisions("combat")
 		world.start_level()
