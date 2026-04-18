@@ -43,7 +43,7 @@ func _physics_process(delta: float) -> void:
 
 func spawn_enemy_wave(wave_i):
 	var wave = combat_level.enemy_waves[wave_i]
-	print(wave)
+	#print(wave)
 	var wave_time = 0
 	for sequence:EnemySequence in wave.sequences:
 		#print("sequence")

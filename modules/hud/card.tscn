@@ -36,8 +36,10 @@ font_size = 12
 
 [node name="Card" type="Panel" unique_id=2014112755 node_paths=PackedStringArray("icon")]
 custom_minimum_size = Vector2(120, 160)
-offset_right = 120.0
-offset_bottom = 160.0
+anchors_preset = -1
+offset_left = -60.0
+offset_top = -80.0
+pivot_offset = Vector2(60, 80)
 theme = ExtResource("1_74hof")
 script = ExtResource("1_cyaum")
 modifier_card = SubResource("Resource_lqntv")

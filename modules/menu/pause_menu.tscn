@@ -246,5 +246,16 @@ text = "Restart"
 layout_mode = 2
 text = "Main Menu"
 
+[node name="Panel" type="Panel" parent="." unique_id=2105364413]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_top = 0.2
+anchor_right = 0.7
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+
 [connection signal="pressed" from="GameOver/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="GameOver/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]

@@ -2,6 +2,11 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4otbn"]
 bg_color = Color(0.32941177, 0.101960786, 0.32941177, 1)
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [resource]
 Panel/styles/panel = SubResource("StyleBoxFlat_4otbn")

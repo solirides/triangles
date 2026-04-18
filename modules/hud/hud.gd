@@ -53,6 +53,5 @@ func show_card_hand(state:bool):
 		card_hand.tween_property(card_container, "modulate", Color(1,1,1,0), 0.15)
 	
 
-
 func _on_card_hand_gui_input(event: InputEvent) -> void:
 	pass # Replace with function body.

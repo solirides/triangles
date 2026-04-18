@@ -1,6 +1,5 @@
 extends HBoxContainer
 
-@export var card_scene = preload("res://modules/hud/card.tscn")
 
 
 # Called when the node enters the scene tree for the first time.
@@ -24,15 +23,16 @@ func _on_card_hand_updated():
 
 func update_gui_cards():
 	print("update gui cards")
+	if GameManager.card_hands.size() >= GameManager.active_card_hand_i:
+		return
+	
 	for n in get_children():
 		n.queue_free()
 	
-	var h = GameManager.card_hands[GameManager.player.active_card_hand_i]
+	var h = GameManager.card_hands[GameManager.active_card_hand_i]
 	for c in h.modifier_cards:
+		var card = GuiCard.create_modifier_card(c)
 		#print("add modifier card")
-		var card = card_scene.instantiate()
-		card.modifier_card = c
-		#card.icon
 		add_child(card)
 		#print(get_children().size())
 	GameManager.player.recalculate_stats()

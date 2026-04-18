@@ -10,7 +10,7 @@ func _init(p_modifiers:Array[StatModifier] = []) -> void:
 static func generate_card(level:int):
 	var card = ModifierCard.new()
 	
-	var stats = GameManager.player.stats
+	var stats = GameManager.player_stats
 	var modifer_count = 2
 	var stat_list = stats.keys()
 	

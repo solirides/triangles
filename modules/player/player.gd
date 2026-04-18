@@ -5,18 +5,18 @@ extends RigidBody2D
 @export var accel = 1
 @export var movement_damping = 0.1
 @export var decel = 0.3
-@export var base_speed = 320
+#@export var base_speed = 320
 @export var drag = 0.1
 #@export var aim_speed_multiplier = 0.6
 @export_category("Attack")
-@export var base_health:int = 100
-@export var base_attack_damage:int = 10
-@export var base_shot_count:int = 3
-@export var base_projectile_speed:float = 1000
-@export var base_projectile_spread:float = 0.1
+#@export var base_health:int = 100
+#@export var base_attack_damage:int = 10
+#@export var base_shot_count:int = 3
+#@export var base_projectile_speed:float = 1000
+#@export var base_projectile_spread:float = 0.1
 @export var projectile_lifetime:float = 3
-@export var base_damage_immunity_time:float = 0.8
-@export var base_attack_speed:float = 2
+#@export var base_damage_immunity_time:float = 0.8
+#@export var base_attack_speed:float = 2
 
 @export_group("Nodes")
 @export var display:Node = null
@@ -37,16 +37,8 @@ extends RigidBody2D
 #var attack_speed = base_attack_speed
 #var attack_damage = base_attack_damage
 
-var stats = {
-	"speed": Stat.new("speed", "", base_speed, 10),
-	"health": Stat.new("health", "", base_health, 1),
-	"attack_speed": Stat.new("attack_speed", "", base_attack_speed, 0.1),
-	"attack_damage": Stat.new("attack_damage", "", base_attack_damage),
-	"shot_count": Stat.new("shot_count", "", base_shot_count),
-	"projectile_speed": Stat.new("projectile_speed", "", base_projectile_speed),
-	"projectile_spread": Stat.new("projectile_spread", "", base_projectile_spread),
-	"damage_immunity_time": Stat.new("damage_immunity_time", "", base_damage_immunity_time)
-}
+# passed by REFERENCE
+@onready var stats = GameManager.player_stats
 
 var projectile = preload("res://modules/projectile/player_projectile.tscn")
 var turret = preload("res://modules/enemy/turret.tscn")
@@ -57,7 +49,7 @@ var laser_polygon = preload("res://modules/projectile/laser.tscn")
 var damage_immunity = false
 var movement_input = true
 var aiming = false
-var active_card_hand_i = 0
+#var active_card_hand_i = 0
 
 @onready var constructor = $Constructor
 
@@ -295,7 +287,7 @@ func _on_aim_timeout() -> void:
 	
 
 func recalculate_stats():
-	if GameManager.card_hands.size() <= active_card_hand_i:
+	if GameManager.card_hands.size() <= GameManager.active_card_hand_i:
 		return
 	
 	var cards = hud.card_container.get_children()
@@ -306,7 +298,7 @@ func recalculate_stats():
 		addends[stat] = 0
 		multipliers[stat] = 0
 	
-	for card in GameManager.card_hands[active_card_hand_i].modifier_cards:
+	for card in GameManager.card_hands[GameManager.active_card_hand_i].modifier_cards:
 		for modifier in card.modifiers:
 			#print(modifier)
 			if modifier.stat not in self.stats.keys():

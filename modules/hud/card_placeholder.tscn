@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://ck4chtwhgqvai"]
+
+[ext_resource type="Script" uid="uid://bmdoh2s6jwlvj" path="res://modules/hud/card_placeholder.gd" id="1_tjuju"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tjuju"]
+
+[node name="Card" type="Panel" unique_id=2014112755]
+z_index = 5
+custom_minimum_size = Vector2(124, 164)
+anchors_preset = -1
+offset_left = -60.0
+offset_top = -80.0
+pivot_offset = Vector2(60, 80)
+mouse_filter = 2
+mouse_behavior_recursive = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_tjuju")
+script = ExtResource("1_tjuju")

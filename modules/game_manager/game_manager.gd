@@ -3,12 +3,36 @@ extends Node
 @export var autostart = false
 @onready var global_audio = $GlobalAudio
 
+@export_group("Movement")
+@export var base_speed = 320
+#@export var aim_speed_multiplier = 0.6
+@export_category("Attack")
+@export var base_health:int = 100
+@export var base_attack_damage:int = 10
+@export var base_shot_count:int = 3
+@export var base_projectile_speed:float = 1000
+@export var base_projectile_spread:float = 0.1
+@export var base_damage_immunity_time:float = 0.8
+@export var base_attack_speed:float = 2
+
 var player:Node = null
 var in_world = false
 var game_stage:GAME_STAGE = GAME_STAGE.NONE
 var display_node
 var approximate_bounds = Rect2(-768.0,-768.0,2*768.0,2*768.0)
 var player_level = 1
+var active_card_hand_i = 0
+var player_stats = {
+	"speed": Stat.new("speed", "", base_speed, 10),
+	"health": Stat.new("health", "", base_health, 1),
+	"attack_speed": Stat.new("attack_speed", "", base_attack_speed, 0.1),
+	"attack_damage": Stat.new("attack_damage", "", base_attack_damage),
+	"shot_count": Stat.new("shot_count", "", base_shot_count),
+	"projectile_speed": Stat.new("projectile_speed", "", base_projectile_speed),
+	"projectile_spread": Stat.new("projectile_spread", "", base_projectile_spread),
+	"damage_immunity_time": Stat.new("damage_immunity_time", "", base_damage_immunity_time)
+}
+
 #var compass_target_position:Vector2
 #var enemy_nodes:Array[Node] = []
 
@@ -101,6 +125,18 @@ func advance_game_stage(stage:GAME_STAGE):
 	for k in ready_state.keys():
 		ready_state[k] = false
 	ready_state_bool = false
+
+func initiate_card_hand():
+	print("generate cards")
+	GameManager.card_hands.clear()
+	var h = CardHand.new()
+	for i in range(3):
+		var c = ModifierCard.generate_card(1)
+		h.modifier_cards.append(c)
+	GameManager.card_hands.append(h)
+	
+	GameManager.card_hand_updated.emit()
+	
 
 func quit_game():
 	get_tree().quit()
