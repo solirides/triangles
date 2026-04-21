@@ -17,7 +17,7 @@ static func generate_combat_level(level:int):
 			var s = EnemySequence.new()
 			# avoid Enemy.EnemyType.NONE
 			s.enemy_type = randi_range(1, Enemy.EnemyType.size() - 1)
-			s.count =  max(1, 1 + int(MathStuff.random_exponential(level, 1.05, 6.00, 4.20)))
+			s.count =  max(1, 1 + int(MathStuff.random_exponential(level, 1.11, 6.00, 5.20)))
 			s.duration = randf_range(1,4)
 			s.pattern = EnemySequence.Pattern.RANDOM
 			w.sequences.append(s)

@@ -14,7 +14,9 @@ func abc(level:int):
 	var count = 100
 	for i in range(count):
 		#var a = MathStuff.random_logarithmic(level + 1, 1.17, 0.40, 3.2)
-		var a = MathStuff.random_logarithmic(level + 2, 1.24, 0.24, 3.0)
+		#var a = MathStuff.random_logarithmic(level + 2, 1.24, 0.24, 3.0)
+		#var a = MathStuff.random_exponential(level, 1.05, 6.00, 4.20)
+		var a = MathStuff.random_exponential(level, 1.11, 6.00, 5.20)
 		#print(a)
 		avg += a
 		sample.append(a)

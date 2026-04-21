@@ -17,6 +17,7 @@ var level_ended = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	GameManager.world_node = self
 	GameManager.enemy_death.connect(_on_enemy_death)
 	
 	combat_level = CombatLevel.generate_combat_level(GameManager.player_level)

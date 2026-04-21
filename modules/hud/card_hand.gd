@@ -23,8 +23,11 @@ func _on_card_hand_updated():
 
 func update_gui_cards():
 	print("update gui cards")
-	if GameManager.card_hands.size() >= GameManager.active_card_hand_i:
+	#print(GameManager.card_hands.size())
+	#print(GameManager.active_card_hand_i)
+	if GameManager.card_hands.size() <= GameManager.active_card_hand_i:
 		return
+	#print("actually update gui cards")
 	
 	for n in get_children():
 		n.queue_free()

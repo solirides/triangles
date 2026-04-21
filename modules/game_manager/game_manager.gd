@@ -7,17 +7,18 @@ extends Node
 @export var base_speed = 320
 #@export var aim_speed_multiplier = 0.6
 @export_category("Attack")
-@export var base_health:int = 100
+@export var base_health:int = 50
 @export var base_attack_damage:int = 10
 @export var base_shot_count:int = 3
-@export var base_projectile_speed:float = 1000
+@export var base_projectile_speed:float = 2000
 @export var base_projectile_spread:float = 0.1
-@export var base_damage_immunity_time:float = 0.8
+@export var base_damage_immunity_time:float = 0.3
 @export var base_attack_speed:float = 2
 
 var player:Node = null
+var world_node:Node = null
 var in_world = false
-var game_stage:GAME_STAGE = GAME_STAGE.NONE
+var game_stage:GameStage = GameStage.NONE
 var display_node
 var approximate_bounds = Rect2(-768.0,-768.0,2*768.0,2*768.0)
 var player_level = 1
@@ -45,12 +46,13 @@ var ready_state = {
 	"world": false
 }
 
-enum GAME_STAGE {
+enum GameStage {
 	NONE,
 	MENU,
 	INITIATION,
 	ROOM_MAP,
 	COMBAT,
+	CARD_UPGRADE,
 	IDK
 }
 
@@ -67,7 +69,7 @@ func _ready() -> void:
 	get_window().grab_focus()
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
 	if autostart:
-		advance_game_stage(GAME_STAGE.COMBAT)
+		advance_game_stage(GameStage.COMBAT)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -87,7 +89,7 @@ func _physics_process(delta: float) -> void:
 
 func start_game():
 	#print("START")
-	advance_game_stage(GAME_STAGE.INITIATION)
+	advance_game_stage(GameStage.INITIATION)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
@@ -105,26 +107,37 @@ func set_in_world(state:bool):
 		pass
 	
 
-func advance_game_stage(stage:GAME_STAGE):
+func advance_game_stage(stage:GameStage):
 	get_tree().paused = false
 	game_stage = stage
+	var scene = ""
 	match game_stage:
-		GAME_STAGE.NONE:
-			get_tree().change_scene_to_file("res://scenes/world/initiation.tscn")
-		GAME_STAGE.MENU:
-			get_tree().change_scene_to_file("res://modules/menu/main_menu.tscn")
-		GAME_STAGE.INITIATION:
-			get_tree().change_scene_to_file("res://scenes/world/initiation.tscn")
-		GAME_STAGE.ROOM_MAP:
-			get_tree().change_scene_to_file("res://scenes/world/world.tscn")
+		GameStage.NONE:
+			scene = "res://scenes/world/initiation.tscn"
+			#get_tree().change_scene_to_file("res://scenes/world/initiation.tscn")
+		GameStage.MENU:
+			scene = "res://modules/menu/main_menu.tscn"
+			#get_tree().change_scene_to_file("res://modules/menu/main_menu.tscn")
+		GameStage.INITIATION:
+			scene = "res://scenes/world/initiation.tscn"
+			#get_tree().change_scene_to_file("res://scenes/world/initiation.tscn")
+		GameStage.ROOM_MAP:
+			scene = "res://scenes/world/world.tscn"
+			#get_tree().change_scene_to_file("res://scenes/world/world.tscn")
 			#get_tree().change_scene_to_file("res://scenes/room_map/room_map.tscn")
-		GAME_STAGE.COMBAT:
-			get_tree().change_scene_to_file("res://scenes/world/world.tscn")
+		GameStage.COMBAT:
+			scene = "res://scenes/world/world.tscn"
+			#get_tree().change_scene_to_file("res://scenes/world/world.tscn")
+		GameStage.CARD_UPGRADE:
+			scene = "res://modules/menu/card_selection_menu.tscn"
+			
 		_:
 			print("???")
 	for k in ready_state.keys():
 		ready_state[k] = false
 	ready_state_bool = false
+	
+	get_tree().change_scene_to_file.bind(scene).call_deferred()
 
 func initiate_card_hand():
 	print("generate cards")
@@ -150,10 +163,10 @@ func _on_enemy_death():
 	enemy_death.emit()
 
 func restart():
-	advance_game_stage(GAME_STAGE.INITIATION)
+	advance_game_stage(GameStage.INITIATION)
 
 func main_menu():
-	advance_game_stage(GAME_STAGE.MENU)
+	advance_game_stage(GameStage.MENU)
 
 func game_over():
 	get_tree().paused = true

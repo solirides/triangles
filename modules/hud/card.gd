@@ -57,7 +57,7 @@ func _process(delta: float) -> void:
 		#set_focus(false)
 	##set_focus(false)
 
-func set_focus(state:bool):
+func set_focus(state:bool, instant:bool = false):
 	var placeholder_focused = false
 	if position_placeholder != null:
 			if position_placeholder.focused:
@@ -67,15 +67,16 @@ func set_focus(state:bool):
 	if state:
 		focused = true
 		z_index = 40
-		await animate_hover(true)
+		await animate_hover(true, instant)
 	else:
 		if placeholder_focused == false:
 			focused = false
 			z_index = 0
 			if picked == false:
-				await animate_hover(false)
+				await animate_hover(false, instant)
 
-func set_picked(state:bool):
+
+func set_picked(state:bool, instant:bool = false):
 	#print("card picked")
 	if picked == state:
 		#print("return")
@@ -86,7 +87,7 @@ func set_picked(state:bool):
 		#pre_pickup_pos = global_position
 		picked = true
 		add_theme_stylebox_override("panel", stylebox_2)
-		await animate_hover(true)
+		await animate_hover(true, instant)
 		#
 		#pickup_tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		#pickup_tween.tween_property(self, "pickup_lerp", 1.0, 0.2)
@@ -94,21 +95,31 @@ func set_picked(state:bool):
 	else:
 		picked = false
 		remove_theme_stylebox_override("panel")
-		await animate_hover(false)
+		await animate_hover(false, instant)
 		#pickup_lerp = 0.0
 
 var hover_tween:Tween
 var pickup_tween:Tween
 var position_tween:Tween
-func animate_hover(state:bool):
+
+func animate_hover(state:bool, instant:bool = false):
 	if hover_tween:
 		hover_tween.kill()
+	
+	if instant:
+		if state:
+			scale = Vector2(expand_scale, expand_scale)
+		else:
+			scale = Vector2(1, 1)
+		return
+	
 	hover_tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	if state:
 		hover_tween.tween_property(self, "scale", Vector2(expand_scale, expand_scale), 0.15)
 	else:
 		hover_tween.tween_property(self, "scale", Vector2(1, 1), 0.1)
 	await hover_tween.finished
+	
 
 func _on_gui_input(event: InputEvent) -> void:
 	#if event.is_action_pressed("primary"):

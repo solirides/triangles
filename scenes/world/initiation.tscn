@@ -5,12 +5,19 @@
 [ext_resource type="Script" uid="uid://dcf6smbhg037i" path="res://modules/display/display.gd" id="3_du3mn"]
 [ext_resource type="PackedScene" uid="uid://w6jjt2mb7cyo" path="res://modules/camera/camera_controller.tscn" id="4_0bmpa"]
 [ext_resource type="Texture2D" uid="uid://bdyr6bkl6pq07" path="res://assets/textures/hallway_gradient.tres" id="5_0bmpa"]
+[ext_resource type="Material" uid="uid://dei5yobjjvmki" path="res://assets/shaders/voronoi_material.tres" id="5_iv5ap"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_du3mn"]
 friction = 0.0
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_iv5ap"]
+polygon = PackedVector2Array(-1024, -128, -512, -128, -512, -512, 512, -512, 512, -128, 1024, -128, 1024, 128, 512, 128, 512, 512, -512, 512, -512, 128, -1024, 128)
+
 [sub_resource type="LabelSettings" id="LabelSettings_du3mn"]
 font_size = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_iv5ap"]
+font_size = 14
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iv5ap"]
 size = Vector2(256, 256)
@@ -24,6 +31,7 @@ display = NodePath("../Display")
 camera_controller = NodePath("../CameraController")
 
 [node name="Display" type="Node2D" parent="." unique_id=1284772788]
+z_index = 10
 script = ExtResource("3_du3mn")
 
 [node name="CameraController" parent="." unique_id=971771314 node_paths=PackedStringArray("player") instance=ExtResource("4_0bmpa")]
@@ -39,6 +47,7 @@ build_mode = 1
 polygon = PackedVector2Array(-1024, -128, -512, -128, -512, -512, 512, -512, 512, -128, 1024, -128, 1024, 128, 512, 128, 512, 512, -512, 512, -512, 128, -1024, 128)
 
 [node name="Polygon2D" type="Polygon2D" parent="StaticBody2D" unique_id=1730563560]
+material = ExtResource("5_iv5ap")
 color = Color(0.105882354, 0.043137256, 0.10980392, 1)
 polygon = PackedVector2Array(-1024, -128, -512, -128, -512, -512, 512, -512, 512, -128, 1024, -128, 1024, 128, 512, 128, 512, 512, -512, 512, -512, 128, -1024, 128)
 
@@ -51,6 +60,9 @@ position = Vector2(768, 0)
 rotation = 3.1415927
 texture = ExtResource("5_0bmpa")
 
+[node name="LightOccluder2D" type="LightOccluder2D" parent="StaticBody2D" unique_id=1109826624]
+occluder = SubResource("OccluderPolygon2D_iv5ap")
+
 [node name="Label" type="Label" parent="." unique_id=610067173]
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,7 +72,7 @@ offset_right = -431.0
 offset_bottom = 39.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "WASD"
+text = "WASD + mouse"
 label_settings = SubResource("LabelSettings_du3mn")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -74,8 +86,25 @@ offset_right = 302.0
 offset_bottom = 39.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Choose a weapon"
+text = "Choose a weapon
+(you have no options
+just left click)"
 label_settings = SubResource("LabelSettings_du3mn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="." unique_id=50941960]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 302.0
+offset_bottom = 103.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "(or right click but that's cheating)"
+label_settings = SubResource("LabelSettings_iv5ap")
 horizontal_alignment = 1
 vertical_alignment = 1
 

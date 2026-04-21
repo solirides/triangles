@@ -39,4 +39,6 @@ static func generate_description(card:ModifierCard):
 		if modifier.modifier_type == StatModifier.ModifierType.MULTIPLY:
 			p = "%"
 		a += sign + str(modifier.modifier_value) + p + " " + modifier.stat + "\n"
+	if card.modifiers.size() == 0:
+		a = "There's nothing here :P"
 	return a

@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dei5yobjjvmki"]
+
+[ext_resource type="Shader" uid="uid://brmlowwbi2ij6" path="res://assets/shaders/voronoi.gdshader" id="1_mmguq"]
+
+[sub_resource type="Gradient" id="Gradient_iv5ap"]
+colors = PackedColorArray(0.02877023, 0.0083936, 0.044943437, 1, 0.105882354, 0.043137256, 0.10980392, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1pgkb"]
+gradient = SubResource("Gradient_iv5ap")
+
+[resource]
+shader = ExtResource("1_mmguq")
+shader_parameter/scale = 0.01
+shader_parameter/color = Color(0.105882354, 0.043137256, 0.10980392, 1)
+shader_parameter/GRADIENT = SubResource("GradientTexture1D_1pgkb")
+shader_parameter/time_scale = 0.3

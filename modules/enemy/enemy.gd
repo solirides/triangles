@@ -92,8 +92,8 @@ func _on_collision(body: Node2D) -> void:
 	if body.is_in_group("player_projectile"):
 		self.damage(body.attack_damage)
 		var p = projectile_particle.instantiate()
-		get_tree().get_current_scene().add_child(p)
 		p.global_position = self.global_position
+		get_tree().get_current_scene().add_child(p)
 		p.emitting = true
 		
 		GameManager.player.camera_controller.shake(0.1, 10, 20, 0)

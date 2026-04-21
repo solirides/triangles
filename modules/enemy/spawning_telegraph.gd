@@ -17,11 +17,11 @@ func start_spawning_sequence():
 	tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	if instant == false:
 		for i in range(3):
-			tween.tween_property(self, "modulate", Color(1,1,1,0), 0.4)
-			tween.tween_property(self, "modulate", Color(1,1,1,0.5), 0.4)
+			tween.tween_property(self, "modulate", Color(1,1,1,0), 0.3)
+			tween.tween_property(self, "modulate", Color(1,1,1,0.5), 0.3)
 		for i in range(3):
-			tween.tween_property(self, "modulate", Color(1,1,1,0), 0.1)
-			tween.tween_property(self, "modulate", Color(1,1,1,0.5), 0.1)
+			tween.tween_property(self, "modulate", Color(1,1,1,0), 0.08)
+			tween.tween_property(self, "modulate", Color(1,1,1,0.5), 0.08)
 	tween.tween_callback(spawn_enemy)
 
 func spawn_enemy():

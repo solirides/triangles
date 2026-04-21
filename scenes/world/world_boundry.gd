@@ -35,6 +35,7 @@ func _process(delta: float) -> void:
 	pass
 
 func change_level_collisions(state:String):
+	print("change level collisions:" + state)
 	collision_state = state
 	
 	for i in polygons:
@@ -74,10 +75,10 @@ func change_level_collisions(state:String):
 func _on_exit_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		GameManager.player_level += 1
-		GameManager.advance_game_stage(GameManager.GAME_STAGE.ROOM_MAP)
+		GameManager.advance_game_stage(GameManager.GameStage.CARD_UPGRADE)
 
 func _on_entrance_body_entered(body: Node2D) -> void:
 	print("player entered start trigger")
-	if body.is_in_group("player"):
+	if body.is_in_group("player") and world.level_started == false:
 		change_level_collisions("combat")
 		world.start_level()

@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://cc5x7w1j4a7a3" path="res://scenes/world/world_boundry.gd" id="6_t5ptc"]
 [ext_resource type="Script" uid="uid://dh4rtf3xfxdcg" path="res://scenes/world/visual_boundary.gd" id="7_1yooq"]
 [ext_resource type="Shader" uid="uid://bf51l6ff4ds7q" path="res://assets/shaders/world_boundry.gdshader" id="7_gb53w"]
+[ext_resource type="Material" uid="uid://dei5yobjjvmki" path="res://assets/shaders/voronoi_material.tres" id="7_srmg5"]
 
 [sub_resource type="Resource" id="Resource_1yooq"]
 script = ExtResource("3_gb53w")
@@ -134,14 +135,17 @@ collision_mask = 51
 physics_material_override = SubResource("PhysicsMaterial_j2gmx")
 
 [node name="Polygon2D2" type="Polygon2D" parent="WorldBoundary/StaticBody2D" unique_id=708795583]
+material = ExtResource("7_srmg5")
 color = Color(0.105882354, 0.043137256, 0.10980392, 1)
 polygon = PackedVector2Array(-1280, -128, -768, -128, -768, -832, 768, -832, 768, -128, 768, 128, 768, 768, -768, 768, -768, 128, -1280, 128)
 
 [node name="Polygon2D3" type="Polygon2D" parent="WorldBoundary/StaticBody2D" unique_id=1853580293]
+material = ExtResource("7_srmg5")
 color = Color(0.105882354, 0.043137256, 0.10980392, 1)
 polygon = PackedVector2Array(-768, -128, -768, -832, 768, -832, 768, -128, 768, 128, 768, 768, -768, 768, -768, 128)
 
 [node name="Polygon2D4" type="Polygon2D" parent="WorldBoundary/StaticBody2D" unique_id=876105762]
+material = ExtResource("7_srmg5")
 color = Color(0.105882354, 0.043137256, 0.10980392, 1)
 polygon = PackedVector2Array(-768, -128, -768, -832, 768, -832, 768, -128, 1280, -128, 1280, 128, 768, 128, 768, 768, -768, 768, -768, 128)
 

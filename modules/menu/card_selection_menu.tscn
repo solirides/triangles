@@ -1,47 +1,8 @@
 [gd_scene format=3 uid="uid://cwvrih3oy1efp"]
 
 [ext_resource type="Script" uid="uid://6j77rsauvymh" path="res://modules/menu/card_selection_menu.gd" id="1_f3bwq"]
-[ext_resource type="PackedScene" uid="uid://x0u5c8rftqfr" path="res://modules/hud/card.tscn" id="2_n7txg"]
 [ext_resource type="Script" uid="uid://y3qrov5dtub1" path="res://modules/menu/dynamic_card_hand.gd" id="2_we2xg"]
-[ext_resource type="Script" uid="uid://wxd2cdgoukr3" path="res://modules/card/stat_modifier.gd" id="3_o8fg8"]
-[ext_resource type="Script" uid="uid://d2uitxcfpu7d" path="res://modules/card/modifier_card.gd" id="4_we2xg"]
-
-[sub_resource type="Resource" id="Resource_74hof"]
-script = ExtResource("3_o8fg8")
-stat = "health"
-modifier_value = 55.0
-metadata/_custom_type_script = "uid://wxd2cdgoukr3"
-
-[sub_resource type="Resource" id="Resource_7w3v6"]
-script = ExtResource("3_o8fg8")
-stat = "attack_speed"
-modifier_value = 50.0
-modifier_type = 1
-metadata/_custom_type_script = "uid://wxd2cdgoukr3"
-
-[sub_resource type="Resource" id="Resource_cfhle"]
-script = ExtResource("4_we2xg")
-modifiers = Array[ExtResource("3_o8fg8")]([SubResource("Resource_74hof"), SubResource("Resource_7w3v6")])
-description = "dfhdfsdfdfsdf"
-metadata/_custom_type_script = "uid://d2uitxcfpu7d"
-
-[sub_resource type="Resource" id="Resource_we2xg"]
-script = ExtResource("4_we2xg")
-modifiers = Array[ExtResource("3_o8fg8")]([SubResource("Resource_74hof"), SubResource("Resource_7w3v6")])
-description = "3"
-metadata/_custom_type_script = "uid://d2uitxcfpu7d"
-
-[sub_resource type="Resource" id="Resource_t6h80"]
-script = ExtResource("4_we2xg")
-modifiers = Array[ExtResource("3_o8fg8")]([SubResource("Resource_74hof"), SubResource("Resource_7w3v6")])
-description = "4"
-metadata/_custom_type_script = "uid://d2uitxcfpu7d"
-
-[sub_resource type="Resource" id="Resource_oyk2p"]
-script = ExtResource("4_we2xg")
-modifiers = Array[ExtResource("3_o8fg8")]([SubResource("Resource_74hof"), SubResource("Resource_7w3v6")])
-description = "45555"
-metadata/_custom_type_script = "uid://d2uitxcfpu7d"
+[ext_resource type="Theme" uid="uid://f47mp0qpnlj7" path="res://assets/themes/menu.tres" id="6_cfhle"]
 
 [node name="CardSelectionMenu" type="Control" unique_id=1810370965]
 layout_mode = 3
@@ -57,8 +18,9 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 240.0
-offset_top = 140.0
+offset_top = 176.0
 offset_right = -240.0
+offset_bottom = 176.0
 grow_horizontal = 2
 script = ExtResource("2_we2xg")
 max_tilt = 0.0
@@ -80,50 +42,6 @@ grow_vertical = 0
 script = ExtResource("2_we2xg")
 rise = 24
 
-[node name="Card" parent="DynamicCardHand" unique_id=2014112755 instance=ExtResource("2_n7txg")]
-layout_mode = 0
-anchors_preset = 0
-offset_left = 376.0
-offset_top = 0.0
-offset_right = 496.0
-offset_bottom = 160.0
-
-[node name="Card2" parent="DynamicCardHand" unique_id=1316880540 instance=ExtResource("2_n7txg")]
-layout_mode = 0
-anchors_preset = 0
-offset_left = 504.0
-offset_top = 0.0
-offset_right = 624.0
-offset_bottom = 160.0
-modifier_card = SubResource("Resource_cfhle")
-
-[node name="Card3" parent="DynamicCardHand" unique_id=1040348308 instance=ExtResource("2_n7txg")]
-layout_mode = 0
-anchors_preset = 0
-offset_left = 504.0
-offset_top = 0.0
-offset_right = 624.0
-offset_bottom = 160.0
-modifier_card = SubResource("Resource_we2xg")
-
-[node name="Card4" parent="DynamicCardHand" unique_id=550100912 instance=ExtResource("2_n7txg")]
-layout_mode = 0
-anchors_preset = 0
-offset_left = 504.0
-offset_top = 0.0
-offset_right = 624.0
-offset_bottom = 160.0
-modifier_card = SubResource("Resource_t6h80")
-
-[node name="Card5" parent="DynamicCardHand" unique_id=1272851855 instance=ExtResource("2_n7txg")]
-layout_mode = 0
-anchors_preset = 0
-offset_left = 504.0
-offset_top = 0.0
-offset_right = 624.0
-offset_bottom = 160.0
-modifier_card = SubResource("Resource_oyk2p")
-
 [node name="Picked" type="Control" parent="." unique_id=91098930]
 anchors_preset = 0
 offset_right = 40.0
@@ -135,3 +53,61 @@ offset_left = 200.0
 offset_top = 520.0
 offset_right = 240.0
 offset_bottom = 560.0
+
+[node name="Label" type="Label" parent="." unique_id=702002272]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 20.0
+grow_horizontal = 2
+theme = ExtResource("6_cfhle")
+text = "pretend you can only swap or merge cards once
+Card deck"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=1739482725]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("6_cfhle")
+text = "Your card hand"
+horizontal_alignment = 1
+
+[node name="Continue" type="Button" parent="." unique_id=328066188]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_right = -40.0
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("6_cfhle")
+text = "Continue"
+
+[node name="Merge" type="Button" parent="." unique_id=1636751644]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -15.5
+offset_right = 52.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("6_cfhle")
+text = "Merge cards"
+
+[connection signal="pressed" from="Continue" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Merge" to="." method="_on_merge_pressed"]

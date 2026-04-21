@@ -18,7 +18,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var text = "FPS: " + str(Engine.get_frames_per_second())
 	random_label.text = text
-	level_label.text = "Level: " + str(GameManager.player_level)
+	if GameManager.ready_state_bool:
+		if GameManager.world_node != null:
+			level_label.text = "Level: " + str(GameManager.player_level) + "   Wave: " + str(GameManager.world_node.wave_i + 1)
 	enemies_label.text = "Enemies remaining: " + str(get_tree().get_nodes_in_group("enemy").size())
 	
 	var a = GameManager.player.get_stat("health")

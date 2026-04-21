@@ -62,6 +62,10 @@ func _ready() -> void:
 	
 	GameManager.ready_state["player"] = true
 	
+	GameManager.card_hand_updated.connect(_on_card_hand_updated)
+	GameManager.card_hand_updated.emit()
+	#GameManager.initiate_card_hand()
+	
 	get_tree().create_timer(1).timeout.connect(func(): view_status(true))
 	get_tree().create_timer(3).timeout.connect(func(): view_status(false))
 	
@@ -142,8 +146,17 @@ func _physics_process(delta: float) -> void:
 			attack_cooldown_timer.start(1 / get_stat("attack_speed"))
 			var direction = (get_global_mouse_position()-self.global_position).normalized()
 			#var spread = 0.1
-			for i in range(-2,3):
-				shoot(direction.rotated(i * get_stat("projectile_spread"),), get_stat("projectile_speed") * randf_range(0.8,1.0), 7.0, self.linear_velocity)
+			
+			var shots:int = round(get_stat("shot_count"))
+			#shots = 1
+			var a = floor(shots / 2.0)
+			#print(a)
+			# offset by half of spread distance if even
+			var even = (shots+1)%2
+			var offset = even * get_stat("projectile_spread") * 0.5
+			print(offset)
+			for i in range(-a, a + 1 - even):
+				shoot(direction.rotated(offset + i * get_stat("projectile_spread")), get_stat("projectile_speed") * randf_range(0.8,1.0), 7.0, self.linear_velocity)
 			GameManager.global_audio.play("shoot")
 	
 	if Input.is_action_pressed("secondary"):
@@ -334,4 +347,6 @@ func get_stat(stat:String, property:String="value"):
 
 func set_stat(stat:String, value:float):
 	self.stats[stat].value = value
-	
+
+func _on_card_hand_updated():
+	recalculate_stats()
