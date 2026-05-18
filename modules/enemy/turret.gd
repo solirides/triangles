@@ -16,6 +16,8 @@ extends Enemy
 @onready var burst_timer = $Burst
 var burst_attacking = false
 
+var theta = 0
+
 func _init():
 	enemy_type = EnemyType.TURRET
 
@@ -24,13 +26,15 @@ func _physics_process(delta:float) -> void:
 	var attack_frame_speed:int = max(int(floor(attack_speed * Engine.physics_ticks_per_second)), 1)
 	var burst_frame_speed:int = max(int(floor(burst_speed * Engine.physics_ticks_per_second)), 1)
 	
-	rotation += 2*PI * rotation_speed * delta
+	theta += 2*PI * rotation_speed * delta
 	
 	if physics_frame % burst_frame_speed == 0:
 		burst()
 	
 	if physics_frame % attack_frame_speed == 0 and burst_attacking:
-		shoot(Vector2(1,0).rotated(rotation), projectile_speed, 0)
+		shoot(Vector2(1,0).rotated(theta), projectile_speed, 0)
+	
+	self.rotation = theta
 	
 
 func burst():

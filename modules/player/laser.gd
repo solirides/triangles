@@ -8,7 +8,7 @@ extends Node2D
 var laser_polygon = preload("res://modules/projectile/laser.tscn")
 
 @export var damage:float = 3
-@export var attack_speed:float = 0.2
+@export var attack_speed:float = 0.3
 #@export var projectile_speed:float = 1
 #@export var projectile_spread:float = 1
 

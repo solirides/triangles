@@ -1,3 +1,4 @@
+class_name Player
 extends RigidBody2D
 
 @export_group("Movement")
@@ -14,7 +15,7 @@ extends RigidBody2D
 #@export var base_shot_count:int = 3
 #@export var base_projectile_speed:float = 1000
 #@export var base_projectile_spread:float = 0.1
-@export var projectile_lifetime:float = 3
+@export var projectile_lifetime:float = 5
 #@export var base_damage_immunity_time:float = 0.8
 #@export var base_attack_speed:float = 2
 
@@ -50,6 +51,20 @@ var damage_immunity = false
 var movement_input = true
 var aiming = false
 #var active_card_hand_i = 0
+
+enum Weapon {
+	SHOTGUN,
+	BLASTER,
+	LASER,
+	SWORD
+}
+
+@onready var weapon_nodes:Dictionary = {
+	Weapon.SHOTGUN : $Weapons/Shotgun,
+	Weapon.BLASTER : $Weapons/Blaster,
+	Weapon.LASER : $Weapons/Laser,
+	Weapon.SWORD : $Weapons/Sword
+}
 
 @onready var constructor = $Constructor
 
@@ -143,12 +158,14 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("primary"):
 		if attack_cooldown_timer.time_left == 0:
 			#attack_cooldown_timer.start(1 / get_stat("attack_speed"))
-			$Weapons/Shotgun.attack()
+			weapon_nodes[GameManager.weapons[GameManager.active_card_hand_i]].attack()
+			#$Weapons/Shotgun.attack()
 	
-	if Input.is_action_pressed("secondary"):
+	if Input.is_action_just_pressed("secondary"):
 		if attack_cooldown_timer.time_left == 0:
 			#attack_cooldown_timer.start(1 / get_stat("attack_speed"))
-			$Weapons/Laser.attack()
+			#$Weapons/Laser.attack()
+			swap_active_hand()
 	
 	if Input.is_action_just_pressed("construct"):
 		$Weapons/Sword.attack()
@@ -302,7 +319,7 @@ func start_attack_cooldown(duration:float):
 	attack_cooldown_timer.start(duration)
 
 var immunity_tween
-func start_damage_immunity(duration:float, animate:bool=false):
+func start_damage_immunity(duration:float, animate:bool=true):
 	damage_immunity = true
 	immunity_timer.start(duration)
 	
@@ -315,3 +332,11 @@ func start_damage_immunity(duration:float, animate:bool=false):
 			immunity_tween.tween_property(self, "modulate", Color(1,1,1,0), 0.04)
 			immunity_tween.tween_property(self, "modulate", Color.WHITE, 0.04)
 			t += 0.08
+
+
+func swap_active_hand(index:int = -1):
+	var hand_i = (GameManager.active_card_hand_i + 1) % GameManager.card_hands.size()
+	if index >= 0:
+		hand_i = index
+	GameManager.active_card_hand_i = hand_i
+	print("swapped to hand " + str(hand_i))

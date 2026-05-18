@@ -3,9 +3,9 @@ extends Node2D
 
 @export var player:Node
 
-@export var damage:float = 1
+@export var damage:float = 1.4
 @export var attack_speed:float = 1
-@export var projectile_speed:float = 1
+@export var projectile_speed:float = 1.4
 @export var projectile_spread:float = 1
 @export var shot_count:int = 3
 

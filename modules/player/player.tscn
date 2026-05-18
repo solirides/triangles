@@ -14,6 +14,9 @@
 [ext_resource type="Script" uid="uid://dvqegxx6dcxvm" path="res://modules/player/sword.gd" id="7_jto3d"]
 [ext_resource type="Script" uid="uid://d37h2bxlg3xmu" path="res://modules/hud/cursor.gd" id="8_dhhsu"]
 [ext_resource type="Script" uid="uid://tqiid4kq104e" path="res://modules/player/compass.gd" id="9_0rblh"]
+[ext_resource type="Shader" uid="uid://cvppirdl5bw42" path="res://assets/shaders/slash.gdshader" id="9_i284a"]
+[ext_resource type="Shader" uid="uid://qyxmpe0frcmb" path="res://assets/shaders/saturation.gdshader" id="10_teqk1"]
+[ext_resource type="Script" uid="uid://cxh4v6r064o1q" path="res://modules/player/saturation.gd" id="11_i284a"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0rblh"]
 
@@ -37,6 +40,24 @@ radius = 20.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_ej5i3"]
 radius = 100.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dty43"]
+shader = ExtResource("9_i284a")
+shader_parameter/inner_radius = 0.3890000184775
+shader_parameter/inner_offset = Vector2(0, 0)
+shader_parameter/outer_radius = 0.5
+shader_parameter/outer_offset = Vector2(0, 0)
+shader_parameter/spin_center = Vector2(0, 0)
+shader_parameter/lead_angle = 0.0
+shader_parameter/tail_angle = 0.410000019475
+
+[sub_resource type="Gradient" id="Gradient_i284a"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qxsr1"]
+gradient = SubResource("Gradient_i284a")
+width = 1
+height = 1
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_5rkg0"]
 radius = 12.0
 
@@ -49,6 +70,10 @@ shader_parameter/dot_color = Color(0.2156, 0.2156, 0.2156, 1)
 shader_parameter/offset = Vector2(0, 0)
 shader_parameter/anti_aliasing_factor = 0.01
 shader_parameter/stochastic_samples = 16
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qxsr1"]
+shader = ExtResource("10_teqk1")
+shader_parameter/saturation = 1.0
 
 [sub_resource type="Gradient" id="Gradient_0rblh"]
 interpolation_mode = 2
@@ -102,12 +127,17 @@ script = ExtResource("7_jto3d")
 player = NodePath("../..")
 
 [node name="SwordArea" type="Area2D" parent="Weapons/Sword" unique_id=1023967298]
-rotation = -1.5707964
 collision_layer = 4
 collision_mask = 48
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Weapons/Sword/SwordArea" unique_id=1993871666]
 shape = SubResource("CircleShape2D_ej5i3")
+
+[node name="Slash" type="Polygon2D" parent="Weapons/Sword" unique_id=974049406]
+material = SubResource("ShaderMaterial_dty43")
+texture = SubResource("GradientTexture2D_qxsr1")
+polygon = PackedVector2Array(-104, -104, 104, -104, 104, 104, -104, 104)
+uv = PackedVector2Array(0, 0, 1, 0, 1, 1, 0, 1)
 
 [node name="Pivot" type="Node2D" parent="." unique_id=838123745]
 rotation = -1.5707964
@@ -155,6 +185,16 @@ metadata/_edit_use_anchors_ = true
 
 [node name="HudCanvas" type="CanvasLayer" parent="." unique_id=1336209488]
 layer = 80
+
+[node name="Saturation" type="ColorRect" parent="HudCanvas" unique_id=1396715420 node_paths=PackedStringArray("player")]
+material = SubResource("ShaderMaterial_qxsr1")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_i284a")
+player = NodePath("../..")
 
 [node name="Hud" parent="HudCanvas" unique_id=30667009 instance=ExtResource("4_55gox")]
 

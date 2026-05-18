@@ -37,6 +37,8 @@ var active_card_hand_i = 0
 #var compass_target_position:Vector2
 #var enemy_nodes:Array[Node] = []
 
+# same index for weapons and card hands
+var weapons:Array = []
 var card_hands:Array[CardHand] = []
 
 var ready_state_bool = false
@@ -141,12 +143,18 @@ func advance_game_stage(stage:GameStage):
 
 func initiate_card_hand():
 	print("generate cards")
-	GameManager.card_hands.clear()
+	card_hands.clear()
 	var h = CardHand.new()
 	for i in range(3):
 		var c = ModifierCard.generate_card(1)
 		h.modifier_cards.append(c)
-	GameManager.card_hands.append(h)
+	card_hands.append(h)
+	
+	var h2 = CardHand.new()
+	card_hands.append(h2)
+	
+	weapons.append(Player.Weapon.SHOTGUN)
+	weapons.append(Player.Weapon.SWORD)
 	
 	GameManager.card_hand_updated.emit()
 	

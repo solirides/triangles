@@ -11,7 +11,7 @@
 friction = 0.0
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_iv5ap"]
-polygon = PackedVector2Array(-1024, -128, -512, -128, -512, -512, 512, -512, 512, -128, 1024, -128, 1024, 128, 512, 128, 512, 512, -512, 512, -512, 128, -1024, 128)
+polygon = PackedVector2Array(-1024, -128, -512, -128, -512, -320, 512, -320, 512, -128, 1024, -128, 1024, 128, 512, 128, 512, 320, -512, 320, -512, 128, -1024, 128)
 
 [sub_resource type="LabelSettings" id="LabelSettings_du3mn"]
 font_size = 28
@@ -24,11 +24,6 @@ size = Vector2(256, 256)
 
 [node name="Initiation" type="Node2D" unique_id=1801787322]
 script = ExtResource("1_ehnpr")
-
-[node name="Player" parent="." unique_id=275705057 node_paths=PackedStringArray("display", "camera_controller") instance=ExtResource("2_mchtr")]
-position = Vector2(-896, 0)
-display = NodePath("../Display")
-camera_controller = NodePath("../CameraController")
 
 [node name="Display" type="Node2D" parent="." unique_id=1284772788]
 z_index = 10
@@ -44,12 +39,12 @@ physics_material_override = SubResource("PhysicsMaterial_du3mn")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=2128994626]
 build_mode = 1
-polygon = PackedVector2Array(-1024, -128, -512, -128, -512, -512, 512, -512, 512, -128, 1024, -128, 1024, 128, 512, 128, 512, 512, -512, 512, -512, 128, -1024, 128)
+polygon = PackedVector2Array(-1024, -128, -512, -128, -512, -320, 512, -320, 512, -128, 1024, -128, 1024, 128, 512, 128, 512, 320, -512, 320, -512, 128, -1024, 128)
 
 [node name="Polygon2D" type="Polygon2D" parent="StaticBody2D" unique_id=1730563560]
 material = ExtResource("5_iv5ap")
 color = Color(0.105882354, 0.043137256, 0.10980392, 1)
-polygon = PackedVector2Array(-1024, -128, -512, -128, -512, -512, 512, -512, 512, -128, 1024, -128, 1024, 128, 512, 128, 512, 512, -512, 512, -512, 128, -1024, 128)
+polygon = PackedVector2Array(-1024, -128, -512, -128, -512, -320, 512, -320, 512, -128, 1024, -128, 1024, 128, 512, 128, 512, 320, -512, 320, -512, 128, -1024, 128)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=1393400286]
 position = Vector2(-768, 0)
@@ -107,6 +102,11 @@ text = "(or right click but that's cheating)"
 label_settings = SubResource("LabelSettings_iv5ap")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Player" parent="." unique_id=275705057 node_paths=PackedStringArray("display", "camera_controller") instance=ExtResource("2_mchtr")]
+position = Vector2(-896, 0)
+display = NodePath("../Display")
+camera_controller = NodePath("../CameraController")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=426777523]
 position = Vector2(896, 0)

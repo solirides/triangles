@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://c2acrr7mba33y" path="res://modules/menu/pause_menu.gd" id="1_bhr2b"]
 [ext_resource type="Shader" uid="uid://cqvkaupujkili" path="res://assets/shaders/posterize.gdshader" id="1_nriuk"]
-[ext_resource type="FontFile" uid="uid://dwwob7llks7te" path="res://assets/fonts/congruencev1.fnt" id="3_umyk6"]
 
 [sub_resource type="Animation" id="Animation_umyk6"]
 length = 0.001
@@ -167,7 +166,6 @@ shader_parameter/luminosity_offset = 0.0
 shader_parameter/GRADIENT = SubResource("GradientTexture1D_dhhsu")
 
 [sub_resource type="LabelSettings" id="LabelSettings_vx25p"]
-font = ExtResource("3_umyk6")
 font_size = 108
 
 [node name="Menu" type="Control" unique_id=1620312716]

@@ -16,6 +16,35 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6s0ul")
 
+[node name="ColorRect" type="ColorRect" parent="." unique_id=572510367]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1407586, 0.13184479, 0.23009875, 1)
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=764321744]
+visible = false
+color = Color(1, 1, 1, 0.25490198)
+polygon = PackedVector2Array(288, 96, 216, 200, 136, 160)
+
+[node name="Polygon2D2" type="Polygon2D" parent="." unique_id=1594542438]
+visible = false
+color = Color(1, 1, 1, 0.25490198)
+polygon = PackedVector2Array(344, 72, 184, 256, 104, 136)
+
+[node name="Polygon2D3" type="Polygon2D" parent="." unique_id=400288776]
+visible = false
+color = Color(1, 1, 1, 0.25490198)
+polygon = PackedVector2Array(464, 72, 128, 328, 40, 48)
+
+[node name="Polygon2D4" type="Polygon2D" parent="." unique_id=1275965679]
+visible = false
+color = Color(1, 1, 1, 0.25490198)
+polygon = PackedVector2Array(560, 72, 88, 368, 24, 8)
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1639656675]
 layout_mode = 1
 anchors_preset = -1
@@ -28,7 +57,7 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=436511960]
 layout_mode = 2
-text = "title"
+text = "A Triangle Game"
 label_settings = SubResource("LabelSettings_tsonj")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -36,17 +65,18 @@ vertical_alignment = 1
 [node name="Start" type="Button" parent="VBoxContainer" unique_id=1796606456]
 layout_mode = 2
 theme = ExtResource("2_cvkr5")
-text = "start"
+text = "Start"
 
 [node name="Options" type="Button" parent="VBoxContainer" unique_id=2076698562]
 layout_mode = 2
 theme = ExtResource("2_cvkr5")
-text = "options"
+disabled = true
+text = "Options (you have no options)"
 
 [node name="Quit" type="Button" parent="VBoxContainer" unique_id=704523006]
 layout_mode = 2
 theme = ExtResource("2_cvkr5")
-text = "quit"
+text = "Quit"
 
 [node name="Version" type="Label" parent="." unique_id=1791145847]
 layout_mode = 1

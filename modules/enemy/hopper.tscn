@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dxq5sxp6nwkcl" path="res://modules/enemy/hopper.gd" id="1_rbgp1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4cjfe"]
+size = Vector2(24, 24)
 
 [node name="Hopper" type="RigidBody2D" unique_id=471362178 groups=["enemy"]]
 collision_layer = 16
@@ -20,9 +21,32 @@ scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_4cjfe")
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=1253832347]
+visible = false
 scale = Vector2(2, 2)
 color = Color(0.6627451, 0.8156863, 0.72156864, 1)
 polygon = PackedVector2Array(10, -10, 10, 10, -10, 10, -10, -10)
+
+[node name="Polygon2D4" type="Polygon2D" parent="." unique_id=1497276647]
+scale = Vector2(2, 2)
+color = Color(0.8352941, 0.85882354, 0.07058824, 1)
+polygon = PackedVector2Array(8, -12, 8, -8, -8, 0, -8, -8)
+
+[node name="Polygon2D5" type="Polygon2D" parent="." unique_id=743461320]
+rotation = 3.1415927
+scale = Vector2(2, 2)
+color = Color(0.6627451, 0.8156863, 0.72156864, 1)
+polygon = PackedVector2Array(8, -12, 8, -8, -8, 0, -8, -8)
+
+[node name="Polygon2D2" type="Polygon2D" parent="." unique_id=775528086]
+scale = Vector2(2, 2)
+color = Color(0.078431375, 0.6862745, 0.6, 1)
+polygon = PackedVector2Array(-4, -16, -4, 16, -12, 8, -12, -8)
+
+[node name="Polygon2D3" type="Polygon2D" parent="." unique_id=550435423]
+rotation = 3.1415927
+scale = Vector2(2, 2)
+color = Color(0.078431375, 0.6862745, 0.6, 1)
+polygon = PackedVector2Array(-4, -16, -4, 16, -11.999999, 8.000001, -12.000001, -7.999999)
 
 [node name="StateTimer" type="Timer" parent="." unique_id=599990247]
 process_callback = 0

@@ -2,18 +2,19 @@ extends Node2D
 
 @export var player:Node
 
-@export var damage:float = 5
-@export var attack_speed:float = 3
+@export var damage:float = 3
+@export var attack_speed:float = 0.7
 @export var projectile_speed:float = 0.6
 @export var projectile_spread:float = 0.2
 @export var damage_immunity_time:float = 4
+@export var range:float = 100
+#@export var angle:float = 2*PI*0.3
 
 @onready var sword_area:Area2D = $"SwordArea"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
+	$SwordArea/CollisionShape2D.shape.radius = range
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -32,6 +33,20 @@ func attack():
 		elif body.is_in_group("enemy_projectile"):
 			body.queue_free()
 	
+	animate(cooldown_duration)
 
 func _draw() -> void:
-	draw_circle(Vector2(0,0), 90, Color(0.689, 0.514, 0.97, 0.455), false, 20, true)
+	draw_circle(Vector2(0,0), range, Color(0.689, 0.514, 0.97, 0.455), false, 1, true)
+
+var tween
+func animate(time:float):
+	$Slash.global_rotation = player.pivot.global_rotation
+	
+	if tween:
+		tween.kill()
+	tween = create_tween()
+	#tween.tween_method($Slash.material.set.bind("shader_parameter/lead_angle"), 0.0, 1.0, 1.0)
+	tween.tween_method(set_slash_progress, 0.0, 2.0, time)
+
+func set_slash_progress(value:float):
+	$Slash.material.set("shader_parameter/lead_angle", value)
