@@ -7,6 +7,7 @@
 
 [node name="GameManager" type="Node" unique_id=467560154]
 script = ExtResource("1_uegwh")
+autostart = true
 
 [node name="GlobalAudio" type="Node" parent="." unique_id=2100046156]
 script = ExtResource("2_3khbs")

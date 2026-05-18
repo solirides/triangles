@@ -165,7 +165,10 @@ func merge_cards(card_1:Node, card_2:Node):
 	await get_tree().process_frame
 	p1.arrange_hand(true)
 	
-	action_mode = "swap"
+	# will trigger button toggled signal
+	$Merge.button_pressed = false
+	
+	#action_mode = "swap"
 	
 
 func swap_cards(card_1:Node, card_2:Node):
@@ -210,5 +213,11 @@ func swap_cards(card_1:Node, card_2:Node):
 func _on_button_pressed() -> void:
 	advance_game()
 
-func _on_merge_pressed() -> void:
-	action_mode = "merge"
+#func _on_merge_pressed() -> void:
+	#action_mode = "merge"
+
+func _on_merge_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		action_mode = "merge"
+	else:
+		action_mode = "swap"

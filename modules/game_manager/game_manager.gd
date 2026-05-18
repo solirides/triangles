@@ -9,7 +9,7 @@ extends Node
 @export_category("Attack")
 @export var base_health:int = 50
 @export var base_attack_damage:int = 10
-@export var base_shot_count:int = 3
+@export var base_shot_count:int = 1
 @export var base_projectile_speed:float = 2000
 @export var base_projectile_spread:float = 0.1
 @export var base_damage_immunity_time:float = 0.3
@@ -23,13 +23,13 @@ var display_node
 var approximate_bounds = Rect2(-768.0,-768.0,2*768.0,2*768.0)
 var player_level = 1
 var active_card_hand_i = 0
-var player_stats = {
+@onready var player_stats = {
 	"speed": Stat.new("speed", "", base_speed, 10),
 	"health": Stat.new("health", "", base_health, 1),
 	"attack_speed": Stat.new("attack_speed", "", base_attack_speed, 0.1),
-	"attack_damage": Stat.new("attack_damage", "", base_attack_damage),
-	"shot_count": Stat.new("shot_count", "", base_shot_count),
-	"projectile_speed": Stat.new("projectile_speed", "", base_projectile_speed),
+	"attack_damage": Stat.new("attack_damage", "", base_attack_damage, 1),
+	"shot_count": Stat.new("shot_count", "", base_shot_count, 1),
+	"projectile_speed": Stat.new("projectile_speed", "", base_projectile_speed, 1),
 	"projectile_spread": Stat.new("projectile_spread", "", base_projectile_spread),
 	"damage_immunity_time": Stat.new("damage_immunity_time", "", base_damage_immunity_time)
 }

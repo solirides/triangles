@@ -7,6 +7,8 @@ extends RigidBody2D
 @onready var health = base_health
 @onready var start_time = Time.get_ticks_msec()
 
+var damage_particle = preload("res://modules/projectile/projectile_particle.tscn")
+
 var dead = false
 
 signal death()
@@ -17,6 +19,12 @@ signal death()
 func damage(amount:int):
 	health -= amount
 	#print(health)
+	var p = damage_particle.instantiate()
+	p.global_position = self.global_position
+	get_tree().get_current_scene().add_child(p)
+	p.emitting = true
+		
+	
 	if health <= 0:
 		if dead == false:
 			#GameManager.enemy_nodes.erase(self)

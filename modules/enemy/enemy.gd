@@ -11,7 +11,7 @@ extends Entity
 @export var despawn_bullets_on_death:bool = false
 
 var projectile = preload("res://modules/projectile/projectile.tscn")
-var projectile_particle = preload("res://modules/projectile/projectile_particle.tscn")
+#var projectile_particle = preload("res://modules/projectile/projectile_particle.tscn")
 var projectiles = []
 #var projectile_times = []
 
@@ -91,11 +91,6 @@ func shoot(direction:Vector2, speed2, damp=0):
 func _on_collision(body: Node2D) -> void:
 	if body.is_in_group("player_projectile"):
 		self.damage(body.attack_damage)
-		var p = projectile_particle.instantiate()
-		p.global_position = self.global_position
-		get_tree().get_current_scene().add_child(p)
-		p.emitting = true
-		
 		GameManager.player.camera_controller.shake(0.1, 10, 20, 0)
 		body.queue_free()
 	if body.is_in_group("player"):

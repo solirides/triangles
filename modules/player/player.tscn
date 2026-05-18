@@ -6,10 +6,16 @@
 [ext_resource type="Shader" uid="uid://d1x1crrs6kwc6" path="res://assets/shaders/background.gdshader" id="3_m7q0d"]
 [ext_resource type="PackedScene" uid="uid://dg2eqv8aun4ii" path="res://modules/hud/HUD.tscn" id="4_55gox"]
 [ext_resource type="Script" uid="uid://dehefxybmfutj" path="res://modules/player/shotgun.gd" id="4_ej5i3"]
+[ext_resource type="Script" uid="uid://cpeyea5hsisht" path="res://modules/player/effect_canvas.gd" id="4_vwok7"]
+[ext_resource type="Script" uid="uid://pyub0tj657u3" path="res://modules/player/blaster.gd" id="5_hwro8"]
+[ext_resource type="Script" uid="uid://desmfnkifwo8b" path="res://modules/player/laser.gd" id="6_jto3d"]
 [ext_resource type="Script" uid="uid://b1ochpl4h3vwd" path="res://modules/player/constructor.gd" id="7_5rkg0"]
 [ext_resource type="PackedScene" uid="uid://bqqwkp4v0ui02" path="res://modules/menu/pause_menu.tscn" id="7_ej5i3"]
+[ext_resource type="Script" uid="uid://dvqegxx6dcxvm" path="res://modules/player/sword.gd" id="7_jto3d"]
 [ext_resource type="Script" uid="uid://d37h2bxlg3xmu" path="res://modules/hud/cursor.gd" id="8_dhhsu"]
 [ext_resource type="Script" uid="uid://tqiid4kq104e" path="res://modules/player/compass.gd" id="9_0rblh"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0rblh"]
 
 [sub_resource type="Resource" id="Resource_ej5i3"]
 script = ExtResource("3_5rkg0")
@@ -28,11 +34,11 @@ metadata/_custom_type_script = "uid://d2uitxcfpu7d"
 [sub_resource type="CircleShape2D" id="CircleShape2D_m7q0d"]
 radius = 20.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_5rkg0"]
-radius = 12.0
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_ej5i3"]
 radius = 100.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5rkg0"]
+radius = 12.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_55gox"]
 shader = ExtResource("3_m7q0d")
@@ -58,6 +64,7 @@ fill_to = Vector2(1, 0.5)
 
 [node name="Player" type="RigidBody2D" unique_id=275705057 node_paths=PackedStringArray("pivot", "hud", "menu", "compass") groups=["player"]]
 collision_mask = 336
+physics_material_override = SubResource("PhysicsMaterial_0rblh")
 gravity_scale = 0.0
 lock_rotation = true
 script = ExtResource("1_qgxqk")
@@ -71,10 +78,36 @@ modifier_cards = Array[ExtResource("2_hd5yx")]([SubResource("Resource_dhhsu")])
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1441379814]
 shape = SubResource("CircleShape2D_m7q0d")
 
+[node name="EffectCanvas" type="Node2D" parent="." unique_id=163396145 node_paths=PackedStringArray("player")]
+z_index = 40
+script = ExtResource("4_vwok7")
+player = NodePath("..")
+
 [node name="Weapons" type="Node2D" parent="." unique_id=1744264634]
 
-[node name="Shotgun" type="Node2D" parent="Weapons" unique_id=1501115287]
+[node name="Shotgun" type="Node2D" parent="Weapons" unique_id=1501115287 node_paths=PackedStringArray("player")]
 script = ExtResource("4_ej5i3")
+player = NodePath("../..")
+
+[node name="Blaster" type="Node2D" parent="Weapons" unique_id=1485252942 node_paths=PackedStringArray("player")]
+script = ExtResource("5_hwro8")
+player = NodePath("../..")
+
+[node name="Laser" type="Node2D" parent="Weapons" unique_id=1522016645 node_paths=PackedStringArray("player")]
+script = ExtResource("6_jto3d")
+player = NodePath("../..")
+
+[node name="Sword" type="Node2D" parent="Weapons" unique_id=527562257 node_paths=PackedStringArray("player")]
+script = ExtResource("7_jto3d")
+player = NodePath("../..")
+
+[node name="SwordArea" type="Area2D" parent="Weapons/Sword" unique_id=1023967298]
+rotation = -1.5707964
+collision_layer = 4
+collision_mask = 48
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Weapons/Sword/SwordArea" unique_id=1993871666]
+shape = SubResource("CircleShape2D_ej5i3")
 
 [node name="Pivot" type="Node2D" parent="." unique_id=838123745]
 rotation = -1.5707964
@@ -97,11 +130,6 @@ rotation = 1.5707964
 shape = SubResource("CircleShape2D_5rkg0")
 target_position = Vector2(0, -2000)
 collision_mask = 112
-
-[node name="Area2D" type="Area2D" parent="Pivot" unique_id=1023967298]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/Area2D" unique_id=1993871666]
-shape = SubResource("CircleShape2D_ej5i3")
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=480853716]
 layer = -5

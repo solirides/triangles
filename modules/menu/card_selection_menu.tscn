@@ -1,8 +1,22 @@
 [gd_scene format=3 uid="uid://cwvrih3oy1efp"]
 
 [ext_resource type="Script" uid="uid://6j77rsauvymh" path="res://modules/menu/card_selection_menu.gd" id="1_f3bwq"]
+[ext_resource type="Shader" uid="uid://brmlowwbi2ij6" path="res://assets/shaders/voronoi.gdshader" id="2_o8fg8"]
 [ext_resource type="Script" uid="uid://y3qrov5dtub1" path="res://modules/menu/dynamic_card_hand.gd" id="2_we2xg"]
 [ext_resource type="Theme" uid="uid://f47mp0qpnlj7" path="res://assets/themes/menu.tres" id="6_cfhle"]
+
+[sub_resource type="Gradient" id="Gradient_we2xg"]
+colors = PackedColorArray(0.07672567, 0.05578413, 0.13218895, 1, 0.15915841, 0.09616483, 0.20989704, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cfhle"]
+gradient = SubResource("Gradient_we2xg")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t6h80"]
+shader = ExtResource("2_o8fg8")
+shader_parameter/scale = 0.01
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/GRADIENT = SubResource("GradientTexture1D_cfhle")
+shader_parameter/time_scale = 0.3
 
 [node name="CardSelectionMenu" type="Control" unique_id=1810370965]
 layout_mode = 3
@@ -12,6 +26,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_f3bwq")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1913101087]
+material = SubResource("ShaderMaterial_t6h80")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.096204735, 0.09620475, 0.096204735, 1)
 
 [node name="CardDeck" type="Control" parent="." unique_id=1532245548]
 layout_mode = 1
@@ -107,7 +131,9 @@ offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("6_cfhle")
+toggle_mode = true
 text = "Merge cards"
 
 [connection signal="pressed" from="Continue" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Merge" to="." method="_on_merge_pressed"]
+[connection signal="toggled" from="Merge" to="." method="_on_merge_toggled"]

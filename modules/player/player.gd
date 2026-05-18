@@ -23,7 +23,7 @@ extends RigidBody2D
 @export var pivot:Node = null
 @onready var immunity_timer:Timer = $Immunity
 @onready var attack_cooldown_timer:Timer = $Attack
-@onready var raycast:ShapeCast2D = $Pivot/ShapeCast2D
+#@onready var raycast:ShapeCast2D = $Pivot/ShapeCast2D
 #@onready var laser_polygon:Polygon2D = $Pivot/Laser
 @export var camera_controller:Node = null
 @export var hud:Node = null
@@ -43,7 +43,7 @@ extends RigidBody2D
 var projectile = preload("res://modules/projectile/player_projectile.tscn")
 var turret = preload("res://modules/enemy/turret.tscn")
 var hopper = preload("res://modules/enemy/hopper.tscn")
-var laser_polygon = preload("res://modules/projectile/laser.tscn")
+#var laser_polygon = preload("res://modules/projectile/laser.tscn")
 
 # temporary immunity to enemy attacks
 var damage_immunity = false
@@ -137,64 +137,21 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_pressed("special2"):
 		if attack_cooldown_timer.time_left == 0:
-			attack_cooldown_timer.start(1 / get_stat("attack_speed"))
-			var direction = (get_global_mouse_position()-self.global_position).normalized()
-			shoot(direction, get_stat("projectile_speed"))
+			#attack_cooldown_timer.start(1 / get_stat("attack_speed"))
+			$Weapons/Blaster.attack()
 		
 	if Input.is_action_pressed("primary"):
 		if attack_cooldown_timer.time_left == 0:
-			attack_cooldown_timer.start(1 / get_stat("attack_speed"))
-			var direction = (get_global_mouse_position()-self.global_position).normalized()
-			#var spread = 0.1
-			
-			var shots:int = round(get_stat("shot_count"))
-			#shots = 1
-			var a = floor(shots / 2.0)
-			#print(a)
-			# offset by half of spread distance if even
-			var even = (shots+1)%2
-			var offset = even * get_stat("projectile_spread") * 0.5
-			print(offset)
-			for i in range(-a, a + 1 - even):
-				shoot(direction.rotated(offset + i * get_stat("projectile_spread")), get_stat("projectile_speed") * randf_range(0.8,1.0), 7.0, self.linear_velocity)
-			GameManager.global_audio.play("shoot")
+			#attack_cooldown_timer.start(1 / get_stat("attack_speed"))
+			$Weapons/Shotgun.attack()
 	
 	if Input.is_action_pressed("secondary"):
 		if attack_cooldown_timer.time_left == 0:
-			attack_cooldown_timer.start(1 / get_stat("attack_speed"))
-			raycast.force_shapecast_update()
-			var hit = false
-			while raycast.is_colliding():
-				for i in raycast.get_collision_count():
-					var collider = raycast.get_collider(i)
-					raycast.add_exception(collider)
-					
-					if collider.is_in_group("enemy_projectile"):
-						collider.queue_free()
-						hit = true
-					elif collider.is_in_group("enemy"):
-						collider.damage(50)
-						hit = true
-				raycast.force_shapecast_update()
-			raycast.clear_exceptions()
-			if hit:
-				camera_controller.shake(0.16, 14, 20, 0)
-			
-			var a = laser_polygon.instantiate()
-			a.scale.y = 0
-			a.global_position = pivot.global_position + Vector2(20,0).rotated(pivot.global_rotation)
-			a.global_rotation = pivot.global_rotation
-			get_tree().get_current_scene().add_child(a)
-			
-			var tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-			tween.tween_property(a, "scale", Vector2(1,1), 0.03)
-			tween.tween_property(a, "scale", Vector2(1,1), 0.26)
-			tween.tween_property(a, "modulate", Color(1,1,1,0), 0.03)
-			tween.tween_property(a, "modulate", Color(1,1,1,1), 0.03)
-			tween.tween_property(a, "scale", Vector2(1,0), 0.04)
-			tween.tween_callback(a.queue_free)
+			#attack_cooldown_timer.start(1 / get_stat("attack_speed"))
+			$Weapons/Laser.attack()
 	
 	if Input.is_action_just_pressed("construct"):
+		$Weapons/Sword.attack()
 		#🔥🔥🔥
 		constructor.construct()
 	
@@ -220,17 +177,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemy"):
 		print("enemy collision")
 
-var tween
-func on_hit():
-	if tween != null:
-		tween.kill()
-	tween = create_tween().set_trans(Tween.TRANS_SINE)
-	var t = 0
-	while t < get_stat("damage_immunity_time"):
-		tween.tween_property(self, "modulate", Color(1,1,1,0), 0.04)
-		tween.tween_property(self, "modulate", Color.WHITE, 0.04)
-		t += 0.08
-
 func damage(amount:int) -> bool:
 	if damage_immunity == true:
 		return false
@@ -238,11 +184,9 @@ func damage(amount:int) -> bool:
 		GameManager.global_audio.play("player_hit")
 		camera_controller.shake(0.24, 16, 20, 1)
 		#print("player hit!")
-		damage_immunity = true
-		immunity_timer.start(get_stat("damage_immunity_time"))
+		start_damage_immunity(get_stat("damage_immunity_time"))
 		set_stat("health", get_stat("health")-amount)
 		print("player health:" + str(get_stat("health")))
-		on_hit()
 		if get_stat("health") <= 0:
 			game_over()
 		return true
@@ -250,8 +194,6 @@ func damage(amount:int) -> bool:
 func game_over():
 	GameManager.game_over()
 	menu.game_over()
-	
-
 
 func view_status(state:bool):
 	#slow_time_scale(state)
@@ -278,7 +220,7 @@ func _on_invincibility_timeout() -> void:
 	damage_immunity = false
 	
 
-func shoot(direction:Vector2, speed2, damp=0, inherited_velocity=Vector2.ZERO):
+func shoot(direction:Vector2, speed2, damp=0, inherited_velocity=Vector2.ZERO, damage:int=get_stat("attack_damage")):
 	var a = projectile.instantiate()
 	a.position = self.position
 	a.linear_velocity = direction * speed2 + inherited_velocity
@@ -287,7 +229,7 @@ func shoot(direction:Vector2, speed2, damp=0, inherited_velocity=Vector2.ZERO):
 	#a.look_at(get_global_mouse_position())
 	a.rotate(direction.angle())
 	a.despawn_frame = projectile_lifetime * Engine.physics_ticks_per_second + Engine.get_physics_frames()
-	a.attack_damage = get_stat("attack_damage")
+	a.attack_damage = damage
 	get_tree().get_current_scene().add_child(a)
 
 func dash(direction:Vector2, impulse, duration, damp):
@@ -350,3 +292,26 @@ func set_stat(stat:String, value:float):
 
 func _on_card_hand_updated():
 	recalculate_stats()
+
+func start_attack_cooldown(duration:float):
+	$EffectCanvas.reload_progress = 0
+	var tween = create_tween()
+	# animate to 1.05 so the circle can be visually complete
+	tween.tween_property($EffectCanvas, "reload_progress", 1.05, duration)
+	tween.tween_property($EffectCanvas, "reload_progress", 0, 0)
+	attack_cooldown_timer.start(duration)
+
+var immunity_tween
+func start_damage_immunity(duration:float, animate:bool=false):
+	damage_immunity = true
+	immunity_timer.start(duration)
+	
+	if animate:
+		if immunity_tween != null:
+			immunity_tween.kill()
+		immunity_tween = create_tween().set_trans(Tween.TRANS_SINE)
+		var t = 0
+		while t < get_stat("damage_immunity_time"):
+			immunity_tween.tween_property(self, "modulate", Color(1,1,1,0), 0.04)
+			immunity_tween.tween_property(self, "modulate", Color.WHITE, 0.04)
+			t += 0.08

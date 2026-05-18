@@ -56,7 +56,7 @@ func _ready() -> void:
 	
 	self.linear_damp = 4.0
 	state_timer.start(0.1)
-	projectile_speed = 140
+	#projectile_speed = 140
 	#print(hop_frame_speed)
 
 func _physics_process(delta: float) -> void:
