@@ -15,6 +15,18 @@ var stylebox_2:StyleBox = get_theme_stylebox("panel").duplicate()
 var pickup_lerp:float = 0.0
 var pre_pickup_pos:Vector2 = Vector2.ZERO
 
+var icons = {
+	"speed": preload("res://assets/textures/icons/movement_speed.png"),
+	"health": preload("res://assets/textures/icons/max_health.png"),
+	"attack_speed": preload("res://assets/textures/icons/attack_speed.png"),
+	"attack_damage": preload("res://assets/textures/icons/skull.png"),
+	"shot_count": preload("res://assets/textures/icons/shot_count.png"),
+	"projectile_speed": preload("res://assets/textures/icons/special_time.png"),
+	"projectile_spread": preload("res://assets/textures/icons/spread.png"),
+	"damage_immunity_time": preload("res://assets/textures/icons/special_time.png")
+	
+}
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	stylebox_2 = get_theme_stylebox("panel").duplicate()
@@ -27,6 +39,10 @@ func _ready() -> void:
 	#stylebox_2.border_color = Color(1, 1, 1)
 	
 	$Label.text = modifier_card.description
+	var icon
+	if icons.keys().has(modifier_card.icon):
+		icon = icons[modifier_card.icon]
+	$Icon.texture = icon
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

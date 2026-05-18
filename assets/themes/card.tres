@@ -1,12 +1,14 @@
 [gd_resource type="Theme" format=3 uid="uid://c63a8itehl75n"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4otbn"]
-bg_color = Color(0.32941177, 0.101960786, 0.32941177, 1)
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[sub_resource type="Gradient" id="Gradient_fuwal"]
+colors = PackedColorArray(0.18045443, 0.08170078, 0.23379576, 1, 0.4732591, 0.20371354, 0.3308763, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_44gqv"]
+gradient = SubResource("Gradient_fuwal")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pi2eq"]
+texture = SubResource("GradientTexture2D_44gqv")
 
 [resource]
-Panel/styles/panel = SubResource("StyleBoxFlat_4otbn")
+Panel/styles/panel = SubResource("StyleBoxTexture_pi2eq")

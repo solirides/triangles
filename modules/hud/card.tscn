@@ -27,45 +27,47 @@ description = "+25% attack speed
 this is fake"
 metadata/_custom_type_script = "uid://d2uitxcfpu7d"
 
-[sub_resource type="SystemFont" id="SystemFont_hn3l3"]
-subpixel_positioning = 0
-
-[sub_resource type="LabelSettings" id="LabelSettings_4otbn"]
-font = SubResource("SystemFont_hn3l3")
-font_size = 12
-
 [node name="Card" type="Panel" unique_id=2014112755 node_paths=PackedStringArray("icon")]
-custom_minimum_size = Vector2(120, 160)
-anchors_preset = -1
-offset_left = -60.0
-offset_top = -80.0
+custom_minimum_size = Vector2(160, 200)
+offset_left = -80.0
+offset_top = -100.0
+offset_right = 80.0
+offset_bottom = 100.0
 pivot_offset = Vector2(60, 80)
 theme = ExtResource("1_74hof")
 script = ExtResource("1_cyaum")
 modifier_card = SubResource("Resource_lqntv")
 icon = NodePath("Icon")
 
-[node name="Label" type="Label" parent="." unique_id=1195754027]
+[node name="Label" type="RichTextLabel" parent="." unique_id=261561198]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 48.0
-offset_bottom = 48.0
+offset_top = 72.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
 text = "+25% attack speed
--50% max health"
-label_settings = SubResource("LabelSettings_4otbn")
-horizontal_alignment = 1
+-50% max health
+[color=red]red[/color]"
 autowrap_mode = 2
+horizontal_alignment = 1
 
 [node name="Icon" type="TextureRect" parent="." unique_id=1860972614]
 texture_filter = 1
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 8.0
+offset_right = 20.0
+offset_bottom = 48.0
+grow_horizontal = 2
 texture = ExtResource("6_7w3v6")
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]

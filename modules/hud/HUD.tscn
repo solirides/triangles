@@ -118,10 +118,9 @@ offset_top = -128.0
 offset_bottom = -28.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = 8
+theme_override_constants/separation = 16
 alignment = 1
 script = ExtResource("2_eqwjg")
-card_scene = null
 
 [node name="Card" parent="CardHand" unique_id=2014112755 instance=ExtResource("2_is2uq")]
 layout_mode = 2

@@ -13,6 +13,9 @@ static func generate_card(level:int):
 	var stats = GameManager.player_stats
 	var modifer_count = 2
 	var stat_list = stats.keys()
+	var blacklisted_stats = ["damage_immunity_time"]
+	for i in blacklisted_stats:
+		stat_list.erase(i)
 	
 	for i in modifer_count:
 		#var modifier = StatModifier.new(stats.keys()[randi_range(0, stats.size() - 1)])
@@ -26,6 +29,7 @@ static func generate_card(level:int):
 		card.modifiers.append(modifier)
 	
 	card.description = generate_description(card)
+	card.icon = card.modifiers[0].stat
 	
 	return card
 
@@ -33,12 +37,16 @@ static func generate_description(card:ModifierCard):
 	var a = ""
 	for modifier in card.modifiers:
 		var sign = ""
+		var color = ""
 		if modifier.modifier_value >= 0:
 			sign = "+"
+			color = "[color=green]" 
+		else:
+			color = "[color=red]" 
 		var p = ""
 		if modifier.modifier_type == StatModifier.ModifierType.MULTIPLY:
 			p = "%"
-		a += sign + str(modifier.modifier_value) + p + " " + modifier.stat + "\n"
+		a += color + sign + str(modifier.modifier_value) + p + " " + modifier.stat + "\n"
 	if card.modifiers.size() == 0:
 		a = "There's nothing here :P"
 	return a
