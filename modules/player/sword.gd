@@ -33,6 +33,7 @@ func attack():
 		elif body.is_in_group("enemy_projectile"):
 			body.queue_free()
 	
+	GameManager.global_audio.play("slice")
 	animate(cooldown_duration)
 
 func _draw() -> void:

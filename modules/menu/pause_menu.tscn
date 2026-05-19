@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c2acrr7mba33y" path="res://modules/menu/pause_menu.gd" id="1_bhr2b"]
 [ext_resource type="Shader" uid="uid://cqvkaupujkili" path="res://assets/shaders/posterize.gdshader" id="1_nriuk"]
+[ext_resource type="Theme" uid="uid://f47mp0qpnlj7" path="res://assets/themes/menu.tres" id="3_umyk6"]
 
 [sub_resource type="Animation" id="Animation_umyk6"]
 length = 0.001
@@ -168,6 +169,9 @@ shader_parameter/GRADIENT = SubResource("GradientTexture1D_dhhsu")
 [sub_resource type="LabelSettings" id="LabelSettings_vx25p"]
 font_size = 108
 
+[sub_resource type="LabelSettings" id="LabelSettings_bhr2b"]
+font_size = 20
+
 [node name="Menu" type="Control" unique_id=1620312716]
 process_mode = 3
 layout_mode = 3
@@ -236,12 +240,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Label" type="Label" parent="GameOver/VBoxContainer" unique_id=852063139]
+layout_mode = 2
+text = "text here"
+label_settings = SubResource("LabelSettings_bhr2b")
+horizontal_alignment = 1
+
 [node name="Restart" type="Button" parent="GameOver/VBoxContainer" unique_id=351530778]
 layout_mode = 2
+theme = ExtResource("3_umyk6")
 text = "Restart"
 
 [node name="MainMenu" type="Button" parent="GameOver/VBoxContainer" unique_id=687608360]
 layout_mode = 2
+theme = ExtResource("3_umyk6")
 text = "Main Menu"
 
 [node name="Panel" type="Panel" parent="." unique_id=2105364413]
@@ -255,5 +267,35 @@ anchor_bottom = 0.8
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1585897990]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Resume" type="Button" parent="Panel/VBoxContainer" unique_id=1649983021]
+layout_mode = 2
+theme = ExtResource("3_umyk6")
+text = "Resume"
+
+[node name="Restart" type="Button" parent="Panel/VBoxContainer" unique_id=1269262591]
+layout_mode = 2
+theme = ExtResource("3_umyk6")
+text = "Restart"
+
+[node name="MainMenu" type="Button" parent="Panel/VBoxContainer" unique_id=1565057285]
+layout_mode = 2
+theme = ExtResource("3_umyk6")
+text = "Main Menu"
+
 [connection signal="pressed" from="GameOver/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="GameOver/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]

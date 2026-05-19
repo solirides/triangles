@@ -12,29 +12,29 @@ var action_mode = "swap"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#pass
-	GameManager.initiate_card_hand()
+	if GameManager.card_hands.size() == 0:
+		GameManager.initiate_card_hand()
 	
 	var level = GameManager.player_level
 	
 	for n in card_hand.get_children():
 		n.queue_free()
 	
-	var h = GameManager.card_hands[GameManager.active_card_hand_i]
-	for c in h.modifier_cards:
-		var card = GuiCard.create_modifier_card(c)
-		#print("add modifier card")
-		card_hand.add_child(card)
-		#print(get_children().size())
-	#card_hand.call_deferred("arrange_hand", true)
+	load_card_hand(GameManager.active_card_hand_i)
 	
+	# create draw pile
 	for c in generate_card_deck(level).modifier_cards:
 		var card = GuiCard.create_modifier_card(c)
 		deck.add_child(card)
 	
 	# wait for nodes to be updated
 	await get_tree().process_frame
+	await get_tree().process_frame
 	card_hand.arrange_hand(true)
 	deck.arrange_hand(true)
+	
+	switch_card_hand(GameManager.active_card_hand_i)
+
 
 func generate_card_deck(level:int):
 	var h = CardHand.new()
@@ -42,13 +42,53 @@ func generate_card_deck(level:int):
 		var c = ModifierCard.generate_card(level)
 		h.modifier_cards.append(c)
 	return h
+
+func load_card_hand(hand_i:int):
+	for n in card_hand.get_children():
+		n.queue_free()
+	
+	#await get_tree().process_frame
+	
+	# create player cards
+	var h = GameManager.card_hands[hand_i]
+	for c in h.modifier_cards:
+		var card = GuiCard.create_modifier_card(c)
+		#print("add modifier card")
+		card_hand.add_child(card)
+	# create empty cards
+	var max_cards = 5
+	for i in max(0,max_cards - h.modifier_cards.size()):
+		var card = GuiCard.create_modifier_card(null)
+		card.empty = true
+		card_hand.add_child(card)
+		#print(get_children().size())
+	#card_hand.call_deferred("arrange_hand", true)
+	
+
+func switch_card_hand(hand_i:int = -1):
+	GameManager.swap_active_hand(hand_i)
+	load_card_hand(GameManager.active_card_hand_i)
+	
+	$Label2.text = "Hand " + str(GameManager.active_card_hand_i) + "   Weapon: " + Player.WEAPON_NAMES[GameManager.weapons[GameManager.active_card_hand_i]]
+	
+	# wait for nodes to be updated
+	await get_tree().process_frame
+	await get_tree().process_frame
+	card_hand.arrange_hand(true)
+	deck.arrange_hand(true)
+	
+	GameManager.global_audio.play("card")
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if swaps >= max_swaps and false:
-		advance_game()
 	var selections = check_combination([card_hand, deck])
+	if swaps >= max_swaps:
+		$Merge.disabled = true
+		$SwitchHand.disabled = true
+		return
+		#advance_game()
+		
 	if action_mode == "swap":
 		# if cards are from different hands
 		if selections != null:
@@ -57,9 +97,10 @@ func _process(delta: float) -> void:
 				swap_cards(selections[0], selections[1])
 				swaps += 1
 	elif action_mode == "merge":
-		if selections != null:
+		if selections != null and selections[0].empty == false and selections[1].empty == false:
 			if selections[0].get_parent() == selections[1].get_parent():
 				merge_cards(selections[0], selections[1])
+				swaps += 1
 
 func advance_game():
 	update_card_hand(GameManager.active_card_hand_i)
@@ -71,6 +112,8 @@ func update_card_hand(hand_i:int):
 	
 	var h = CardHand.new()
 	for i in cards.size():
+		if cards[i].empty == true:
+			continue
 		h.modifier_cards.append(cards[i].modifier_card)
 	GameManager.card_hands[hand_i] = h
 
@@ -136,6 +179,8 @@ func merge_cards(card_1:Node, card_2:Node):
 		#print(mc.description)
 	
 	mc.description = ModifierCard.generate_description(mc)
+	# TODO better icon system
+	mc.icon = mc.modifiers[0].stat
 	print(mc.modifiers)
 	print(mc.description)
 	
@@ -169,6 +214,7 @@ func merge_cards(card_1:Node, card_2:Node):
 	$Merge.button_pressed = false
 	
 	#action_mode = "swap"
+	GameManager.global_audio.play("card")
 	
 
 func swap_cards(card_1:Node, card_2:Node):
@@ -209,6 +255,8 @@ func swap_cards(card_1:Node, card_2:Node):
 	
 	p1.arrange_hand(true)
 	p2.arrange_hand(true)
+	
+	GameManager.global_audio.play("card")
 
 func _on_button_pressed() -> void:
 	advance_game()
@@ -221,3 +269,7 @@ func _on_merge_toggled(toggled_on: bool) -> void:
 		action_mode = "merge"
 	else:
 		action_mode = "swap"
+
+
+func _on_switch_hand_pressed() -> void:
+	switch_card_hand()

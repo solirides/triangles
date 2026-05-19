@@ -5,9 +5,12 @@ extends Panel
 @export var icon:Node = null
 @export var expand_scale:float = 1.2
 
+var empty = false
+
 var focused = false
 var picked = false
 var dragged = false
+
 var position_placeholder:Node
 var previous_focus = false
 @onready var stylebox:StyleBox = get_theme_stylebox("panel").duplicate()
@@ -27,8 +30,17 @@ var icons = {
 	
 }
 
+var empty_stylebox = preload("res://assets/themes/empty_card_stylebox.tres")
+var normal_stylebox
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if empty:
+		add_theme_stylebox_override("panel", empty_stylebox)
+		#set_stylebox(empty_stylebox)
+		
+	normal_stylebox = get_theme_stylebox("panel")
+	
 	stylebox_2 = get_theme_stylebox("panel").duplicate()
 	
 	var p = ["border_width_left", "border_width_right", "border_width_top", "border_width_bottom"]
@@ -38,11 +50,15 @@ func _ready() -> void:
 		stylebox_2.set(i, v)
 	#stylebox_2.border_color = Color(1, 1, 1)
 	
-	$Label.text = modifier_card.description
-	var icon
-	if icons.keys().has(modifier_card.icon):
-		icon = icons[modifier_card.icon]
-	$Icon.texture = icon
+	if modifier_card != null:
+		$Label.text = modifier_card.description
+		var icon
+		if icons.keys().has(modifier_card.icon):
+			icon = icons[modifier_card.icon]
+		$Icon.texture = icon
+	else:
+		$Label.text = ""
+		$Icon.texture = null
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -110,7 +126,10 @@ func set_picked(state:bool, instant:bool = false):
 		#print(pickup_tween)
 	else:
 		picked = false
-		remove_theme_stylebox_override("panel")
+		if empty:
+			add_theme_stylebox_override("panel", empty_stylebox)
+		else:
+			remove_theme_stylebox_override("panel")
 		await animate_hover(false, instant)
 		#pickup_lerp = 0.0
 

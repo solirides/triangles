@@ -7,6 +7,7 @@ func _ready() -> void:
 	GameManager.card_hand_updated.connect(_on_card_hand_updated)
 	GameManager.player_node_ready.connect(_on_player_ready)
 	GameManager.all_initial_nodes_ready.connect(_on_all_initial_nodes_ready)
+	GameManager.active_hand_changed.connect(_on_active_hand_changed)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -39,3 +40,6 @@ func update_gui_cards():
 		add_child(card)
 		#print(get_children().size())
 	GameManager.player.recalculate_stats()
+
+func _on_active_hand_changed(hand_i:int):
+	update_gui_cards()

@@ -18,6 +18,11 @@ shader_parameter/color = Color(1, 1, 1, 1)
 shader_parameter/GRADIENT = SubResource("GradientTexture1D_cfhle")
 shader_parameter/time_scale = 0.3
 
+[sub_resource type="LabelSettings" id="LabelSettings_o8fg8"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_we2xg"]
+
 [node name="CardSelectionMenu" type="Control" unique_id=1810370965]
 layout_mode = 3
 anchors_preset = 15
@@ -26,6 +31,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_f3bwq")
+max_swaps = 1
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1913101087]
 material = SubResource("ShaderMaterial_t6h80")
@@ -86,8 +92,8 @@ anchor_right = 0.5
 offset_top = 20.0
 grow_horizontal = 2
 theme = ExtResource("6_cfhle")
-text = "pretend you can only swap or merge cards once
-Card deck"
+text = "Take one action: draw, swap, or merge cards"
+label_settings = SubResource("LabelSettings_o8fg8")
 horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="." unique_id=1739482725]
@@ -97,11 +103,12 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_bottom = -40.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("6_cfhle")
 text = "Your card hand"
+label_settings = SubResource("LabelSettings_we2xg")
 horizontal_alignment = 1
 
 [node name="Continue" type="Button" parent="." unique_id=328066188]
@@ -134,6 +141,17 @@ theme = ExtResource("6_cfhle")
 toggle_mode = true
 text = "Merge cards"
 
+[node name="SwitchHand" type="Button" parent="." unique_id=933263204]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 40.0
+grow_vertical = 2
+theme = ExtResource("6_cfhle")
+text = "Switch Card Hand"
+
 [connection signal="pressed" from="Continue" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Merge" to="." method="_on_merge_pressed"]
 [connection signal="toggled" from="Merge" to="." method="_on_merge_toggled"]
+[connection signal="pressed" from="SwitchHand" to="." method="_on_switch_hand_pressed"]

@@ -4,6 +4,7 @@ extends Control
 @onready var game_over_shader = $GameOver/Posterize
 @onready var game_over_label = $GameOver/Label
 @onready var animation_player = $AnimationPlayer
+@onready var comment_label = $GameOver/VBoxContainer/Label
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -28,6 +29,17 @@ func game_over():
 	tween.tween_callback(animation_player.play.bind("you_died"))
 	# this line looks so terrible I hate it
 	tween.tween_callback($GameOver/VBoxContainer.set.bind("visible", true))
+	
+	comment_label.text = ""
+	var game_stats = [
+		["Reached level %s", GameManager.player_level],
+		["Killed %s enemies", GameManager.game_stats["kills"]],
+		["Dealt %s damage", GameManager.game_stats["damage"]],
+	]
+	for i in game_stats.size():
+		comment_label.text += game_stats[i][0] % game_stats[i][1] + "\n"
+	#comment_label.text = "Reached level " + GameManager.player_level + "   Killed"
+	
 
 func set_luminosity(value):
 	game_over_shader.material.set_shader_parameter("luminosity_offset", value)
@@ -40,3 +52,14 @@ func _on_main_menu_pressed() -> void:
 
 func _on_restart_pressed() -> void:
 	GameManager.restart()
+
+func _on_resume_pressed() -> void:
+	toggle_pause_menu(false)
+
+func toggle_pause_menu(state:bool):
+	GameManager.toggle_pause(state)
+	$Panel.visible = state
+	#if state:
+		
+	
+	

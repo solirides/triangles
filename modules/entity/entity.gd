@@ -17,6 +17,8 @@ signal death()
 #func _ready() -> void:
 
 func damage(amount:int):
+	if self is Enemy:
+		GameManager.game_stats["damage"] += amount
 	health -= amount
 	#print(health)
 	var p = damage_particle.instantiate()

@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://w6jjt2mb7cyo" path="res://modules/camera/camera_controller.tscn" id="4_0bmpa"]
 [ext_resource type="Texture2D" uid="uid://bdyr6bkl6pq07" path="res://assets/textures/hallway_gradient.tres" id="5_0bmpa"]
 [ext_resource type="Material" uid="uid://dei5yobjjvmki" path="res://assets/shaders/voronoi_material.tres" id="5_iv5ap"]
+[ext_resource type="Script" uid="uid://oqbv8675tj4s" path="res://scenes/world/choose_weapon.gd" id="7_1pgkb"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_du3mn"]
 friction = 0.0
@@ -13,14 +14,23 @@ friction = 0.0
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_iv5ap"]
 polygon = PackedVector2Array(-1024, -128, -512, -128, -512, -320, 512, -320, 512, -128, 1024, -128, 1024, 128, 512, 128, 512, 320, -512, 320, -512, 128, -1024, 128)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iv5ap"]
+size = Vector2(256, 256)
+
 [sub_resource type="LabelSettings" id="LabelSettings_du3mn"]
 font_size = 28
 
 [sub_resource type="LabelSettings" id="LabelSettings_iv5ap"]
 font_size = 14
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_iv5ap"]
-size = Vector2(256, 256)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1pgkb"]
+size = Vector2(64, 64)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ymvh5"]
+
+[sub_resource type="Environment" id="Environment_1pgkb"]
+glow_enabled = true
+glow_bloom = 1.0
 
 [node name="Initiation" type="Node2D" unique_id=1801787322]
 script = ExtResource("1_ehnpr")
@@ -31,6 +41,9 @@ script = ExtResource("3_du3mn")
 
 [node name="CameraController" parent="." unique_id=971771314 node_paths=PackedStringArray("player") instance=ExtResource("4_0bmpa")]
 player = NodePath("../Player")
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=452663395]
+position = Vector2(896, 0)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=328134016]
 collision_layer = 256
@@ -58,32 +71,40 @@ texture = ExtResource("5_0bmpa")
 [node name="LightOccluder2D" type="LightOccluder2D" parent="StaticBody2D" unique_id=1109826624]
 occluder = SubResource("OccluderPolygon2D_iv5ap")
 
+[node name="Area2D" type="Area2D" parent="." unique_id=426777523]
+position = Vector2(896, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1438255447]
+shape = SubResource("RectangleShape2D_iv5ap")
+
 [node name="Label" type="Label" parent="." unique_id=610067173]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -512.0
-offset_right = -431.0
-offset_bottom = 39.0
+offset_left = -576.0
+offset_top = -32.0
+offset_right = -373.0
+offset_bottom = 49.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "WASD + mouse"
+text = "Movement:
+WASD + mouse"
 label_settings = SubResource("LabelSettings_du3mn")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="." unique_id=1158058990]
+[node name="Label4" type="Label" parent="." unique_id=1544733226]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 64.0
-offset_right = 302.0
-offset_bottom = 39.0
+offset_left = 8.0
+offset_top = -32.0
+offset_right = 339.0
+offset_bottom = 49.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Choose a weapon
-(you have no options
-just left click)"
+text = "Shoot: left click
+Swap loadout: right click"
 label_settings = SubResource("LabelSettings_du3mn")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -92,26 +113,172 @@ vertical_alignment = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 64.0
-offset_top = 64.0
-offset_right = 302.0
-offset_bottom = 103.0
+offset_left = 48.0
+offset_top = 48.0
+offset_right = 286.0
+offset_bottom = 87.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "(or right click but that's cheating)"
+text = "(wait for cooldown)"
 label_settings = SubResource("LabelSettings_iv5ap")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=1158058990]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -16.0
+offset_right = -38.0
+offset_bottom = 107.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Choose 2 weapons"
+label_settings = SubResource("LabelSettings_du3mn")
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="." unique_id=1842329152]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -296.0
+offset_top = 16.0
+offset_right = -58.0
+offset_bottom = 55.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "(or not)"
+label_settings = SubResource("LabelSettings_iv5ap")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ChooseWeapon" type="Node2D" parent="." unique_id=20134302]
+position = Vector2(-472, -32)
+script = ExtResource("7_1pgkb")
+
+[node name="Shotgun" type="Area2D" parent="ChooseWeapon" unique_id=1006774464]
+position = Vector2(192, -64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChooseWeapon/Shotgun" unique_id=433694754]
+shape = SubResource("RectangleShape2D_1pgkb")
+
+[node name="Polygon2D" type="Polygon2D" parent="ChooseWeapon/Shotgun" unique_id=855474286]
+color = Color(0.37413925, 0.37413928, 0.37413922, 1)
+polygon = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+
+[node name="Label2" type="Label" parent="ChooseWeapon/Shotgun" unique_id=1444123674]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Shotgun"
+label_settings = SubResource("LabelSettings_ymvh5")
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Blaster" type="Area2D" parent="ChooseWeapon" unique_id=1514227451]
+position = Vector2(384, -64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChooseWeapon/Blaster" unique_id=943147625]
+shape = SubResource("RectangleShape2D_1pgkb")
+
+[node name="Polygon2D" type="Polygon2D" parent="ChooseWeapon/Blaster" unique_id=40675355]
+color = Color(0.37413925, 0.37413928, 0.37413922, 1)
+polygon = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+
+[node name="Label2" type="Label" parent="ChooseWeapon/Blaster" unique_id=252336725]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Blaster"
+label_settings = SubResource("LabelSettings_ymvh5")
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Laser" type="Area2D" parent="ChooseWeapon" unique_id=404040815]
+position = Vector2(192, 128)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChooseWeapon/Laser" unique_id=1471634230]
+shape = SubResource("RectangleShape2D_1pgkb")
+
+[node name="Polygon2D" type="Polygon2D" parent="ChooseWeapon/Laser" unique_id=364841107]
+color = Color(0.37413925, 0.37413928, 0.37413922, 1)
+polygon = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+
+[node name="Label2" type="Label" parent="ChooseWeapon/Laser" unique_id=577403937]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Laser"
+label_settings = SubResource("LabelSettings_ymvh5")
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Sword" type="Area2D" parent="ChooseWeapon" unique_id=1626977063]
+position = Vector2(384, 128)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChooseWeapon/Sword" unique_id=1789937874]
+shape = SubResource("RectangleShape2D_1pgkb")
+
+[node name="Polygon2D" type="Polygon2D" parent="ChooseWeapon/Sword" unique_id=789078243]
+color = Color(0.37413925, 0.37413928, 0.37413922, 1)
+polygon = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+
+[node name="Label2" type="Label" parent="ChooseWeapon/Sword" unique_id=367645424]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Sword"
+label_settings = SubResource("LabelSettings_ymvh5")
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Selected" type="Label" parent="ChooseWeapon" unique_id=2060851478]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 232.0
+offset_top = -24.0
+offset_right = 345.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "selected: none"
+label_settings = SubResource("LabelSettings_ymvh5")
+horizontal_alignment = 1
+
+[node name="Label6" type="Label" parent="." unique_id=862015666]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 368.0
+offset_top = -16.0
+offset_right = 650.0
+offset_bottom = 107.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "View cards: tab"
+label_settings = SubResource("LabelSettings_du3mn")
+horizontal_alignment = 1
 
 [node name="Player" parent="." unique_id=275705057 node_paths=PackedStringArray("display", "camera_controller") instance=ExtResource("2_mchtr")]
 position = Vector2(-896, 0)
 display = NodePath("../Display")
 camera_controller = NodePath("../CameraController")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=426777523]
-position = Vector2(896, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1438255447]
-shape = SubResource("RectangleShape2D_iv5ap")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1858801702]
+environment = SubResource("Environment_1pgkb")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="ChooseWeapon/Shotgun" to="ChooseWeapon" method="_on_shotgun_body_entered"]
+[connection signal="body_entered" from="ChooseWeapon/Blaster" to="ChooseWeapon" method="_on_blaster_body_entered"]
+[connection signal="body_entered" from="ChooseWeapon/Laser" to="ChooseWeapon" method="_on_laser_body_entered"]
+[connection signal="body_entered" from="ChooseWeapon/Sword" to="ChooseWeapon" method="_on_sword_body_entered"]

@@ -36,4 +36,4 @@ func attack():
 	print(offset)
 	for i in range(-a, a + 1 - even):
 		player.shoot(direction.rotated(offset + i * player.get_stat("projectile_spread")), player.get_stat("projectile_speed")*projectile_speed * randf_range(0.9,1.0), 7.0, player.linear_velocity, player.get_stat("attack_damage")*damage)
-	GameManager.global_audio.play("shoot")
+	GameManager.global_audio.play("shotgun")

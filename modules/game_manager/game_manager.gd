@@ -58,11 +58,17 @@ enum GameStage {
 	IDK
 }
 
+var game_stats = {
+	"kills": 0,
+	"damage": 0,
+}
+
 signal enemy_death()
 signal player_node_ready()
 signal update_compass(display:bool, target:Vector2)
 signal all_initial_nodes_ready()
 signal card_hand_updated()
+signal active_hand_changed(hand_i:int)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -94,14 +100,23 @@ func start_game():
 	advance_game_stage(GameStage.INITIATION)
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		if Input.mouse_mode != Input.MOUSE_MODE_VISIBLE:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		else:
-			if in_world:
-				Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
-			else:
-				Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+	#if event.is_action_pressed("ui_cancel"):
+		#if Input.mouse_mode != Input.MOUSE_MODE_VISIBLE:
+			#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		#else:
+			#if in_world:
+				#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
+			#else:
+				#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+	if Input.is_action_just_pressed("pause"):
+		var state = !get_tree().paused
+		if ready_state["player"]:
+			toggle_pause(state)
+			player.menu.toggle_pause_menu(state)
+		#toggle_pause_menu(false)
+
+func toggle_pause(state:bool):
+	get_tree().paused = state
 
 func set_in_world(state:bool):
 	in_world = state
@@ -145,7 +160,7 @@ func initiate_card_hand():
 	print("generate cards")
 	card_hands.clear()
 	var h = CardHand.new()
-	for i in range(3):
+	for i in range(2):
 		var c = ModifierCard.generate_card(1)
 		h.modifier_cards.append(c)
 	card_hands.append(h)
@@ -156,8 +171,19 @@ func initiate_card_hand():
 	weapons.append(Player.Weapon.SHOTGUN)
 	weapons.append(Player.Weapon.SWORD)
 	
-	GameManager.card_hand_updated.emit()
+	card_hand_updated.emit()
 	
+
+func swap_active_hand(index:int = -1):
+	var hand_i = (active_card_hand_i + 1) % card_hands.size()
+	if index >= 0:
+		hand_i = index
+	active_card_hand_i = hand_i
+	
+	active_hand_changed.emit(hand_i)
+	
+	global_audio.play("card")
+	print("swapped to hand " + str(hand_i))
 
 func quit_game():
 	get_tree().quit()
@@ -168,6 +194,7 @@ func _notification(what):
 		quit_game()
 
 func _on_enemy_death():
+	game_stats["kills"] += 1
 	enemy_death.emit()
 
 func restart():

@@ -56,3 +56,5 @@ func attack():
 	tween.tween_property(a, "modulate", Color(1,1,1,1), 0.03)
 	tween.tween_property(a, "scale", Vector2(1,0), 0.04)
 	tween.tween_callback(a.queue_free)
+	
+	GameManager.global_audio.play("laser")

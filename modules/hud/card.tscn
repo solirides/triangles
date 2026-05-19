@@ -3,6 +3,7 @@
 [ext_resource type="Theme" uid="uid://c63a8itehl75n" path="res://assets/themes/card.tres" id="1_74hof"]
 [ext_resource type="Script" uid="uid://ctr1g38vgnabs" path="res://modules/hud/card.gd" id="1_cyaum"]
 [ext_resource type="Script" uid="uid://wxd2cdgoukr3" path="res://modules/card/stat_modifier.gd" id="2_38k38"]
+[ext_resource type="StyleBox" uid="uid://bgr65oyhu2lta" path="res://assets/themes/card_stylebox.tres" id="2_74hof"]
 [ext_resource type="Script" uid="uid://d2uitxcfpu7d" path="res://modules/card/modifier_card.gd" id="3_hn3l3"]
 [ext_resource type="Texture2D" uid="uid://bkbqo2ypekc4v" path="res://assets/textures/icons/shot_count.png" id="6_7w3v6"]
 
@@ -35,6 +36,7 @@ offset_right = 80.0
 offset_bottom = 100.0
 pivot_offset = Vector2(60, 80)
 theme = ExtResource("1_74hof")
+theme_override_styles/panel = ExtResource("2_74hof")
 script = ExtResource("1_cyaum")
 modifier_card = SubResource("Resource_lqntv")
 icon = NodePath("Icon")

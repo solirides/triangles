@@ -59,6 +59,13 @@ enum Weapon {
 	SWORD
 }
 
+const WEAPON_NAMES = {
+	Weapon.SHOTGUN : "Shotgun",
+	Weapon.BLASTER : "Blaster",
+	Weapon.LASER : "Laser",
+	Weapon.SWORD : "Sword"
+}
+
 @onready var weapon_nodes:Dictionary = {
 	Weapon.SHOTGUN : $Weapons/Shotgun,
 	Weapon.BLASTER : $Weapons/Blaster,
@@ -72,6 +79,7 @@ func _ready() -> void:
 	GameManager.player = self
 	GameManager.all_initial_nodes_ready.connect(_on_all_initial_nodes_ready)
 	
+	
 	#laser_polygon.scale.y = 0
 	GameManager.player_node_ready.emit()
 	
@@ -81,12 +89,16 @@ func _ready() -> void:
 	GameManager.card_hand_updated.emit()
 	#GameManager.initiate_card_hand()
 	
+	# set to max health
+	set_stat("health", get_stat("health", "modified_value"))
+	
 	get_tree().create_timer(1).timeout.connect(func(): view_status(true))
 	get_tree().create_timer(3).timeout.connect(func(): view_status(false))
 	
 
 func _on_all_initial_nodes_ready():
 	recalculate_stats()
+	swap_active_hand(0)
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	#var vec = Input.get_vector("move_left","move_right","move_up","move_down")
@@ -150,10 +162,10 @@ func _physics_process(delta: float) -> void:
 		aim_tween.tween_property(camera_controller.camera, "zoom", Vector2(1,1), 0.12).set_trans(Tween.TRANS_SINE)
 		#camera.camera.zoom = Vector2(1,1)
 	
-	if Input.is_action_pressed("special2"):
-		if attack_cooldown_timer.time_left == 0:
-			#attack_cooldown_timer.start(1 / get_stat("attack_speed"))
-			$Weapons/Blaster.attack()
+	#if Input.is_action_pressed("special2"):
+		#if attack_cooldown_timer.time_left == 0:
+			##attack_cooldown_timer.start(1 / get_stat("attack_speed"))
+			#$Weapons/Blaster.attack()
 		
 	if Input.is_action_pressed("primary"):
 		if attack_cooldown_timer.time_left == 0:
@@ -167,20 +179,20 @@ func _physics_process(delta: float) -> void:
 			#$Weapons/Laser.attack()
 			swap_active_hand()
 	
-	if Input.is_action_just_pressed("construct"):
-		$Weapons/Sword.attack()
-		#🔥🔥🔥
-		constructor.construct()
-	
-	if Input.is_action_just_pressed("spawn"):
-		var a = turret.instantiate()
-		a.position = get_global_mouse_position()
-		get_tree().get_current_scene().add_child(a)
-	if Input.is_action_just_pressed("spawn2"):
-		var a = hopper.instantiate()
-		a.target = GameManager.player
-		a.position = get_global_mouse_position()
-		get_tree().get_current_scene().add_child(a)
+	#if Input.is_action_just_pressed("construct"):
+		#$Weapons/Sword.attack()
+		##🔥🔥🔥
+		#constructor.construct()
+	#
+	#if Input.is_action_just_pressed("spawn"):
+		#var a = turret.instantiate()
+		#a.position = get_global_mouse_position()
+		#get_tree().get_current_scene().add_child(a)
+	#if Input.is_action_just_pressed("spawn2"):
+		#var a = hopper.instantiate()
+		#a.target = GameManager.player
+		#a.position = get_global_mouse_position()
+		#get_tree().get_current_scene().add_child(a)
 
 func _process(delta: float) -> void:
 	var pos = get_global_mouse_position()
@@ -286,11 +298,15 @@ func recalculate_stats():
 	
 	for stat_name in self.stats.keys():
 		var stat = self.stats[stat_name]
+		var old_modified_value:float = stat.modified_value
 		stat.modified_value = stat.base_value
 		stat.modified_value += addends[stat_name]
 		stat.modified_value *= (1.0 + multipliers[stat_name]/100.0)
 		stat.modified_value = clampf(stat.modified_value, stat.min_value, stat.max_value)
-		stat.value = stat.modified_value
+		if stat_name == "health":
+			stat.value = stat.modified_value * (stat.value / old_modified_value)
+		else:
+			stat.value = stat.modified_value
 		#set(stat_name, get(stat_name) + addends[stat_name])
 		#set(stat_name, get(stat_name) * (1.0 + multipliers[stat_name]/100.0))
 		print_rich("[color=blue][b]" + stat_name)
@@ -333,10 +349,13 @@ func start_damage_immunity(duration:float, animate:bool=true):
 			immunity_tween.tween_property(self, "modulate", Color.WHITE, 0.04)
 			t += 0.08
 
-
-func swap_active_hand(index:int = -1):
-	var hand_i = (GameManager.active_card_hand_i + 1) % GameManager.card_hands.size()
-	if index >= 0:
-		hand_i = index
-	GameManager.active_card_hand_i = hand_i
-	print("swapped to hand " + str(hand_i))
+func swap_active_hand(hand_i:int = -1):
+	GameManager.swap_active_hand(hand_i)
+	
+	recalculate_stats()
+	# make only current weapon visible
+	for n in weapon_nodes.values():
+		n.visible = false
+	weapon_nodes[GameManager.weapons[GameManager.active_card_hand_i]].visible = true
+	#print(weapon_nodes[GameManager.weapons[GameManager.active_card_hand_i]])
+	
