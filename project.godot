@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="triangles"
-config/version="0.6.2"
+config/version="0.6.3"
 run/main_scene="uid://b6s5nvx8oven6"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"

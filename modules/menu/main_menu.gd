@@ -4,6 +4,7 @@ extends Control
 func _ready() -> void:
 	
 	$Version.text = "version: " + str(ProjectSettings.get_setting("application/config/version"))
+	$AnimationPlayer.play("triangles2")
 
 func _on_start_pressed() -> void:
 	GameManager.start_game()

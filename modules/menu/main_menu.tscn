@@ -3,6 +3,169 @@
 [ext_resource type="Script" uid="uid://bd7oa58gndvfd" path="res://modules/menu/main_menu.gd" id="1_6s0ul"]
 [ext_resource type="Theme" uid="uid://f47mp0qpnlj7" path="res://assets/themes/menu.tres" id="2_cvkr5"]
 
+[sub_resource type="Animation" id="Animation_6s0ul"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Center/Polygon2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Center/Polygon2D2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Center/Polygon2D3:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Center/Polygon2D4:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_cvkr5"]
+resource_name = "triangles"
+length = 9.633333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Center/Polygon2D:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.3333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.8290314]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Center/Polygon2D2:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3.0333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.80285144]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Center/Polygon2D3:rotation")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 3.6333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.65798914]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Center/Polygon2D4:rotation")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 4.133333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.3647738]
+}
+
+[sub_resource type="Animation" id="Animation_tsonj"]
+resource_name = "triangles2"
+length = 12.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Center/Polygon2D:rotation")
+tracks/0/interp = 4
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4.0666666, 12),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.6981317, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Center/Polygon2D2:rotation")
+tracks/1/interp = 4
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 5.366667, 12),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.6981317, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Center/Polygon2D3:rotation")
+tracks/2/interp = 4
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 6.5, 12),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.6981317, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Center/Polygon2D4:rotation")
+tracks/3/interp = 4
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 7.266667, 12),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.6981317, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e5aks"]
+_data = {
+&"RESET": SubResource("Animation_6s0ul"),
+&"triangles": SubResource("Animation_cvkr5"),
+&"triangles2": SubResource("Animation_tsonj")
+}
+
 [sub_resource type="LabelSettings" id="LabelSettings_tsonj"]
 font_size = 48
 
@@ -25,25 +188,42 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.1407586, 0.13184479, 0.23009875, 1)
 
-[node name="Polygon2D" type="Polygon2D" parent="." unique_id=764321744]
-visible = false
-color = Color(1, 1, 1, 0.25490198)
-polygon = PackedVector2Array(288, 96, 216, 200, 136, 160)
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1907318217]
+libraries/ = SubResource("AnimationLibrary_e5aks")
 
-[node name="Polygon2D2" type="Polygon2D" parent="." unique_id=1594542438]
-visible = false
-color = Color(1, 1, 1, 0.25490198)
-polygon = PackedVector2Array(344, 72, 184, 256, 104, 136)
+[node name="Center" type="Control" parent="." unique_id=701960065]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Polygon2D3" type="Polygon2D" parent="." unique_id=400288776]
-visible = false
-color = Color(1, 1, 1, 0.25490198)
-polygon = PackedVector2Array(464, 72, 128, 328, 40, 48)
+[node name="Polygon2D" type="Polygon2D" parent="Center" unique_id=764321744]
+scale = Vector2(2, 2)
+color = Color(0.85, 0.23799998, 0.5236, 0.39215687)
+polygon = PackedVector2Array(63.999985, -56.000015, -8.000015, 47.999985, -88.000015, 7.9999847)
 
-[node name="Polygon2D4" type="Polygon2D" parent="." unique_id=1275965679]
-visible = false
-color = Color(1, 1, 1, 0.25490198)
-polygon = PackedVector2Array(560, 72, 88, 368, 24, 8)
+[node name="Polygon2D2" type="Polygon2D" parent="Center" unique_id=1594542438]
+scale = Vector2(2, 2)
+color = Color(0.86036277, 0.4124514, 0.6726908, 0.3647059)
+polygon = PackedVector2Array(112.000015, -79.999985, -47.999985, 104.000015, -127.999985, -15.999985)
+
+[node name="Polygon2D3" type="Polygon2D" parent="Center" unique_id=400288776]
+scale = Vector2(2, 2)
+color = Color(0.72688407, 0.37745288, 0.7455586, 0.3019608)
+polygon = PackedVector2Array(256, -95.999985, -79.999985, 160.00002, -167.99998, -119.999985)
+
+[node name="Polygon2D4" type="Polygon2D" parent="Center" unique_id=1275965679]
+scale = Vector2(2, 2)
+color = Color(0.2638513, 0.12233632, 0.3996008, 0.54901963)
+polygon = PackedVector2Array(352, -95.999985, -119.999985, 200.00002, -183.99998, -159.99998)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1639656675]
 layout_mode = 1

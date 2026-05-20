@@ -174,10 +174,10 @@ func _physics_process(delta: float) -> void:
 			#$Weapons/Shotgun.attack()
 	
 	if Input.is_action_just_pressed("secondary"):
-		if attack_cooldown_timer.time_left == 0:
+		#if attack_cooldown_timer.time_left == 0:
 			#attack_cooldown_timer.start(1 / get_stat("attack_speed"))
 			#$Weapons/Laser.attack()
-			swap_active_hand()
+		swap_active_hand()
 	
 	#if Input.is_action_just_pressed("construct"):
 		#$Weapons/Sword.attack()
@@ -327,6 +327,7 @@ func _on_card_hand_updated():
 	recalculate_stats()
 
 func start_attack_cooldown(duration:float):
+	# TODO: fix when previous cooldown is not over
 	$EffectCanvas.reload_progress = 0
 	var tween = create_tween()
 	# animate to 1.05 so the circle can be visually complete
@@ -350,6 +351,11 @@ func start_damage_immunity(duration:float, animate:bool=true):
 			t += 0.08
 
 func swap_active_hand(hand_i:int = -1):
+	# apply cooldown from current weapon
+	var attack_speed = weapon_nodes[GameManager.weapons[GameManager.active_card_hand_i]].attack_speed
+	var cooldown_duration = 1.0 / (get_stat("attack_speed")*attack_speed)
+	start_attack_cooldown(cooldown_duration)
+	
 	GameManager.swap_active_hand(hand_i)
 	
 	recalculate_stats()

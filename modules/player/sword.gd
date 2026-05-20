@@ -24,7 +24,8 @@ func attack():
 	var cooldown_duration = 1.0 / (player.get_stat("attack_speed")*attack_speed)
 	player.start_attack_cooldown(cooldown_duration)
 	
-	player.start_damage_immunity(player.get_stat("damage_immunity_time")*damage_immunity_time, false)
+	# immunity is overpowered
+	#player.start_damage_immunity(player.get_stat("damage_immunity_time")*damage_immunity_time, false)
 	
 	for body in sword_area.get_overlapping_bodies():
 		if body.is_in_group("enemy"):
