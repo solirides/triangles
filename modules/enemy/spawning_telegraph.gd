@@ -14,6 +14,8 @@ func _process(delta: float) -> void:
 	pass
 
 func start_spawning_sequence():
+	#ResourceLoader.load_threaded_request(Enemy.ENEMY_SCENES[queued_enemy])
+	
 	tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	if instant == false:
 		for i in range(3):
@@ -26,6 +28,7 @@ func start_spawning_sequence():
 
 func spawn_enemy():
 	var scene = load(Enemy.ENEMY_SCENES[queued_enemy])
+	
 	var a = scene.instantiate()
 	a.global_position = self.global_position
 	a.target = self.target

@@ -154,7 +154,14 @@ func advance_game_stage(stage:GameStage):
 		ready_state[k] = false
 	ready_state_bool = false
 	
-	get_tree().change_scene_to_file.bind(scene).call_deferred()
+	start_scene_change(scene)
+	#get_tree().change_scene_to_file.bind(scene).call_deferred()
+
+func start_scene_change(scene:String):
+	ResourceLoader.load_threaded_request(scene)
+	$Transition.await_scene_change(scene)
+	
+	
 
 func initiate_card_hand():
 	print("generate cards")
