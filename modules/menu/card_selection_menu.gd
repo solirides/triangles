@@ -59,7 +59,7 @@ func load_card_hand(hand_i:int):
 	var max_cards = 5
 	for i in max(0,max_cards - h.modifier_cards.size()):
 		var card = GuiCard.create_modifier_card(null)
-		card.empty = true
+		card.set_empty(true)
 		card_hand.add_child(card)
 		#print(get_children().size())
 	#card_hand.call_deferred("arrange_hand", true)

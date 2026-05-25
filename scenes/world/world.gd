@@ -91,9 +91,11 @@ func try_next_wave():
 		if wave_i >= combat_level.enemy_waves.size() - 1:
 			if level_ended == false:
 				level_ended = true
-				#print("level complete")
+				print("level complete")
+				print("enemy count " + str(get_tree().get_nodes_in_group("enemy").size()) + ", wave_i " + str(wave_i) )
+				
 				world_boundary.change_level_collisions("end")
 		else:
-			wave_i += 1
 			wave_fully_deployed = false
+			wave_i += 1
 			spawn_enemy_wave(wave_i)

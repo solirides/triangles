@@ -17,7 +17,7 @@ func _ready() -> void:
 	GameManager.all_initial_nodes_ready.connect(_on_all_initial_nodes_ready)
 
 func _on_all_initial_nodes_ready():
-	print("worldboundary all nodes ready signal")
+	#print("worldboundary all nodes ready signal")
 	update_compass()
 
 func update_compass():

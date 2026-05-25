@@ -5,6 +5,8 @@ extends Panel
 @export var icon:Node = null
 @export var expand_scale:float = 1.2
 
+@onready var border:Node = $Border
+
 var empty = false
 
 var focused = false
@@ -13,8 +15,6 @@ var dragged = false
 
 var position_placeholder:Node
 var previous_focus = false
-@onready var stylebox:StyleBox = get_theme_stylebox("panel").duplicate()
-var stylebox_2:StyleBox = get_theme_stylebox("panel").duplicate()
 var pickup_lerp:float = 0.0
 var pre_pickup_pos:Vector2 = Vector2.ZERO
 
@@ -30,26 +30,34 @@ var icons = {
 	
 }
 
-var empty_stylebox = preload("res://assets/themes/empty_card_stylebox.tres")
-var normal_stylebox
+var empty_stylebox:StyleBox = preload("res://assets/themes/card_stylebox_default.tres")
+var selected_empty_stylebox:StyleBox = preload("res://assets/themes/card_stylebox_selected.tres")
+var normal_stylebox:StyleBox
+var selected_stylebox:StyleBox = preload("res://assets/themes/card_stylebox_selected.tres")
+var empty_shader_material:ShaderMaterial = preload("res://assets/materials/empty_card_material.tres")
+
+#@onready var stylebox:StyleBox = get_theme_stylebox("panel").duplicate()
+#var stylebox_2:StyleBox = get_theme_stylebox("panel").duplicate()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	if empty:
-		add_theme_stylebox_override("panel", empty_stylebox)
-		#set_stylebox(empty_stylebox)
-		
+	border.visible = false
+	
 	normal_stylebox = get_theme_stylebox("panel")
+	#if empty:
+		#add_theme_stylebox_override("panel", empty_stylebox)
+		##set_stylebox(empty_stylebox)
+		
+	#stylebox_2 = get_theme_stylebox("panel").duplicate()
 	
-	stylebox_2 = get_theme_stylebox("panel").duplicate()
+	#var p = ["border_width_left", "border_width_right", "border_width_top", "border_width_bottom"]
+	#var v = 2
+	#for i in p:
+		##stylebox_2.set("border_width_top", v)
+		#stylebox_2.set(i, v)
+	##stylebox_2.border_color = Color(1, 1, 1)
 	
-	var p = ["border_width_left", "border_width_right", "border_width_top", "border_width_bottom"]
-	var v = 2
-	for i in p:
-		#stylebox_2.set("border_width_top", v)
-		stylebox_2.set(i, v)
-	#stylebox_2.border_color = Color(1, 1, 1)
-	
+	# TODO: improve icon selection
 	if modifier_card != null:
 		$Label.text = modifier_card.description
 		var icon
@@ -59,6 +67,9 @@ func _ready() -> void:
 	else:
 		$Label.text = ""
 		$Icon.texture = null
+	
+	#set_empty(false)
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -118,7 +129,12 @@ func set_picked(state:bool, instant:bool = false):
 	if state:
 		#pre_pickup_pos = global_position
 		picked = true
-		add_theme_stylebox_override("panel", stylebox_2)
+		if empty:
+			add_theme_stylebox_override("panel", selected_empty_stylebox)
+		else:
+			add_theme_stylebox_override("panel", selected_stylebox)
+		border.visible = true
+		
 		await animate_hover(true, instant)
 		#
 		#pickup_tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -129,7 +145,9 @@ func set_picked(state:bool, instant:bool = false):
 		if empty:
 			add_theme_stylebox_override("panel", empty_stylebox)
 		else:
-			remove_theme_stylebox_override("panel")
+			add_theme_stylebox_override("panel", normal_stylebox)
+			#remove_theme_stylebox_override("panel")
+		border.visible = false
 		await animate_hover(false, instant)
 		#pickup_lerp = 0.0
 
@@ -168,6 +186,18 @@ static func create_modifier_card(c:ModifierCard):
 	var card = card_scene.instantiate()
 	card.modifier_card = c
 	return card
+
+func set_empty(state:bool):
+	print("card empty: " + str(state))
+	empty = state
+	# set stylebox
+	set_picked(picked, true)
+	
+	# set shader material
+	if empty:
+		material = empty_shader_material
+	else:
+		material = null
 
 #func has_mouse_focus(consider_placeholder:bool = true) -> bool:
 	#if position_placeholder != null and consider_placeholder:

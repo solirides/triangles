@@ -3,9 +3,10 @@
 [ext_resource type="Theme" uid="uid://c63a8itehl75n" path="res://assets/themes/card.tres" id="1_74hof"]
 [ext_resource type="Script" uid="uid://ctr1g38vgnabs" path="res://modules/hud/card.gd" id="1_cyaum"]
 [ext_resource type="Script" uid="uid://wxd2cdgoukr3" path="res://modules/card/stat_modifier.gd" id="2_38k38"]
-[ext_resource type="StyleBox" uid="uid://bgr65oyhu2lta" path="res://assets/themes/card_stylebox.tres" id="2_74hof"]
+[ext_resource type="StyleBox" uid="uid://b3vj13boegxxp" path="res://assets/themes/card_stylebox_default.tres" id="2_74hof"]
 [ext_resource type="Script" uid="uid://d2uitxcfpu7d" path="res://modules/card/modifier_card.gd" id="3_hn3l3"]
 [ext_resource type="Texture2D" uid="uid://bkbqo2ypekc4v" path="res://assets/textures/icons/shot_count.png" id="6_7w3v6"]
+[ext_resource type="StyleBox" uid="uid://dmmwv7k2g1lel" path="res://assets/themes/card_stylebox_border.tres" id="7_lqntv"]
 
 [sub_resource type="Resource" id="Resource_74hof"]
 script = ExtResource("2_38k38")
@@ -40,6 +41,16 @@ theme_override_styles/panel = ExtResource("2_74hof")
 script = ExtResource("1_cyaum")
 modifier_card = SubResource("Resource_lqntv")
 icon = NodePath("Icon")
+
+[node name="Border" type="Panel" parent="." unique_id=2014679521]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("7_lqntv")
 
 [node name="Label" type="RichTextLabel" parent="." unique_id=261561198]
 texture_filter = 1

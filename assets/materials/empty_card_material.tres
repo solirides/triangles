@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dwludjk35fxt"]
+
+[ext_resource type="Shader" uid="uid://bhnykfdq7hf72" path="res://modules/hud/empty_card.gdshader" id="1_lw2u1"]
+
+[resource]
+shader = ExtResource("1_lw2u1")
+shader_parameter/color1 = Color(0.17254902, 0.14901961, 0.20392157, 1)
+shader_parameter/color2 = Color(0.3176025, 0.28045082, 0.36734724, 1)
+shader_parameter/threshold = 0.4
+shader_parameter/scale = Vector2(4, 4)
+shader_parameter/time_scale = 0.165
