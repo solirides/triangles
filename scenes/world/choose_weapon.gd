@@ -31,9 +31,11 @@ func set_weapon(hand_i:int, weapon:Player.Weapon):
 		if GameManager.weapons[hand_i - 1] == weapon:
 			return
 	GameManager.weapons[hand_i] = weapon
+	GameManager.weapons_changed.emit()
 	
 	$Selected.text = "selected: "
 	for i in range(0, hand_i+1):
 		$Selected.text += Player.WEAPON_NAMES[GameManager.weapons[i]] + ", "
+	
 	
 	weapon_num += 1

@@ -18,11 +18,15 @@ position = Vector2(-1, 0)
 shape = SubResource("RectangleShape2D_nnwvb")
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=1496397624]
-visible = false
-color = Color(0.98, 0.69188, 0.15680003, 1)
-polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+color = Color(0.15294118, 0.92941177, 0.58431375, 1)
+polygon = PackedVector2Array(-10, -6, 6, -6, 10, 0, 6, 6, -10, 6)
+
+[node name="Polygon2D2" type="Polygon2D" parent="." unique_id=1538157568]
+color = Color(0.9019608, 0.972549, 0.92941177, 1)
+polygon = PackedVector2Array(-8, -4, 2, -4, 10, 0, 2, 4, -8, 4)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1399934625]
+visible = false
 texture_filter = 1
 position = Vector2(-1, 0)
 rotation = -1.5707964

@@ -31,7 +31,8 @@ func update_gui_cards():
 	#print("actually update gui cards")
 	
 	for n in get_children():
-		n.queue_free()
+		if n is GuiCard:
+			n.queue_free()
 	
 	var h = GameManager.card_hands[GameManager.active_card_hand_i]
 	for c in h.modifier_cards:
@@ -39,7 +40,15 @@ func update_gui_cards():
 		#print("add modifier card")
 		add_child(card)
 		#print(get_children().size())
+	
+	if h.modifier_cards.size() == 0:
+		$Label.visible = true
+	else:
+		$Label.visible = false
+	
 	GameManager.player.recalculate_stats()
+	
+	
 
 func _on_active_hand_changed(hand_i:int):
 	update_gui_cards()

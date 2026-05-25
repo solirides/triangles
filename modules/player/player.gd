@@ -79,14 +79,14 @@ func _ready() -> void:
 	GameManager.player = self
 	GameManager.all_initial_nodes_ready.connect(_on_all_initial_nodes_ready)
 	
-	
 	#laser_polygon.scale.y = 0
 	GameManager.player_node_ready.emit()
 	
 	GameManager.ready_state["player"] = true
 	
 	GameManager.card_hand_updated.connect(_on_card_hand_updated)
-	GameManager.card_hand_updated.emit()
+	GameManager.weapons_changed.connect(_on_weapons_changed)
+	#GameManager.card_hand_updated.emit()
 	#GameManager.initiate_card_hand()
 	
 	# set to max health
@@ -325,14 +325,20 @@ func set_stat(stat:String, value:float):
 
 func _on_card_hand_updated():
 	recalculate_stats()
+	#update_current_weapon()
 
+func _on_weapons_changed():
+	update_current_weapon()
+
+var attack_cooldown_tween:Tween
 func start_attack_cooldown(duration:float):
-	# TODO: fix when previous cooldown is not over
 	$EffectCanvas.reload_progress = 0
-	var tween = create_tween()
+	if attack_cooldown_tween:
+		attack_cooldown_tween.kill()
+	attack_cooldown_tween = create_tween()
 	# animate to 1.05 so the circle can be visually complete
-	tween.tween_property($EffectCanvas, "reload_progress", 1.05, duration)
-	tween.tween_property($EffectCanvas, "reload_progress", 0, 0)
+	attack_cooldown_tween.tween_property($EffectCanvas, "reload_progress", 1.05, duration)
+	attack_cooldown_tween.tween_property($EffectCanvas, "reload_progress", 0, 0)
 	attack_cooldown_timer.start(duration)
 
 var immunity_tween
@@ -359,9 +365,12 @@ func swap_active_hand(hand_i:int = -1):
 	GameManager.swap_active_hand(hand_i)
 	
 	recalculate_stats()
+	update_current_weapon()
+	
+
+func update_current_weapon():
 	# make only current weapon visible
 	for n in weapon_nodes.values():
 		n.visible = false
 	weapon_nodes[GameManager.weapons[GameManager.active_card_hand_i]].visible = true
 	#print(weapon_nodes[GameManager.weapons[GameManager.active_card_hand_i]])
-	

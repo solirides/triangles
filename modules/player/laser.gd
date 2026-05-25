@@ -19,7 +19,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	global_rotation = player.pivot.global_rotation
 
 func attack():
 	var cooldown_duration = 1.0 / (player.get_stat("attack_speed")*attack_speed)

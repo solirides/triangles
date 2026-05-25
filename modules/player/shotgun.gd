@@ -16,7 +16,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	global_rotation = player.pivot.global_rotation
 
 func attack():
 	var cooldown_duration = 1.0 / (player.get_stat("attack_speed")*attack_speed)
@@ -33,7 +33,7 @@ func attack():
 	# offset by half of spread distance if even
 	var even = (shots+1)%2
 	var offset = even * player.get_stat("projectile_spread") * 0.5
-	print(offset)
+	#print(offset)
 	for i in range(-a, a + 1 - even):
 		player.shoot(direction.rotated(offset + i * player.get_stat("projectile_spread")), player.get_stat("projectile_speed")*projectile_speed * randf_range(0.9,1.0), 7.0, player.linear_velocity, player.get_stat("attack_damage")*damage)
 	GameManager.global_audio.play("shotgun")

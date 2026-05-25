@@ -68,6 +68,7 @@ signal player_node_ready()
 signal update_compass(display:bool, target:Vector2)
 signal all_initial_nodes_ready()
 signal card_hand_updated()
+signal weapons_changed()
 signal active_hand_changed(hand_i:int)
 
 # Called when the node enters the scene tree for the first time.
@@ -205,6 +206,12 @@ func _on_enemy_death():
 	enemy_death.emit()
 
 func restart():
+	player_level = 1
+	active_card_hand_i = 0
+	weapons = []
+	card_hands = []
+	for k in game_stats:
+		game_stats[k] = 0
 	advance_game_stage(GameStage.INITIATION)
 
 func main_menu():

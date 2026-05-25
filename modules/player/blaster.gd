@@ -5,8 +5,8 @@ extends Node2D
 
 @export var damage:float = 0.2
 @export var attack_speed:float = 3
-@export var projectile_speed:float = 0.6
-@export var projectile_spread:float = 0.2
+@export var projectile_speed:float = 0.7
+@export var projectile_spread:float = 0.6
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -15,7 +15,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	global_rotation = player.pivot.global_rotation
 
 func attack():
 	var cooldown_duration = 1.0 / (player.get_stat("attack_speed")*attack_speed)

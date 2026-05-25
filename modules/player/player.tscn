@@ -111,18 +111,57 @@ player = NodePath("..")
 [node name="Weapons" type="Node2D" parent="." unique_id=1744264634]
 
 [node name="Shotgun" type="Node2D" parent="Weapons" unique_id=1501115287 node_paths=PackedStringArray("player")]
+visible = false
 script = ExtResource("4_ej5i3")
 player = NodePath("../..")
+
+[node name="Polygon2D" type="Polygon2D" parent="Weapons/Shotgun" unique_id=1492010581]
+polygon = PackedVector2Array(6, -6, 28, -6, 28, 6, 6, 6)
+
+[node name="Polygon2D3" type="Polygon2D" parent="Weapons/Shotgun" unique_id=610549090]
+polygon = PackedVector2Array(0, -16, 36, -16, 36, -10, 0, -10)
+
+[node name="Polygon2D4" type="Polygon2D" parent="Weapons/Shotgun" unique_id=1573925799]
+polygon = PackedVector2Array(0, 10, 36, 10, 36, 16, 0, 16)
+
+[node name="Polygon2D2" type="Polygon2D" parent="Weapons/Shotgun" unique_id=40378555]
+visible = false
+polygon = PackedVector2Array(12, 4, 28, 4, 28, 12, 12, 12)
 
 [node name="Blaster" type="Node2D" parent="Weapons" unique_id=1485252942 node_paths=PackedStringArray("player")]
 script = ExtResource("5_hwro8")
 player = NodePath("../..")
 
+[node name="Polygon2D" type="Polygon2D" parent="Weapons/Blaster" unique_id=410169994]
+position = Vector2(-6, 0)
+polygon = PackedVector2Array(4, -6, 16, -6, 8, 6, -4, 6)
+
+[node name="Polygon2D2" type="Polygon2D" parent="Weapons/Blaster" unique_id=636952538]
+position = Vector2(-6, 0)
+polygon = PackedVector2Array(22, -6, 30, -6, 22, 6, 14, 6)
+
+[node name="Polygon2D4" type="Polygon2D" parent="Weapons/Blaster" unique_id=1501543233]
+position = Vector2(-6, 0)
+color = Color(0.3560645, 0.35606432, 0.35606417, 1)
+polygon = PackedVector2Array(36, -6, 40, -6, 40, 6, 36, 6)
+
+[node name="Polygon2D3" type="Polygon2D" parent="Weapons/Blaster" unique_id=974103276]
+position = Vector2(-6, 0)
+polygon = PackedVector2Array(36, -6, 40, -6, 32, 6, 28, 6)
+
 [node name="Laser" type="Node2D" parent="Weapons" unique_id=1522016645 node_paths=PackedStringArray("player")]
+visible = false
 script = ExtResource("6_jto3d")
 player = NodePath("../..")
 
+[node name="Polygon2D" type="Polygon2D" parent="Weapons/Laser" unique_id=1545563983]
+polygon = PackedVector2Array(-4, -12, 44, -12, 28, -4, 12, -4)
+
+[node name="Polygon2D2" type="Polygon2D" parent="Weapons/Laser" unique_id=753586933]
+polygon = PackedVector2Array(12, 4, 28, 4, 44, 12, -4, 12)
+
 [node name="Sword" type="Node2D" parent="Weapons" unique_id=527562257 node_paths=PackedStringArray("player")]
+visible = false
 script = ExtResource("7_jto3d")
 player = NodePath("../..")
 
@@ -140,7 +179,6 @@ polygon = PackedVector2Array(-104, -104, 104, -104, 104, 104, -104, 104)
 uv = PackedVector2Array(0, 0, 1, 0, 1, 1, 0, 1)
 
 [node name="Pivot" type="Node2D" parent="." unique_id=838123745]
-rotation = -1.5707964
 
 [node name="PlayerPolygon" type="Polygon2D" parent="Pivot" unique_id=1997100830]
 z_index = 10
@@ -150,12 +188,14 @@ color = Color(0.72156864, 0.047058824, 0.03529412, 1)
 polygon = PackedVector2Array(0, -12, 8, 12, -8, 12)
 
 [node name="RayCast2D" type="RayCast2D" parent="Pivot" unique_id=1802720414]
+visible = false
 rotation = 1.5707964
 enabled = false
 target_position = Vector2(0, -2000)
 collision_mask = 112
 
 [node name="ShapeCast2D" type="ShapeCast2D" parent="Pivot" unique_id=1108973000]
+visible = false
 rotation = 1.5707964
 shape = SubResource("CircleShape2D_5rkg0")
 target_position = Vector2(0, -2000)

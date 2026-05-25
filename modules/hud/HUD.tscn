@@ -19,6 +19,12 @@ subpixel_positioning = 0
 [sub_resource type="LabelSettings" id="LabelSettings_uyf1l"]
 font = SubResource("SystemFont_0qcm8")
 
+[sub_resource type="LabelSettings" id="LabelSettings_0qcm8"]
+font_size = 32
+font_color = Color(0.7548252, 0.7548252, 0.7548251, 1)
+outline_size = 4
+outline_color = Color(0.17211533, 0.1721153, 0.1721153, 1)
+
 [sub_resource type="Gradient" id="Gradient_0qcm8"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
@@ -121,6 +127,14 @@ grow_vertical = 0
 theme_override_constants/separation = 16
 alignment = 1
 script = ExtResource("2_eqwjg")
+
+[node name="Label" type="Label" parent="CardHand" unique_id=291375721]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+text = "Card hand is empty"
+label_settings = SubResource("LabelSettings_0qcm8")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Card" parent="CardHand" unique_id=2014112755 instance=ExtResource("2_is2uq")]
 layout_mode = 2
