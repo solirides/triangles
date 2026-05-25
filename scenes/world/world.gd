@@ -60,7 +60,8 @@ func spawn_enemy_wave(wave_i):
 			get_tree().create_timer(sequence.duration * i / sequence.count).timeout.connect(func(): spawn_enemy(sequence.enemy_type, pos))
 		wave_time += sequence.duration
 	
-	var margin = 0.1
+	# should be greater than time for spawning telegraph to create enemy
+	var margin:float = 3
 	get_tree().create_timer(wave_time + margin).timeout.connect(func(): wave_fully_deployed = true)
 
 func spawn_enemy(enemy_type, position) -> Node:
@@ -87,7 +88,7 @@ func _on_enemy_death():
 func try_next_wave():
 	#print(get_tree().get_nodes_in_group("enemy").size())
 	# if current wave is complete
-	if get_tree().get_nodes_in_group("enemy").size() == 0 and wave_fully_deployed == true:
+	if get_tree().get_nodes_in_group("enemy").size() == 0 and level_started and wave_fully_deployed:
 		if wave_i >= combat_level.enemy_waves.size() - 1:
 			if level_ended == false:
 				level_ended = true

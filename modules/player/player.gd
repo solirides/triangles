@@ -92,8 +92,8 @@ func _ready() -> void:
 	# set to max health
 	set_stat("health", get_stat("health", "modified_value"))
 	
-	get_tree().create_timer(1).timeout.connect(func(): view_status(true))
-	get_tree().create_timer(3).timeout.connect(func(): view_status(false))
+	#get_tree().create_timer(1).timeout.connect(func(): view_status(true))
+	#get_tree().create_timer(3).timeout.connect(func(): view_status(false))
 	
 
 func _on_all_initial_nodes_ready():
