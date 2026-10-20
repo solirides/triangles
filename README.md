@@ -1,6 +1,6 @@
 # Triangles
 
-### Description  
+## Description
 
 A geometric 2D bullet‑hell shooter with deck‑building elements. Still in development!
 
